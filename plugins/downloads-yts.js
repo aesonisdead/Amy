@@ -8,23 +8,23 @@ let results = await yts(text)
 let tes = results.all
 let teks = results.all.map(v => {
 switch (v.type) {
-case 'video': return `「✦」Resultados de la búsqueda para *<${text}>*
+case 'video': return `「✦」Search results for *<${text}>*
 
 ❀ *${v.title}*
-> ✦ Canal » *${v.author.name}*
-> ⴵ Duración » *${v.timestamp}*
-> ✐ Subido » *${v.ago}*
-> ✰ Vistas » *${v.views}*
-> 🜸 Enlace » ${v.url}`}}).filter(v => v).join('\n\n••••••••••••••••••••••••••••••••••••\n\n')
+> ✦ Channel » *${v.author.name}*
+> ⴵ Duration » *${v.timestamp}*
+> ✐ Uploaded » *${v.ago}*
+> ✰ Views » *${v.views}*
+> 🜸 Link » ${v.url}`}}).filter(v => v).join('\n\n••••••••••••••••••••••••••••••••••••\n\n')
 await conn.sendFile(m.chat, tes[0].thumbnail, 'yts.jpeg', teks, m)
 await m.react('✔️')
 } catch (e) {
 await m.react('✖️')
-conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n` + e.message, m)
+conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n` + e.message, m)
 }}
 
 handler.help = ['ytsearch']
-handler.tags = ['descargas']
+handler.tags = ['media']
 handler.command = ['ytbuscar', 'ytsearch', 'yts']
 handler.group = true
 

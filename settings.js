@@ -12,45 +12,45 @@ global.botNumber = "" //Ejemplo: 573218138672
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.owner = [
-"573114910796",
-"556796601394",
-"5215665619261",
-"19106335998",
-"819095203873",
+"212605158422",
+"212605158422",
+"212605158422",
+"212605158422",
+"212605158422",
 ]
 
-global.suittag = ["573114910796"] 
+global.suittag = ["212605158422"] 
 global.prems = []
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.libreria = "Baileys Multi Device"
 global.vs = "1.9.3 VIP"
-global.nameqr = "Arlette-Bot"
+global.nameqr = "Jas-X"
 global.sessions = "Sessions/Principal"
 global.jadi = "Sessions/SubBot"
 global.yukiJadibts = true
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.botname = "𝐀𝐫𝐥𝐞𝐭𝐭𝐞-𝐁𝐨𝐭"
-global.textbot = "Arlette-Bot, made with by speed3xz"
-global.dev = "© powered by speed3xz"
-global.author = "© made with by speed3xz"
-global.etiqueta = "speed3xz"
-global.currency = "Arlette-Coins 🎀"
+global.botname = "𝐉𝐚𝐬-𝐗"
+global.textbot = "𝖩𝖺𝗌-𝖷, 𝗆𝖺𝖽𝖾 𝖻𝗒 𝗌𝖺𝗅𝗂𝗆"
+global.dev = "© powered by salim"
+global.author = "© made by salim"
+global.etiqueta = "aethonxei"
+global.currency = "Jas-Coins 🎀"
 global.banner = "https://raw.githubusercontent.com/speed3xz/Storage/main/Arlette-Bot/b859e5b0780d3eb3f3349f69ab524bcc.jpg"
 global.icono = "https://raw.githubusercontent.com/speed3xz/Storage/main/Arlette-Bot/b859e5b0780d3eb3f3349f69ab524bcc.jpg"
 global.catalogo = fs.readFileSync('./menu/banner.jpg')
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
-global.group = "https://chat.whatsapp.com/CN8JtNy0BTCHb2v5009AL5"
-global.channel = "https://whatsapp.com/channel/0029VbAmwbQBqbr587Zkni1a"
-global.github = "https://github.com/speed3xz/Arlette-Bot"
-global.gmail = "211885527+speed3xz@users.noreply.github.com"
+global.group = "https://chat.whatsapp.com/GQnLhRAfMD8KS3vtVZSonp?mode=wwt"
+global.channel = "https://whatsapp.com/channel/0029VbBQ1kG8PgsPtLAabC23"
+global.github = "https://github.com/aethonxey/Jas-X"
+global.gmail = "99999@aethonxei.noreply.invalid"
 global.ch = {
-ch1: "120363402095978084@newsletter"
+ch1: "120363420610572685@newsletter"
 }
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*

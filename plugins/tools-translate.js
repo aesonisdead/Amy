@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 
 const handler = async (m, { args, usedPrefix, command }) => {
 const defaultLang = 'es'
-const msg = `❀ Por favor, ingresé el (idioma) (texto) para traducirlo.`  
+const msg = `❀ Please enter the (language) (text) to translate it.`  
 if (!args || !args[0]) {
 if (m.quoted && m.quoted.text) {
 args = [defaultLang, m.quoted.text]
@@ -39,7 +39,7 @@ await m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* 
 
 handler.help = ['translate']
 handler.tags = ['tools']
-handler.command = ['translate', 'traducir', 'trad']
+handler.command = ['translate', 'tr', 'trad']
 handler.group = true
 
 export default handler

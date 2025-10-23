@@ -7,6 +7,6 @@ user.premiumTime = 0
 user.premium = false
 const JID = Object.keys(global.db.data.users).find((key) => global.db.data.users[key] === user)
 const usuarioJid = JID.split`@`[0]
-const textoo = `「✐」@${usuarioJid} Se agotó tu tiempo como usuario premium`
+const textoo = `「✐」@${usuarioJid} Your time as a premium user has expired.`
 await this.sendMessage(JID, {text: textoo, mentions: [JID]}, {quoted: m })
 }}}}

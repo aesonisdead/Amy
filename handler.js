@@ -378,6 +378,6 @@ if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))
 let file = global.__filename(import.meta.url, true)
 watchFile(file, async () => {
 unwatchFile(file)
-console.log(chalk.magenta("Se actualizo 'handler.js'"))
+console.log(chalk.magenta("It was updated 'handler.js'"))
 if (global.reloadHandler) console.log(await global.reloadHandler())
 })

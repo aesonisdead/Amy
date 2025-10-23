@@ -1,7 +1,7 @@
 import yts from 'yt-search'
 
 var handler = async (m, { text, conn, args, command, usedPrefix }) => {
-if (!text) return conn.reply(m.chat, `❀ Por favor, ingresa una búsqueda de Youtube.`, m)
+if (!text) return conn.reply(m.chat, `❀ Please enter a Youtube search.`, m)
 try {
 await m.react('🕒')
 let results = await yts(text)
@@ -25,7 +25,7 @@ conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* 
 
 handler.help = ['ytsearch']
 handler.tags = ['media']
-handler.command = ['ytbuscar', 'ytsearch', 'yts']
+handler.command = ['search', 'ytsearch', 'yts']
 handler.group = true
 
 export default handler

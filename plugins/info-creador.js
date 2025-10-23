@@ -5,13 +5,13 @@ async function handler(m, { conn }) {
 
   const contactos = [
     {
-      numero: '573114910796',
-      nombre: 'Arlette 🦇',
-      cargo: 'Dueño Principal',
-      nota: 'Creador del Bot',
-      region: '🇨🇴 Colombia',
-      web: 'https://github.com/speed3xz',
-      biografia: await conn.fetchStatus('573114910796@s.whatsapp.net').then(res => res.status).catch(_ => 'Sin biografía')
+      numero: '212605158422',
+      nombre: 'Salim 👻',
+      cargo: 'Main Owner',
+      nota: 'Bot Creator',
+      region: '🇬🇷 Greece',
+      web: 'https://github.com/aethonxei',
+      biografia: await conn.fetchStatus('212605158422@s.whatsapp.net').then(res => res.status).catch(_ => 'No biography')
     }
   ]
 
@@ -28,9 +28,9 @@ async function handler(m, { conn }) {
   await sendContactArray(conn, m.chat, contactArray, m)
 }
 
-handler.help = ['owner', 'creador', 'creator']
+handler.help = ['owner', 'creator']
 handler.tags = ['info']
-handler.command = ['owner', 'creator', 'creador', 'dueño', 'creadora', 'dueña']
+handler.command = ['owner', 'creator']
 
 export default handler
 
@@ -51,7 +51,7 @@ item2.EMAIL;type=INTERNET:${email}
 item2.X-ABLabel:Correo
 item3.ADR:;;${region};;;;
 item3.X-ABADR:ac
-item3.X-ABLabel:Región
+item3.X-ABLabel:Region
 item4.URL:${url}
 item4.X-ABLabel:Sitio Web
 item5.X-ABLabel:${bio}
@@ -61,7 +61,7 @@ END:VCARD`.trim()
 
   return await conn.sendMessage(jid, {
     contacts: {
-      displayName: 'Propietarios del Bot',
+      displayName: 'Bot Owners',
       contacts,
     }
   }, {

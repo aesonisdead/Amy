@@ -39,7 +39,7 @@ global.dev = "© powered by salim"
 global.author = "© made by salim"
 global.etiqueta = "aethonxei"
 global.currency = "Jas-Coins 🎀"
-global.banner = "https://raw.githubusercontent.com/speed3xz/Storage/main/Arlette-Bot/b859e5b0780d3eb3f3349f69ab524bcc.jpg"
+global.banner = "https://raw.githubusercontent.com/aesonisdead/Yuito-V1/refs/heads/main/src/IMG_20251023_153609.jpg"
 global.icono = "https://raw.githubusercontent.com/speed3xz/Storage/main/Arlette-Bot/b859e5b0780d3eb3f3349f69ab524bcc.jpg"
 global.catalogo = fs.readFileSync('./menu/banner.jpg')
 

@@ -63,8 +63,8 @@ conn.reply(m.chat, `❀ Estilo de fuente cambiado a *(${name})*.\n> Ejemplo: *${
 break
 }}
 
-handler.help = ['letra']
+handler.help = ['letter']
 handler.tags = ['fun']
-handler.command = ['letra', 'style']
+handler.command = ['letter', 'style']
 
 export default handler

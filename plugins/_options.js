@@ -5,16 +5,16 @@ const chat = global.db.data.chats[m.chat]
 let type = command.toLowerCase()
 let isEnable = chat[type] !== undefined ? chat[type] : false
 if (args[0] === 'on' || args[0] === 'enable') {
-if (isEnable) return conn.reply(m.chat, `ꕥ *${type}* ya estaba *activado*.`, m)
+if (isEnable) return conn.reply(m.chat, `ꕥ *${type}* it was already *activated*.`, m)
 isEnable = true
 } else if (args[0] === 'off' || args[0] === 'disable') {
-if (!isEnable) return conn.reply(m.chat, `ꕥ *${type}* ya estaba *desactivado*.`, m)
+if (!isEnable) return conn.reply(m.chat, `ꕥ *${type}* it was already *deactivated*.`, m)
 isEnable = false
 } else {
-return conn.reply(m.chat, `「✦」Un administrador puede activar o desactivar el *${command}* utilizando:\n\n● _Activar_ » *${usedPrefix}${command} enable*\n● _Desactivar_ » *${usedPrefix}${command} disable*\n\nꕥ Estado actual » *${isEnable ? '✓ Activado' : '✗ Desactivado'}*`, m)
+return conn.reply(m.chat, `「✦」An administrator can enable or disable the *${command}* using:\n\n● _Activate_ » *${usedPrefix}${command} enable*\n● _Deactivate_ » *${usedPrefix}${command} disable*\n\nꕥ Current status » *${isEnable ? '✓ Activated' : '✗ Disabled'}*`, m)
 }
 switch (type) {
-case 'welcome': case 'bienvenida': {
+case 'welcome': case 'welcome': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -26,7 +26,7 @@ throw false
 chat.welcome = isEnable
 break
 }
-case 'modoadmin': case 'onlyadmin': {
+case 'modeadmin': case 'onlyadmin': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -38,7 +38,7 @@ throw false
 chat.modoadmin = isEnable
 break
 }
-case 'detect': case 'alertas': {
+case 'detect': case 'alerts': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -50,7 +50,7 @@ throw false
 chat.detect = isEnable
 break
 }
-case 'antilink': case 'antienlace': {
+case 'antilink': case 'antilink': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -62,7 +62,7 @@ throw false
 chat.antiLink = isEnable
 break
 }
-case 'nsfw': case 'modohorny': {
+case 'nsfw': case 'modehorny': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -74,7 +74,7 @@ throw false
 chat.nsfw = isEnable
 break
 }
-case 'economy': case 'economia': {
+case 'economy': case 'economy': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -99,12 +99,12 @@ chat.gacha = isEnable
 break
 }}
 chat[type] = isEnable
-conn.reply(m.chat, `❀ Has *${isEnable ? 'activado' : 'desactivado'}* el *${type}* para este grupo.`, m)
+conn.reply(m.chat, `❀ Has *${isEnable ? 'activated' : 'disabled'}* *${type}* for this group.`, m)
 }
 
-handler.help = ['welcome', 'bienvenida', 'modoadmin', 'onlyadmin', 'nsfw', 'modohorny', 'economy', 'economia', 'rpg', 'gacha', 'detect', 'alertas', 'antilink', 'antienlace', 'antilinks', 'antienlaces']
+handler.help = ['welcome', 'welcome', 'modeadmin', 'onlyadmin', 'nsfw', 'modehorny', 'economy', 'economy', 'rpg', 'gacha', 'detect', 'alerts', 'antilink', 'antilink', 'antilinks', 'antilinks']
 handler.tags = ['nable']
-handler.command = ['welcome', 'bienvenida', 'modoadmin', 'onlyadmin', 'nsfw', 'modohorny', 'economy', 'economia', 'rpg', 'gacha', 'detect', 'alertas', 'antilink', 'antienlace']
+handler.command = ['welcome', 'welcome', 'modeadmin', 'onlyadmin', 'nsfw', 'modehorny', 'economy', 'economy', 'rpg', 'gacha', 'detect', 'alerts', 'antilink', 'antilink']
 handler.group = true
 
 export default handler

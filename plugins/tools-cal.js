@@ -7,7 +7,7 @@ delete conn.math[id]
 m.reply('.... ')
 }
 if (!text) {
-return m.reply(`❀ Por favor, ingresa una ecuación.`)
+return m.reply(`❀ Please enter an equation.`)
 }
 let val = text.replace(/[^0-9\-\/+*×÷πEe()piPI/]/g, '').replace(/×/g, '*').replace(/÷/g, '/').replace(/π|pi/gi, 'Math.PI').replace(/e/gi, 'Math.E').replace(/\/+/g, '/').replace(/\++/g, '+').replace(/-+/g, '-')
 let format = val.replace(/Math\.PI/g, 'π').replace(/Math\.E/g, 'e').replace(/\//g, '÷').replace(/\*×/g, '×')
@@ -24,7 +24,7 @@ return m.reply(`ꕥ Formato incorrecto, solo 0-9 y símbolo -, +, *, /, ×, ÷, 
 
 handler.help = ['cal']
 handler.tags = ['tools']
-handler.command = ['cal', 'calc', 'calcular', 'calculadora']
+handler.command = ['cal', 'calculate']
 handler.group = true
 handler.exp = 5
 

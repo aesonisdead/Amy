@@ -51,7 +51,7 @@ item2.EMAIL;type=INTERNET:${email}
 item2.X-ABLabel:Correo
 item3.ADR:;;${region};;;;
 item3.X-ABADR:ac
-item3.X-ABLabel:Region
+item3.X-ABLabel:Región
 item4.URL:${url}
 item4.X-ABLabel:Sitio Web
 item5.X-ABLabel:${bio}

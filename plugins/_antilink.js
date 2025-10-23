@@ -20,7 +20,7 @@ export async function before(m, { conn, isAdmin, isBotAdmin, isROwner }) {
         await conn.groupParticipantsUpdate(m.chat, [m.key.participant], 'remove');
 
         // Notificar
-        const userName = global.db.data.users[m.key.participant]?.name || 'Usuario';
-        await conn.reply(m.chat, `> ꕥ Se ha eliminado a *${userName}* del grupo por \`Anti-Link\`. No se permiten enlaces de ningún tipo.`, null);
+        const userName = global.db.data.users[m.key.participant]?.name || 'User';
+        await conn.reply(m.chat, `> ꕥ *${userName}* has been eliminated from the group by \`Anti-Link\`. No links of any kind are allowed..`, null);
     }
 }

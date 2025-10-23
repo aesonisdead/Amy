@@ -259,12 +259,12 @@ const botId = this.user.jid
 const primaryBotId = chat.primaryBot
 if (name !== "group-banchat.js" && chat?.isBanned && !isROwner) {
 if (!primaryBotId || primaryBotId === botId) {
-const aviso = `ꕥ El bot *${botname}* está desactivado en este grupo\n\n> ✦ Un *administrador* puede activarlo con el comando:\n> » *${usedPrefix}bot on*`.trim()
+const aviso = `ꕥ The bot *${botname}* is disabled in this group\n\n> ✦ An *administrator* can enable it with the command:\n> » *${usedPrefix}bot on*`.trim()
 await m.reply(aviso)
 return
 }}
 if (m.text && user.banned && !isROwner) {
-const mensaje = `ꕥ Estas baneado/a, no puedes usar comandos en este bot!\n\n> ● *Razón ›* ${user.bannedReason}\n\n> ● Si este Bot es cuenta oficial y tienes evidencia que respalde que este mensaje es un error, puedes exponer tu caso con un moderador.`.trim()
+const mensaje = `ꕥ You are banned, you cannot use commands in this bot.!\n\n> ● *Reason ›* ${user.bannedReason}\n\n> ● If this bot is an official account and you have evidence to support that this message is a mistake, you can present your case to a moderator..`.trim()
 if (!primaryBotId || primaryBotId === botId) {
 m.reply(mensaje)
 return
@@ -363,15 +363,15 @@ console.log(m.message)
 
 global.dfail = (type, m, conn) => {
 const msg = {
-rowner: `🌸 *Acceso Especial* 🌸\n\n┊ El comando *${comando}* solo puede ser usado por los *creadores* del bot. ✨`, 
-owner: `🎀 *Zona de Desarrolladores* 🎀\n\n┊ El comando *${comando}* solo está disponible para los *desarrolladores* del bot. ♡`, 
-mods: `🍥 *Solo para Moderadores* 🍥\n\n┊ El comando *${comando}* es exclusivo para *moderadores*.`, 
-premium: `💖 *Usuario Premium* 💖\n\n┊ El comando *${comando}* está reservado para los *usuarios premium*\n> use el comando "/vip". ₊˚ʚ♡ɞ˚₊`, 
-group: `🌼 *Disponible en Grupos* 🌼\n\n┊ El comando *${comando}* solo puede usarse en *grupos*. (≧◡≦)`,
-private: `💌 *Solo en Privado* 💌\n\n┊ El comando *${comando}* solo funciona en *chats privados*. ꒰ᐢ. .ᐢ꒱`,
-admin: `⭐ *Requiere Admin* ⭐\n\n┊ El comando *${comando}* es para los *administradores* del grupo. ฅ^•ﻌ•^ฅ`, 
-botAdmin: `⚙️ *Necesito Ser Admin* ⚙️\n\n┊ Para ejecutar *${comando}*, primero debo ser *admin* del grupo, ¡ayúdame! (｡•́︿•̀｡)`,
-restrict: `🚫 *Función No Disponible* 🚫\n\n┊ Esta característica está *desactivada* por ahora. ₍ᐢ.ˬ.ᐢ₎`
+rowner: `🌸 *Special Access* 🌸\n\n┊ The command *${comando}* can only be used by the *creators* of the bot. ✨`, 
+owner: `🎀 *Developer Zone* 🎀\n\n┊ The command *${comando}* It is only available to the *developers* of the bot. ♡`, 
+mods: `🍥 *For Moderators Only* 🍥\n\n┊ The command *${comando}* It is exclusive for *moderators*.`, 
+premium: `💖 *Premium User* 💖\n\n┊ The command *${comando}* It is reserved for *premium users*\n> use the "/vip" command. ₊˚ʚ♡ɞ˚₊`, 
+group: `🌼 *Disponible en Grupos* 🌼\n\n┊ The command *${comando}* can only be used in *groups*. (≧◡≦)`,
+private: `💌 *Only in Private* 💌\n\n┊ The command *${comando}* only works in *private chats*. ꒰ᐢ. .ᐢ꒱`,
+admin: `⭐ *Requiere Admin* ⭐\n\n┊ The command *${comando}* es para los *administradores* del grupo. ฅ^•ﻌ•^ฅ`, 
+botAdmin: `⚙️ *I Need to Be an Admin* ⚙️\n\n┊ To execute *${comando}*, First I must be *admin* of the group, ¡help me! (｡•́︿•̀｡)`,
+restrict: `🚫 *Function Not Available* 🚫\n\n┊ This feature is *disabled* for now. ₍ᐢ.ˬ.ᐢ₎`
 }[type]
 if (msg) return conn.reply(m.chat, msg, m, rcanal).then(_ => m.react('✖️'))
 }

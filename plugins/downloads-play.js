@@ -33,7 +33,7 @@ async function skyYT(url, format) {
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `Debes escribir *el nombre o link* del audio para descargar.`, m)
+      return conn.reply(m.chat, `You must write *the name or link* of the audio to download.`, m)
     }
 
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key }})
@@ -49,7 +49,7 @@ const handler = async (m, { conn, text, command }) => {
     ytplay2 = ytplay2.all?.[0] || ytplay2.videos?.[0] || ytplay2
     if (!ytplay2) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-      return m.reply("⚠︎ No encontré resultados, intenta con otro nombre o link.")
+      return m.reply("⚠︎ I didn't find any results, try another name or link..")
     }
 
     let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
@@ -57,20 +57,16 @@ const handler = async (m, { conn, text, command }) => {
     const canal = author?.name || "Desconocido"
 
     const infoMessage = `
-╭─⊱ 🌸『 Preparando tu descarga 』🌸⊰─╮
-[ ✰ ] ꒰ *Tu archivo está siendo procesado...* ꒱  
-╰───────────────────────────╯
-
-╭──❀ Detalles del contenido ❀──╮
-🎀 Título » *${title}*  
-🌸 Canal » *${canal}*  
-🍃 Vistas » *${vistas}*  
-⏳ Duración » *${timestamp}*  
-🗓️ Publicado » *${ago}*  
+╭──❀ Content details ❀──╮
+🎀 Title » *${title}*  
+🌸 Channel » *${canal}*  
+🍃 Views » *${vistas}*  
+⏳ Duration » *${timestamp}*  
+🗓️ Published » *${ago}*  
 🔗 Link » *${url}*  
 ╰──────────────────────╯
 
-𐙚🌷 ｡･ﾟ✧ Enviando audio espere un momento... ˙𐙚🌸`.trim()
+𐙚🌷 ｡･ﾟ✧ Sending audio please wait a moment... ˙𐙚🌸`.trim()
 
     const thumb = (await conn.getFile(thumbnail))?.data
     await conn.reply(m.chat, infoMessage, m, {
@@ -98,7 +94,7 @@ const handler = async (m, { conn, text, command }) => {
 
     if (!audioData) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-      return conn.reply(m.chat, "✦ No se pudo descargar el audio. Intenta más tarde.", m)
+      return conn.reply(m.chat, "✦ The audio could not be downloaded. Please try again later..", m)
     }
 
     await conn.sendMessage(m.chat, {
@@ -117,7 +113,7 @@ const handler = async (m, { conn, text, command }) => {
 }
 
 handler.help = ["play"]
-handler.tags = ["descargas"]
+handler.tags = ["download"]
 handler.command = ["play", "ytaudio", "ytmp3"]
 
 export default handler

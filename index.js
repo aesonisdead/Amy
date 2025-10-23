@@ -103,9 +103,9 @@ opcion = '1'
 }
 if (!methodCodeQR && !methodCode && !fs.existsSync(`./${sessions}/creds.json`)) {
 do {
-opcion = await question(colors("Seleccione una opción:\n") + qrOption("1. Con código QR\n") + textOption("2. Con código de texto de 8 dígitos\n--> "))
+opcion = await question(colors("Select an option:\n") + qrOption("1. With code QR\n") + textOption("2. With 8-digit text code\n--> "))
 if (!/^[1-2]$/.test(opcion)) {
-console.log(chalk.bold.redBright(`No se permiten numeros que no sean 1 o 2, tampoco letras o símbolos especiales.`))
+console.log(chalk.bold.redBright(`Numbers other than 1 or 2, letters, or special symbols are not allowed..`))
 }} while (opcion !== '1' && opcion !== '2' || fs.existsSync(`./${sessions}/creds.json`))
 } 
 
@@ -152,7 +152,7 @@ if (!!phoneNumber) {
 addNumber = phoneNumber.replace(/[^0-9]/g, '')
 } else {
 do {
-phoneNumber = await question(chalk.bgBlack(chalk.bold.greenBright(`[ ✿ ]  Por favor, Ingrese el número de WhatsApp.\n${chalk.bold.magentaBright('---> ')}`)))
+phoneNumber = await question(chalk.bgBlack(chalk.bold.greenBright(`[ ✿ ]  Please enter your WhatsApp number.\n${chalk.bold.magentaBright('---> ')}`)))
 phoneNumber = phoneNumber.replace(/\D/g,'')
 if (!phoneNumber.startsWith('+')) {
 phoneNumber = `+${phoneNumber}`
@@ -162,7 +162,7 @@ addNumber = phoneNumber.replace(/\D/g, '')
 setTimeout(async () => {
 let codeBot = await conn.requestPairingCode(addNumber)
 codeBot = codeBot.match(/.{1,4}/g)?.join("-") || codeBot
-console.log(chalk.bold.white(chalk.bgMagenta(`[ ✿ ]  Código:`)), chalk.bold.white(chalk.white(codeBot)))
+console.log(chalk.bold.white(chalk.bgMagenta(`[ ✿ ]  Code:`)), chalk.bold.white(chalk.white(codeBot)))
 }, 3000)
 }}}}
 conn.isInit = false;
@@ -338,9 +338,9 @@ const filenames = readdirSync(tmpDir)
 filenames.forEach(file => {
 const filePath = join(tmpDir, file)
 unlinkSync(filePath)})
-console.log(chalk.gray(`→ Archivos de la carpeta TMP eliminados`))
+console.log(chalk.gray(`→ Files in the TMP folder deleted`))
 } catch {
-console.log(chalk.gray(`→ Los archivos de la carpeta TMP no se pudieron eliminar`));
+console.log(chalk.gray(`→ The files in the TMP folder could not be deleted`));
 }}, 30 * 1000) 
 _quickTest().catch(console.error)
 async function isValidPhoneNumber(number) {

@@ -13,10 +13,10 @@ let handler = async (m, { conn, args }) => {
 
 ╭┈ ↷
 │❀ *Mode* » Public
-│ᰔ *Tipo* » ${(conn.user.jid == global.conn.user.jid ? 'Principal 🎀' : 'Sub-Bot 💗')}
-│✰ *Usuarios* » ${totalreg.toLocaleString()}
-│⚘ *Versión* » ${vs}
-│ꕥ *Comandos* » ${totalCommands}
+│ᰔ *Type* » ${(conn.user.jid == global.conn.user.jid ? 'Principal 🎀' : 'Mini-Bot 💗')}
+│✰ *Users* » ${totalreg.toLocaleString()}
+│⚘ *Version* » ${vs}
+│ꕥ *Commands* » ${totalCommands}
 │🜸 Baileys » Multi Device
 ╰─────────────────
 `.trim()
@@ -26,93 +26,93 @@ let handler = async (m, { conn, args }) => {
 ˚ ₊ ‧  ꒰🎀꒱  — \`『 I N F O — B O T 』\` 
 > *Info-bot* Commands.
  */help • /menu*
-> ⚘ Ver el menú de comandos.
+> ⚘ Shows the command menu.
  */sug • /suggest*
-> ⚘ Sugerir nuevas funciones al desarrollador.
- */reporte • /reportar*
-> ⚘ Reportar fallas o problemas del bot.
+> ⚘ Suggest new features to the developer.
+ */reporte • /rep*
+> ⚘ Report bot bugs or issues.
  */owner • /creator*
-> ⚘ Contacto del creador del bot.
+> ⚘ Bot creator contact.
  */p • /ping*
-> ⚘ Ver la velocidad de respuesta del Bot.
+> ⚘ See the Bot's response speed.
  */sc • /script*
-> ⚘ Link del repositorio oficial de la Bot
+> ⚘ Link to the official Bot repository
  */status • /system*
-> ⚘ Ver estado del sistema de alojamiento.
+> ⚘ View hosting system status.
  */stest • /speedtest*
-> ⚘ Ver las estadísticas de velocidad de la Bot.
+> ⚘ View Bot Speed Statistics.
  */ds • /fixmsg*
-> ⚘ Eliminar archivos de sesión innecesarios.`,
+> ⚘ Delete unnecessary session files.`,
 
-    utilidades: `
-₊ ‧  ꒰🍨꒱  — \`『 U T I L I D A D E S 』\` 
-> Comandos de *Útilidades*.
- */calcular • /cal*
-> ⚘ Calcular tipos de ecuaciones.
+    utilities: `
+₊ ‧  ꒰🍨꒱  — \`『 U T I L I T I E S 』\` 
+> *Utility Commands*.
+ */calculate • /cal*
+> ⚘ Calculate types of equations.
  */delmeta*
-> ⚘ Restablecer el pack y autor por defecto para tus stickers.
- */getpic • /pfp* + [@usuario]
-> ⚘ Ver la foto de perfil de un usuario.
- */say* + [texto]
-> ⚘ Repetir un mensaje
+> ⚘ Reset the default pack and author for your stickers.
+ */getpic • /pfp* + [@user]
+> ⚘ View a user's profile picture.
+ */say* + [text]
+> ⚘ Repeat a message
  */setmeta* + [autor] | [pack]
-> ⚘ Establecer el pack y autor por defecto para tus stickers.
- */sticker • /s • /wm* + {citar una imagen/video}
-> ⚘ Convertir una imagen/video a sticker
- */toimg • /img* + {citar sticker}
-> ⚘ Convertir un sticker/imagen de una vista a imagen.
+> ⚘ Set the default pack and author for your stickers.
+ */sticker • /s • /wm* + {tag an image/video}
+> ⚘ Convert an image/video to a sticker
+ */toimg • /img* + {tag a sticker}
+> ⚘ Convert a sticker/image from a view to an image.
  */brat • /bratv • /qc • /emojimix*︎ 
-> ⚘ Crear stickers con texto.
+> ⚘ Create stickers with text.
  */enhance • /remini • /hd*
-> ⚘ Mejorar calidad de una imagen.
- */letra • /style* 
-> ⚘ Cambia la fuente de las letras.
+> ⚘ Improve image quality.
+ */letter • /style* 
+> ⚘ Change the font of the letters.
  */read • /readviewonce*
-> ⚘ Ver imágenes viewonce.
+> ⚘ See images viewonce.
  */ss • /ssweb*
-> ⚘ Ver el estado de una página web.
- */translate • /traducir • /trad*
-> ⚘ Traducir palabras en otros idiomas.
- */ia • /gemini*
-> ⚘ Preguntar a Chatgpt.
+> ⚘ View the status of a web page.
+ */translate • /tr • /trad*
+> ⚘ Translate words into other languages.
+ */ai • /gemini*
+> ⚘ Ask Chatgpt.
  */tourl • /catbox*
-> ⚘ Convertidor de imágen/video en urls.
+> ⚘ Image/Video Converter to URLs.
  */wiki • /wikipedia*
-> ⚘ Investigar temas a través de Wikipedia.
+> ⚘ Research topics through Wikipedia.
  */dalle • /flux*
-> ⚘ Crear imágenes con texto mediante IA.
+> ⚘ Create images with text using AI.
  */google*
-> ⚘ Realizar búsquedas por Google.`,
+> ⚘ Perform Google searches.`,
 
-    descargas: `
-₊ ‧  ꒰🌷꒱  — \`『 D E S C A R G A S 』\` 
-> Comandos de *Descargas* para descargar archivos de varias fuentes.
- */tiktok • /tt* + [Link] / [busqueda]
-> ⚘ Descargar un video de TikTok.
+    media: `
+₊ ‧  ꒰🌷꒱  — \`『 M E D I A 』\` 
+> *Media* commands to download files from multiple sources.
+ */tiktok • /tt* + [Link] / [Search]
+> ⚘ Download a TikTok video.
  */mediafire • /mf* + [Link]
-> ⚘ Descargar un archivo de MediaFire.
+> ⚘ Download a file from MediaFire.
  */mega • /mg* + [Link]
-> ⚘ Descargar un archivo de MEGA.
- */play • /play2 • /ytmp3 • /ytmp4* + [Cancion] / [Link]
-> ⚘ Descargar una cancion o vídeo de YouTube.
+> ⚘ Download a MEGA file.
+ */play • /play2 • /ytmp3 • /ytmp4* + [Song] / [Link]
+> ⚘ Download a song or video from YouTube.
  */facebook • /fb* + [Link]
-> ⚘ Descargar un video de Facebook.
+> ⚘ Download a video from Facebook.
  */twitter • /x* + [Link]
-> ⚘ Descargar un video de Twitter/X.
+> ⚘ Download a video from Twitter/X.
  */ig • /instagram* + [Link]
-> ⚘ Descargar un reel de Instagram.
- */pinterest • /pin* + [busqueda] / [Link]
-> ⚘ Buscar y descargar imagenes de Pinterest.
- */image • /imagen* + [busqueda]
-> ⚘ Buscar y descargar imagenes de Google.
- */apk • /modapk* + [busqueda]
-> ⚘ Descargar un apk de Aptoide.
- */ytsearch • /search* + [busqueda]
-> ⚘ Buscar videos de YouTube.`,
+> ⚘ Download an Instagram Reel.
+ */pinterest • /pin* + [Search] / [Link]
+> ⚘ Search and download images from Pinterest.
+ */image • /imagen* + [Search]
+> ⚘ Search and download images from Google.
+ */apk • /modapk* + [search]
+> ⚘ Download an apk from Aptoide.
+ */ytsearch • /search* + [search]
+> ⚘ Search YouTube videos.`,
 
     gacha: `
 ₊ ‧  ꒰🍡꒱  — \`『 G A C H A 』\` 
-> Comandos de *Gacha* para reclamar y colecciónar personajes.
+> *Gacha* commands to claim and collect characters.
  */buycharacter • /buychar • /buyc* + [nombre]
 > ⚘ Comprar un personaje en venta.
  */charimage • /waifuimage • /cimage • /wimage* + [nombre]

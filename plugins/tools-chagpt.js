@@ -58,8 +58,8 @@ await m.react('✖️')
 conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`, m)
 }}
 
-handler.command = ['gemini', 'bard', 'openai', 'dalle', 'flux', 'ia', 'chatgpt', 'luminai']
-handler.help = ['gemini', 'bard', 'openai', 'dalle', 'flux', 'ia', 'chatgpt', 'luminai']
+handler.command = ['gemini', 'bard', 'openai', 'dalle', 'flux', 'ai', 'chatgpt', 'luminai']
+handler.help = ['gemini', 'bard', 'openai', 'dalle', 'flux', 'ai', 'chatgpt', 'luminai']
 handler.tags = ['tools']
 handler.group = true
 

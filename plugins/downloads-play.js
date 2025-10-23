@@ -108,12 +108,12 @@ const handler = async (m, { conn, text, command }) => {
 
   } catch (error) {
     await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-    return m.reply(`⚠︎ Error inesperado:\n\n${error}`)
+    return m.reply(`⚠︎ Unexpected error:\n\n${error}`)
   }
 }
 
 handler.help = ["play"]
-handler.tags = ["download"]
+handler.tags = ["media"]
 handler.command = ["play", "ytaudio", "ytmp3"]
 
 export default handler

@@ -9,38 +9,38 @@ const linkRegex = /https:\/\/chat\.whatsapp\.com\/([0-9A-Za-z]{20,24})/i
 
 const handler = async (m, { conn, text, command, usedPrefix, args }) => {
 try {
-const nombre = m.pushName || 'Anónimo'
+const nombre = m.pushName || 'Anonymous'
 const tag = '@' + m.sender.split('@')[0]
 const usertag = Array.from(new Set([...text.matchAll(/@(\d{5,})/g)]), m => `${m[1]}@s.whatsapp.net`)
-const chatLabel = m.isGroup ? (await conn.getName(m.chat) || 'Grupal') : 'Privado'
-const horario = `${moment.tz('America/Caracas').format('DD/MM/YYYY hh:mm:ss A')}`
+const chatLabel = m.isGroup ? (await conn.getName(m.chat) || 'Group') : 'Private'
+const horario = `${moment.tz('Africa/Casablanca').format('DD/MM/YYYY hh:mm:ss A')}`
 switch (command) {
 case 'suggest': case 'sug': {
-if (!text) return conn.reply(m.chat, '❀ Escribe la sugerencia que quieres enviar al propietario de la Bot.', m)
-if (text.length < 10) return conn.reply(m.chat, '🎀 La sugerencia debe tener más de 10 caracteres.', m)
+if (!text) return conn.reply(m.chat, '❀ Write the suggestion you want to send to the Bot owner.', m)
+if (text.length < 10) return conn.reply(m.chat, '🎀 The suggestion must be more than 10 characters long..', m)
 await m.react('🕒')
-const sug = `❀ 𝗦𝗨𝗚𝗘𝗥𝗘𝗡𝗖𝗜𝗔 𝗥𝗘𝗖𝗜𝗕𝗜𝗗𝗔\n\nꕥ *Usuario* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Sugerencia* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Fecha* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
+const sug = `❀ 𝗦𝗨𝗚𝗚𝗘𝗦𝗧𝗜𝗢𝗡 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Suggestion* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Fecha* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
 await conn.sendMessage(`${suittag}@s.whatsapp.net`, { text: sug, mentions: [m.sender, ...usertag] }, { quoted: m })
 await m.react('✔️')
-m.reply('❀ La sugerencia ha sido enviada al desarrollador. Gracias por contribuir a mejorar nuestra experiencia.')
+m.reply('❀ The suggestion has been sent to the developer. Thank you for helping improve our experience.')
 break
 }
-case 'report': case 'reportar': {
-if (!text) return conn.reply(m.chat, '❀ Por favor, ingresa el error que deseas reportar.', m)
-if (text.length < 10) return conn.reply(m.chat, '🎀 Especifique mejor el error, mínimo 10 caracteres.', m)
+case 'report': case 'rep': {
+if (!text) return conn.reply(m.chat, '❀ Please enter the error you want to report..', m)
+if (text.length < 10) return conn.reply(m.chat, '🎀 Please specify the error better, minimum 10 characters.', m)
 await m.react('🕒')
-const rep = `❀ 𝗥𝗘𝗣𝗢𝗥𝗧𝗘 𝗥𝗘𝗖𝗜𝗕𝗜𝗗𝗢\n\nꕥ *Usuario* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Reporte* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Fecha* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
+const rep = `❀ 𝗥𝗘𝗣𝗢𝗥𝗧 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Report* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
 await conn.sendMessage(`${suittag}@s.whatsapp.net`, { text: rep, mentions: [m.sender, ...usertag] }, { quoted: m })
 await m.react('✔️')
-m.reply('❀ El informe ha sido enviado al desarrollador. Ten en cuenta que cualquier reporte falso podría resultar en restricciones en el uso del *Bot*.')
+m.reply('❀ The report has been sent to the developer. Please note that any false reports may result in restrictions on the bot usage.')
 break
 }
 case 'invite': {
-if (!text) return m.reply(`❀ Debes enviar un enlace para invitar el Bot a tu grupo.`)
+if (!text) return m.reply(`❀ You must send a link to invite the Bot to your group.`)
 let [_, code] = text.match(linkRegex) || []
-if (!code) return m.reply('🎀 El enlace de invitación no es válido.')
+if (!code) return m.reply('🎀 The invitation link is not valid.')
 await m.react('🕒')
-const invite = `❀ 𝗜𝗡𝗩𝗜𝗧𝗔𝗖𝗜𝗢𝗡 𝗔 𝗨𝗡 𝗚𝗥𝗨𝗣𝗢\n\nꕥ *Usuario* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Chat* » ${chatLabel}\n✰ *Fecha* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}\n✦ *Link* » ${text}`
+const invite = `❀ 𝗜𝗡𝗩𝗜𝗧𝗔𝗧𝗜𝗢𝗡 𝗧𝗢 𝗔 𝗚𝗥𝗢𝗨𝗣\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}\n✦ *Link* » ${text}`
 const mainBotNumber = global.conn.user.jid.split('@')[0]
 const senderBotNumber = conn.user.jid.split('@')[0]
 if (mainBotNumber === senderBotNumber)
@@ -48,7 +48,7 @@ await conn.sendMessage(`${suittag}@s.whatsapp.net`, { text: invite, mentions: [m
 else
 await conn.sendMessage(`${senderBotNumber}@s.whatsapp.net`, { text: invite, mentions: [m.sender, ...usertag] }, { quoted: m })
 await m.react('✔️')
-m.reply('❀ El enlace fue enviado correctamente. ¡Gracias por tu invitación! ฅ^•ﻌ•^ฅ')
+m.reply('❀ The link was sent successfully. Thank you for your invitation! ฅ^•ﻌ•^ฅ')
 break
 }
 case 'speedtest': case 'stest': {
@@ -68,7 +68,7 @@ break
 }
 case 'fixmsg': case 'ds': {
 if (global.conn.user.jid !== conn.user.jid)
-return conn.reply(m.chat, '❀ Usa este comando en el número principal del Bot.', m)
+return conn.reply(m.chat, '❀ Use this command on the main Bot number.', m)
 await m.react('🕒')
 const chatIdList = m.isGroup ? [m.chat, m.sender] : [m.sender]
 const sessionPath = './Sessions/'
@@ -82,15 +82,15 @@ count++
 break
 }}}
 await m.react(count === 0 ? '✖️' : '✔️')
-conn.reply(m.chat, count === 0 ? '🎀 No se encontraron archivos relacionados con tu ID.' : `🎀 Se eliminaron ${count} archivos de sesión.`, m)
+conn.reply(m.chat, count === 0 ? '🎀 No files related to your ID were found..' : `🎀 Eliminated ${count} of session files.`, m)
 break
 }
 case 'script': case 'sc': {
 await m.react('🕒')
-const res = await fetch('https://api.github.com/repos/speed3xz/Arlette-Bot')
-if (!res.ok) throw new Error('No se pudo obtener los datos del repositorio.')
+const res = await fetch('https://api.github.com/repos/aethonxei/Jas-X')
+if (!res.ok) throw new Error('Could not get data from repository.')
 const json = await res.json()
-const txt = `*乂  S C R I P T  -  M A I N  乂*\n\n✩ *Nombre* : ${json.name}\n✩ *Visitas* : ${json.watchers_count}\n✩ *Peso* : ${(json.size / 1024).toFixed(2)} MB\n✩ *Actualizado* : ${moment(json.updated_at).format('DD/MM/YY - HH:mm:ss')}\n✩ *Url* : ${json.html_url}\n✩ *Forks* : ${json.forks_count}\n✩ *Stars* : ${json.stargazers_count}\n\n> *${dev}*`
+const txt = `*乂  S C R I P T  -  M A I N  乂*\n\n✩ *Name* : ${json.name}\n✩ *Visits* : ${json.watchers_count}\n✩ *Size* : ${(json.size / 1024).toFixed(2)} MB\n✩ *Updated* : ${moment(json.updated_at).format('DD/MM/YY - HH:mm:ss')}\n✩ *Url* : ${json.html_url}\n✩ *Forks* : ${json.forks_count}\n✩ *Stars* : ${json.stargazers_count}\n\n> *${dev}*`
 await conn.sendMessage(m.chat, { image: catalogo, caption: txt, ...rcanal }, { quoted: m })
 await m.react('✔️')
 break
@@ -101,6 +101,6 @@ conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}rep
 
 handler.help = ['suggest', 'reporte', 'invite', 'speedtest', 'fixmsg', 'script']
 handler.tags = ['main']
-handler.command = ['suggest', 'sug', 'report', 'reportar', 'invite', 'speedtest', 'stest', 'fixmsg', 'ds', 'sc', 'script']
+handler.command = ['suggest', 'sug', 'report', 'invite', 'speedtest', 'stest', 'fixmsg', 'ds', 'sc', 'script']
 
 export default handler

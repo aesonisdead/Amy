@@ -8,11 +8,11 @@ let handler = async (m, { conn, args }) => {
 
   const menuHeader = (userId) => `
 ︶⊹︶︶୨୧︶︶⊹︶︶⊹︶︶୨୧︶︶⊹︶︶⊹︶
-「🎀」 ¡Hola! *@${userId.split('@')[0]}*, Soy *${botname}*, Aquí tienes la lista de comandos.
-> Para Ver Tu Perfil Usa */perfil* ❒
+「🎀」 Hola! *@${userId.split('@')[0]}*, I'am *${botname}*, Here is the list of commands.
+> To View Your Profile Use */profile* ❒
 
 ╭┈ ↷
-│❀ *Modo* » Público
+│❀ *Mode* » Public
 │ᰔ *Tipo* » ${(conn.user.jid == global.conn.user.jid ? 'Principal 🎀' : 'Sub-Bot 💗')}
 │✰ *Usuarios* » ${totalreg.toLocaleString()}
 │⚘ *Versión* » ${vs}
@@ -24,14 +24,14 @@ let handler = async (m, { conn, args }) => {
   const menus = {
     info: `
 ˚ ₊ ‧  ꒰🎀꒱  — \`『 I N F O — B O T 』\` 
-> Comandos de *Info-bot*.
+> *Info-bot* Commands.
  */help • /menu*
 > ⚘ Ver el menú de comandos.
  */sug • /suggest*
 > ⚘ Sugerir nuevas funciones al desarrollador.
  */reporte • /reportar*
 > ⚘ Reportar fallas o problemas del bot.
- */owner • /creador*
+ */owner • /creator*
 > ⚘ Contacto del creador del bot.
  */p • /ping*
 > ⚘ Ver la velocidad de respuesta del Bot.

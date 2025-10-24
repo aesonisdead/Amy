@@ -33,12 +33,12 @@ const ddownr = {
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `💜 Ingresa el nombre del video a descargar.`, m);
+      return conn.reply(m.chat, `💜 Enter the name of the video to download.`, m);
     }
 
     const search = await yts(text);
     if (!search.all || search.all.length === 0) {
-      return m.reply('No se encontraron resultados para tu búsqueda.');
+      return m.reply('No results were found for your search..');
     }
 
     const videoInfo = search.all[0];
@@ -66,7 +66,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
               document: { url: downloadUrl },
               fileName: `${title}.mp4`,
               mimetype: 'video/mp4',
-              caption: `Aquí tienes tu video.`,
+              caption: `Here is your video.`,
               thumbnail: thumb
             }, { quoted: m });
             break;
@@ -77,10 +77,10 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
       }
 
       if (!success) {
-        return m.reply(`No se pudo descargar el video: No se encontró un enlace de descarga válido.`);
+        return m.reply(`Video could not be downloaded: No valid download link found.`);
       }
     } else {
-      throw "Comando no reconocido.";
+      throw "Unrecognized command.";
     }
   } catch (error) {
     return m.reply(`Ocurrió un error: ${error.message}`);
@@ -88,6 +88,6 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 };
 
 handler.command = handler.help = ['ytmp4doc', 'ytvdoc', 'ytdoc'];
-handler.tags = ['downloader'];
+handler.tags = ['media'];
 
 export default handler;

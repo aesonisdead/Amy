@@ -27,7 +27,7 @@ var correo = ''
 global.redes = [canal, comunidad, git, github, correo].getRandom()
 
 global.nombre = m.pushName || 'Jas-User'
-global.packsticker = `┊ Jas-X Team\n⤷ aethonxei\n\n┊INFO 💗\n ⤷ join our support gc/ch`;
+global.packsticker = `┊ Jas-X Creator\n⤷ aethonxei\n\n┊Supoort 💗\n ⤷ join our support gc/ch`;
 global.packsticker2 = `┊Bot 🎀\n┊⤷${botname} \n\n┊User:\n┊⤷${nombre}`
   
 global.fkontak = { key: { participants:"0@s.whatsapp.net", "remoteJid": "status@broadcast", "fromMe": false, "id": "Halo" }, "message": { "contactMessage": { "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD` }}, "participant": "0@s.whatsapp.net" }

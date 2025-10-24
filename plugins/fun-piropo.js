@@ -2,14 +2,14 @@ const { generateWAMessageFromContent, proto } = (await import('@whiskeysockets/b
 
 var handler = async (m, { conn, text}) => {
 
-conn.reply(m.chat, `${emoji2} Buscando un piropo, espere un momento...`, m)
+conn.reply(m.chat, `${emoji2} Looking for a compliment, wait a moment...`, m)
 
 conn.reply(m.chat, `🎀 *"${pickRandom(global.piropo)}"*`, m)
 
 }
-handler.help = ['piropo']
+handler.help = ['compliment']
 handler.tags = ['fun']
-handler.command = ['piropo']
+handler.command = ['compliment']
 handler.fail = null
 handler.group = true;
 

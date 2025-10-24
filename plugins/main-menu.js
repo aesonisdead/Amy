@@ -233,37 +233,37 @@ let handler = async (m, { conn, args }) => {
 > ⚘ Explorar mazmorras para ganar coins y exp.`,
 
     perfil: `
-₊ ‧  ꒰🍓꒱  — \`『 P E R F I L 』\` 
+₊ ‧  ꒰🍓꒱  — \`『 P R O F I L E 』\` 
 > Comandos de *Perfil* para ver y configurar tu perfil.
  */leaderboard • /lboard • /top* + <Paginá>
 > ⚘ Top de usuarios con más experiencia.
- */level • /lvl* + <@Mencion>
+ */level • /lvl* + <@Mention>
 > ⚘ Ver tu nivel y experiencia actual.
- */marry • /casarse* + <@Mencion>
+ */marry • /casarse* + <@Mention>
 > ⚘ Casarte con alguien.
- */profile* + <@Mencion>
-> ⚘ Ver tu perfil.
- */setbirth* + [fecha]
-> ⚘ Establecer tu fecha de cumpleaños.
+ */profile* + <@Mention>
+> ⚘ View your profile.
+ */setbirth* + [date]
+> ⚘ Set your birthday.
  */setdescription • /setdesc* + [Descripcion]
-> ⚘ Establecer tu descripcion.
- */setgenre* + Hombre | Mujer
-> ⚘ Establecer tu genero.
+> ⚘ Set your description.
+ */setgenre* + Man | Women
+> ⚘ Establish your gender.
  */delgenre • /delgenero*
-> ⚘ Eliminar tu género.
- */delbirth* + [fecha]
+> ⚘ Delete your gender.
+ */delbirth* + [date]
 > ⚘ Borrar tu fecha de cumpleaños.
  */divorce*
 > ⚘ Divorciarte de tu pareja.
- */setfavourite • /setfav* + [Personaje]
-> ⚘ Establecer tu claim favorito.
+ */setfavourite • /setfav* + [Character]
+> ⚘ Set your favorite claim.
  */deldescription • /deldesc*
 > ⚘ Eliminar tu descripción.
  */prem • /vip*
 > ⚘ Comprar membresía premium.`,
 
-    grupos: `
-₊ ‧  ꒰🦋꒱  — \`『 G R U P O S 』\` 
+    groups: `
+₊ ‧  ꒰🦋꒱  — \`『 G R O U P 』\` 
 > Comandos para *Administradores* de grupos.
  */tag • /hidetag • /invocar • /tagall* + [mensaje]
 > ⚘ Envía un mensaje mencionando a todos los usuarios del grupo.

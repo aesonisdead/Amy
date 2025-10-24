@@ -3,7 +3,7 @@ import { File } from "megajs"
 
 const handler = async (m, { conn, args, usedPrefix, command, text }) => {
 if (!text) {
-return conn.reply(m.chat, `❀ Por favor, envia un link de MEGA para descargar el archivo.`, m)
+return conn.reply(m.chat, `❀ Please send a MEGA link to download the file..`, m)
 }
 try {
 await m.react('🕒')
@@ -11,12 +11,12 @@ const file = File.fromURL(text)
 await file.loadAttributes()
 let maxSize = 300 * 1024 * 1024;
 if (file.size >= maxSize) {
-return conn.reply(m.chat, `ꕥ El archivo es demasiado pesado (Peso máximo: 300MB).`, m)
+return conn.reply(m.chat, `ꕥ The file is too large (Maximum size: 300MB).`, m)
 }
-let cap = `*乂 ¡MEGA - DOWNLOADER! 乂*
+let cap = `*乂 MEGA - DOWNLOADER! 乂*
 
-≡ Nombre : ${file.name}
-≡ Tamaño : ${formatBytes(file.size)}
+≡ Name : ${file.name}
+≡ Size : ${formatBytes(file.size)}
 ≡ URL: ${text}`
 m.reply(cap)
 const data = await file.downloadBuffer()
@@ -36,11 +36,11 @@ await conn.sendFile(m.chat, data, file.name, "", m, null, { mimetype, asDocument
 await m.react('✔️')
 } catch (e) {
 await m.react('✖️')
-return conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, m)
+return conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${e.message}`, m)
 }}
 
 handler.help = ["mega"]
-handler.tags = ["descargas"]
+handler.tags = ["media"]
 handler.command = ["mega", "mg"]
 handler.group = true
 

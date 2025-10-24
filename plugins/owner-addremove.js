@@ -42,7 +42,7 @@ break
 case 'addprem': {
 if (!who) return m.reply('❀ Por favor, menciona al usuario o cita un mensaje.')
 if (!user[who]) user[who] = { premiumTime: 0, premium: false }
-const premArgs = text.split(' ').filter(arg => arg)
+const premArgs = text.replace(/^@\S+\s*/, '').trim().split(' ').filter(arg => arg)
 if (premArgs.length < 2) return m.reply('ꕥ Envía un tiempo válido\n> Ejemplo (1h, 2d, 3s, 4m).')
 await m.react('🕒')
 let tiempo = 0

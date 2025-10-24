@@ -8,7 +8,7 @@ await m.react('🕒')
 const response = await fetch(url)
 const json = await response.json()
 if (!response.ok) return conn.reply(m.chat, '⚠︎ An error occurred.', m)
-const aipokedex = `❀ *Pokedex - Information*\n\n> • *Name* » ${json.name}\n> • *ID* » ${json.id}\n> • *Type* » ${json.type}\n> • *Abilities* » ${json.abilities}\n> • *Height* » ${json.height}\n> • *Weight* » ${json.weight}\n> • *Description* » ${json.description}\n\n> ¡Find more details about this Pokémon in the Pokedex!\n\n> https://www.pokemon.com/es/pokedex/${json.name.toLowerCase()}`
+const aipokedex = `❀ *Pokedex - Information*\n\n> • *Name* » ${json.name}\n> • *ID* » ${json.id}\n> • *Type* » ${json.type}\n> • *Abilities* » ${json.abilities}\n> • *Height* » ${json.height}\n> • *Weight* » ${json.weight}\n> • *Description* » ${json.description}\n\n> ¡Find more details about this Pokémon in the Pokedex!\n\n> https://www.pokemon.com/us/pokedex/${json.name.toLowerCase()}`
 conn.reply(m.chat, aipokedex, m)
 await m.react('✔️')
 } catch (error) {

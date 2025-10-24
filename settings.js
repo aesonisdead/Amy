@@ -34,7 +34,7 @@ global.yukiJadibts = true
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
 global.botname = "𝐉𝐚𝐬-𝐗"
-global.textbot = "𝖩𝖺𝗌-𝖷, 𝗆𝖺𝖽𝖾 𝖻𝗒 𝗌𝖺𝗅𝗂𝗆"
+global.textbot = "𝗆𝖺𝖽𝖾 𝖻𝗒 𝗌𝖺𝗅𝗂𝗆"
 global.dev = "© powered by salim"
 global.author = "© made by salim"
 global.etiqueta = "aethonxei"

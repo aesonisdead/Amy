@@ -4,7 +4,7 @@ import { WAMessageStubType } from '@whiskeysockets/baileys'
 async function generarBienvenida({ conn, userId, groupMetadata, chat }) {
 const username = `@${userId.split('@')[0]}`
 const pp = await conn.profilePictureUrl(userId, 'image').catch(() => 'https://raw.githubusercontent.com/speed3xz/Storage/refs/heads/main/Arlette-Bot/b75b29441bbd967deda4365441497221.jpg')
-const fecha = new Date().toLocaleDateString("es-ES", { timeZone: "America/Mexico_City", day: 'numeric', month: 'long', year: 'numeric' })
+const fecha = new Date().toLocaleDateString("en-US", { timeZone: "Africa/Casablanca", day: 'numeric', month: 'long', year: 'numeric' })
 const groupSize = groupMetadata.participants.length + 1
 const desc = groupMetadata.desc?.toString() || 'No description'
 const mensaje = (chat.sWelcome || '૮꒰ ˶• ᴗ •˶꒱ა Enjoy your stay in the group!\n\n> 🎀 Personalize this message using: */setwelcome*').replace(/{user}/g, `${username}`).replace(/{group}/g, `*${groupMetadata.subject}*`).replace(/{desc}/g, `${desc}`)

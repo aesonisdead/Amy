@@ -1,32 +1,32 @@
 let handler = async (m, { conn, args, text }) => {
 if (!text) {
-return conn.reply(m.chat, `❀ Te faltó el link de una imagen/video de twitter.`, m)
+return conn.reply(m.chat, `❀ You missed the link to a Twitter image/video..`, m)
 }
 try {
 await m.react('🕒')
 const result = await twitterScraper(text);
-if (!result.status) return conn.reply(m.chat, `ꕥ No se pudo obtener el contenido de Twitter`, m)
+if (!result.status) return conn.reply(m.chat, `ꕥ Could not get content from Twitter`, m)
 if (result.data.type === 'video') {
-let caption = `❀ Twitter - Download ❀
+let caption = `❀ Twitter - Downloader ❀
 
-> ✦ Titulo » ${result.data.title}
-> ⴵ Duración » ${result.data.duration}
+> ✦ Title » ${result.data.title}
+> ⴵ Duration » ${result.data.duration}
 > 🜸 URL » ${text}`
  conn.sendFile(m.chat, result.data.dl[0].url, "video.mp4", caption, m)
  await m.react('✔️')
 } else {
 await conn.sendMessage(m.chat, {
 image: { url: result.data.imageUrl },
-caption: `❀ Twitter - Download ❀\n\n> 🜸 URL » ${text}`}, { quoted: m })
+caption: `❀ Twitter - Downloader ❀\n\n> 🜸 URL » ${text}`}, { quoted: m })
  await m.react('✔️')
 }} catch (e) {
 await m.react('✖️')
-return conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, m)
+return conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${e.message}`, m)
 }}
 
 handler.command = ["x", "twitter", "xdl"]
 handler.help = ["twitter"]
-handler.tags = ["download"]
+handler.tags = ["media"]
 handler.group = true
 
 export default handler

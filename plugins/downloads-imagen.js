@@ -1,23 +1,23 @@
 import axios from 'axios'
 
 const handler = async (m, { conn, text, usedPrefix }) => {
-if (!text) return conn.reply(m.chat, `❀ Por favor, ingrese un texto para buscar una Imagen.`, m)
+if (!text) return conn.reply(m.chat, `❀ Please enter a text to search for an image..`, m)
 try {
 await m.react('🕒')
 const res = await getGoogleImageSearch(text)
 const urls = await res.getAll()
-if (urls.length < 2) return conn.reply(m.chat, '✧ No se encontraron suficientes imágenes para un álbum.', m)
+if (urls.length < 2) return conn.reply(m.chat, '✧ Not enough images found for an album.', m)
 const medias = urls.slice(0, 10).map(url => ({ type: 'image', data: { url } }))
-const caption = `❀ Resultados de búsqueda para: ${text}`
+const caption = `❀ Search results for: ${text}`
 await conn.sendSylphy(m.chat, medias, { caption, quoted: m })
 await m.react('✔️')
 } catch (error) {
 await m.react('✖️')
-conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`, m)
+conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${error.message}`, m)
 }}
 
 handler.help = ['imagen']
-handler.tags = ['descargas']
+handler.tags = ['media']
 handler.command = ['imagen', 'image']
 
 export default handler

@@ -21,7 +21,7 @@ const ddownr = {
         const downloadUrl = await ddownr.cekProgress(id);
         return downloadUrl;
       } else {
-        throw new Error('Fallo al obtener los detalles del video.');
+        throw new Error('Failed to get video details.');
       }
     } catch (error) {
       throw error;
@@ -54,12 +54,12 @@ const ddownr = {
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `🎀 Ingresa el nombre del video a descargar.`, m);
+      return conn.reply(m.chat, `🎀 Enter the name of the video to download.`, m);
     }
 
     const search = await yts(text);
     if (!search.all || search.all.length === 0) {
-      return m.reply('No se encontraron resultados para tu búsqueda.');
+      return m.reply('No results were found for your search..');
     }
 
     const videoInfo = search.all[0];
@@ -75,14 +75,14 @@ const handler = async (m, { conn, text, command }) => {
         fileName: fileName
       }, { quoted: m });
     } else {
-      return m.reply(`No se pudo descargar el audio.`);
+      return m.reply(`The audio could not be downloaded..`);
     }
   } catch (error) {
-    return m.reply(`Ocurrió un error: ${error.message}`);
+    return m.reply(`An error occurred: ${error.message}`);
   }
 };
 
 handler.command = handler.help = ['ytmp3doc', 'ytadoc'];
-handler.tags = ['downloader'];
+handler.tags = ['media'];
 
 export default handler;

@@ -6,35 +6,35 @@ const username = `@${userId.split('@')[0]}`
 const pp = await conn.profilePictureUrl(userId, 'image').catch(() => 'https://raw.githubusercontent.com/speed3xz/Storage/refs/heads/main/Arlette-Bot/b75b29441bbd967deda4365441497221.jpg')
 const fecha = new Date().toLocaleDateString("es-ES", { timeZone: "America/Mexico_City", day: 'numeric', month: 'long', year: 'numeric' })
 const groupSize = groupMetadata.participants.length + 1
-const desc = groupMetadata.desc?.toString() || 'Sin descripción'
-const mensaje = (chat.sWelcome || '૮꒰ ˶• ᴗ •˶꒱ა Disfruta tu estadía en el grupo!\n\n> 🎀 Personaliza este mensaje usando: */setwelcome*').replace(/{usuario}/g, `${username}`).replace(/{grupo}/g, `*${groupMetadata.subject}*`).replace(/{desc}/g, `${desc}`)
+const desc = groupMetadata.desc?.toString() || 'No description'
+const mensaje = (chat.sWelcome || '૮꒰ ˶• ᴗ •˶꒱ა Enjoy your stay in the group!\n\n> 🎀 Personalize this message using: */setwelcome*').replace(/{user}/g, `${username}`).replace(/{group}/g, `*${groupMetadata.subject}*`).replace(/{desc}/g, `${desc}`)
 const caption = `
 ╭───·˚ 🐝 𝐖𝐄𝐋𝐂𝐎𝐌𝐄 🐝 ·˚───╮
 
   𐔌՞. .՞𐦯 ¡Hola, ${username}  
-  Te damos la bienvenida a: *${groupMetadata.subject}*
+  Welcome to: *${groupMetadata.subject}*
 
 ${mensaje}
   
-╰──·˚ 🌷 ¡Disfruta tu estadía! ˚·──╯`
+╰──·˚ 🌷 ¡Enjoy your stay! ˚·──╯`
 return { pp, caption, mentions: [userId] }
 }
 async function generarDespedida({ conn, userId, groupMetadata, chat }) {
 const username = `@${userId.split('@')[0]}`
 const pp = await conn.profilePictureUrl(userId, 'image').catch(() => 'https://raw.githubusercontent.com/speed3xz/Storage/refs/heads/main/Arlette-Bot/b75b29441bbd967deda4365441497221.jpg')
-const fecha = new Date().toLocaleDateString("es-ES", { timeZone: "America/Mexico_City", day: 'numeric', month: 'long', year: 'numeric' })
+const fecha = new Date().toLocaleDateString("en-US", { timeZone: "Africa/Casablanca", day: 'numeric', month: 'long', year: 'numeric' })
 const groupSize = groupMetadata.participants.length - 1
-const desc = groupMetadata.desc?.toString() || 'Sin descripción'
-const mensaje = (chat.sBye || '-1 homosexual 🥺\n\n> 🎀 Personaliza este mensaje usando: */setbye*').replace(/{usuario}/g, `${username}`).replace(/{grupo}/g, `${groupMetadata.subject}`).replace(/{desc}/g, `*${desc}*`)
+const desc = groupMetadata.desc?.toString() || 'No description'
+const mensaje = (chat.sBye || '-1 homosexual 🥺\n\n> 🎀 Personalize this message using: */setbye*').replace(/{user}/g, `${username}`).replace(/{group}/g, `${groupMetadata.subject}`).replace(/{desc}/g, `*${desc}*`)
 const caption = `
 ╭───·˚ 🐝 𝐆𝐎𝐎𝐃 𝐁𝐘𝐄 🐝 ·˚───╮
 
   𐔌՞. .՞𐦯 – ${username}  
-  Se fue de: *${groupMetadata.subject}*
+  Left: *${groupMetadata.subject}*
 
 ${mensaje}
   
-╰───·˚  🌷 ¡Hasta pronto!  ˚·───╯`
+╰───·˚  🌷 ¡See you soon!  ˚·───╯`
 return { pp, caption, mentions: [userId] }
 }
 let handler = m => m

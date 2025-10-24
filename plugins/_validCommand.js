@@ -22,5 +22,5 @@ if (chat.isBanned && !owner) return
 if (validCommand(command, global.plugins)) {
 } else {
 const comando = command
-await m.reply(`🌷 *Comando <${comando}> No Existe* 🌷\n\n┊ Usa *${usedPrefix}help* para ver la lista de comandos disponibles.✨`)
+await m.reply(`🌷 *Command <${comando}> Does Not Exist* 🌷\n\n┊ Use *${usedPrefix}help* to see the list of available commands.✨`)
 }}

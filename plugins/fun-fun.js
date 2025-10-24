@@ -60,7 +60,7 @@ if (command == 'afk') {
 const user = global.db.data.users[m.sender]
 user.afk = Date.now()
 user.afkReason = text
-return await conn.reply(m.chat, `🎀 *The User ${await conn.getName(m.sender)} Is now AFK*\n○ *Reason${text ? ': ' + text : ': Unspecified!'}*`, m)
+return await conn.reply(m.chat, `🎀 *The user ${await conn.getName(m.sender)} is now AFK*\n○ *Reason${text ? ': ' + text : ': Unspecified!'}*`, m)
 }
 if (command == 'personalidad') {
 let mentionedJid = await m.mentionedJid

@@ -3,7 +3,7 @@ import baileys from '@whiskeysockets/baileys'
 import cheerio from 'cheerio'
 
 let handler = async (m, { conn, text, args, usedPrefix }) => {
-if (!text) return m.reply(`❀ Por favor, ingresa lo que deseas buscar por Pinterest.`)
+if (!text) return m.reply(`❀ Please enter what you want to search for on Pinterest.`)
 try {
 await m.react('🕒')
 if (text.includes("https://")) {
@@ -13,20 +13,20 @@ await conn.sendMessage(m.chat, { [isVideo ? "video" : "image"]: { url: i.downloa
 } else {
 const results = await pins(text)
 if (!results.length) {
-return conn.reply(m.chat, `ꕥ No se encontraron resultados para "${text}".`, m)
+return conn.reply(m.chat, `ꕥ No results found for "${text}".`, m)
 }
 const medias = results.slice(0, 10).map(img => ({ type: 'image', data: { url: img.image_large_url } }))
 await conn.sendSylphy(m.chat, medias, {
-caption: `❀ Pinterest - Search ❀\n\n✧ Búsqueda » "${text}"\n✐ Resultados » ${medias.length}`, quoted: m })
+caption: `❀ Pinterest - Search ❀\n\n✧ Input » "${text}"\n✐ Results » ${medias.length}`, quoted: m })
 await m.react('✔️')
 }} catch (e) {
 await m.react('✖️')
-conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n` + e, m)
+conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n` + e, m)
 }}
 
 handler.help = ['pinterest']
 handler.command = ['pinterest', 'pin']
-handler.tags = ["download"]
+handler.tags = ["media"]
 handler.group = true
 
 export default handler
@@ -48,7 +48,7 @@ return {
 title: result.title,
 download: result.imageLargeUrl
 }}} catch {
-return { msg: "Error, inténtalo de nuevo más tarde" }
+return { msg: "Error, please try again later." }
 }}
 const pins = async (judul) => {
 const link = `https://id.pinterest.com/resource/BaseSearchResource/get/?source_url=%2Fsearch%2Fpins%2F%3Fq%3D${encodeURIComponent(judul)}%26rs%3Dtyped&data=%7B%22options%22%3A%7B%22applied_unified_filters%22%3Anull%2C%22appliedProductFilters%22%3A%22---%22%2C%22article%22%3Anull%2C%22auto_correction_disabled%22%3Afalse%2C%22corpus%22%3Anull%2C%22customized_rerank_type%22%3Anull%2C%22domains%22%3Anull%2C%22dynamicPageSizeExpGroup%22%3A%22control%22%2C%22filters%22%3Anull%2C%22journey_depth%22%3Anull%2C%22page_size%22%3Anull%2C%22price_max%22%3Anull%2C%22price_min%22%3Anull%2C%22query_pin_sigs%22%3Anull%2C%22query%22%3A%22${encodeURIComponent(judul)}%22%2C%22redux_normalize_feed%22%3Atrue%2C%22request_params%22%3Anull%2C%22rs%22%3A%22typed%22%2C%22scope%22%3A%22pins%22%2C%22selected_one_bar_modules%22%3Anull%2C%22seoDrawerEnabled%22%3Afalse%2C%22source_id%22%3Anull%2C%22source_module_id%22%3Anull%2C%22source_url%22%3A%22%2Fsearch%2Fpins%2F%3Fq%3D${encodeURIComponent(judul)}%26rs%3Dtyped%22%2C%22top_pin_id%22%3Anull%2C%22top_pin_ids%22%3Anull%7D%2C%22context%22%3A%7B%7D%7D`

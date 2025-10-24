@@ -16,9 +16,9 @@ await m.react('✖️')
 conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${error.message}`, m)
 }}
 
-handler.help = ['imagen']
+handler.help = ['image']
 handler.tags = ['media']
-handler.command = ['imagen', 'image']
+handler.command = ['img', 'image']
 
 export default handler
 

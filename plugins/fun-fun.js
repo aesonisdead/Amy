@@ -62,22 +62,22 @@ user.afk = Date.now()
 user.afkReason = text
 return await conn.reply(m.chat, `🎀 *The User ${await conn.getName(m.sender)} is now AFK*\n○ *Reason${text ? ': ' + text : ': Unspecified!'}*`, m)
 }
-if (command == 'personalidad') {
+if (command == 'personality') {
 let mentionedJid = await m.mentionedJid
 let userId = mentionedJid?.[0] || (m.quoted && await m.quoted.sender) || conn.parseMention(text)?.[0] || text || null
 let nombre = !userId?.includes('@s.whatsapp.net') ? userId : global.db.data.users[userId].name || (await conn.getName(userId).catch(() => userId.split('@')[0])) || userId.split('@')[0]
 let userName = userId?.includes('@s.whatsapp.net') ? `*${nombre}*` : `*${userId}*`
 if (!userId) return conn.reply(m.chat, `🎀 Please enter someone's name.`, m)
-let personalidad = `> • Name » ${userName}\n> • Good Morals » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Bad Morals : ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Type of person » ${pickRandom(['Kind-hearted','Arrogant','Mean','Generous','Humble','Shy','Coward','Entrometido','Cristal','No binarie XD', 'Pendejo'])}\n> • Siempre » ${pickRandom(['Pesado','De malas','Distraido','De molestoso','Chismoso','Pasa jalandosela','De compras','Viendo anime','Chatea en WhatsApp porque esta soltero','Acostado bueno para nada','De mujeriego','En el celular'])}\n> • Inteligencia » ${pickRandom(['9%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Pendejo(a) » ${pickRandom(['9%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Morosidad » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Coraje » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Miedo » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Fama » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Género » ${pickRandom(['Hombre', 'Mujer', 'Homosexual', 'Bisexual', 'Pansexual', 'Feminista', 'Heterosexual', 'Macho alfa', 'Mujerzona', 'Marimacha', 'Palosexual', 'PlayStationSexual', 'Sr. Manuela', 'Pollosexual'])}`
+let personalidad = `> • Name » ${userName}\n> • Good Morals » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Bad Morals : ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Type of person » ${pickRandom('Kind-hearted','Arrogant','Mean','Generous','Humble','Shy','Coward','Nosy','Crystal','Non-binary XD', 'Dumbass'])}\n> • Siempre » ${pickRandom(['Pesado','De malas','Distraido','De molestoso','Chismoso','Pasa jalandosela','De compras','Viendo anime','Chatea en WhatsApp porque esta soltero','Acostado bueno para nada','De mujeriego','En el celular'])}\n> • Inteligencia » ${pickRandom(['9%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Pendejo(a) » ${pickRandom(['9%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Morosidad » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Coraje » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Miedo » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Fama » ${pickRandom(['6%','12%','20%','27%','35%','41%','49%','54%','60%','66%','73%','78%','84%','92%','93%','94%','96%','98,3%','99,7%','99,9%','1%','2,9%','0%','0,4%'])}\n> • Género » ${pickRandom(['Hombre', 'Mujer', 'Homosexual', 'Bisexual', 'Pansexual', 'Feminista', 'Heterosexual', 'Macho alfa', 'Mujerzona', 'Marimacha', 'Palosexual', 'PlayStationSexual', 'Sr. Manuela', 'Pollosexual'])}`
 return await conn.reply(m.chat, personalidad, m)
 }
-if (command == 'formarpareja') {
+if (command == 'formacouple') {
 let R = Math.random
 let Fl = Math.floor
-const frases = ["Esta pareja está destinada a estar junta 💙", "Dos pequeños tortolitos enamorados ✨", "Ya hasta familia deberían tener 🤱🧑‍🍼", "Se casaron en secreto 💍", "Están de luna de miel ✨🥵😍❤️", "Son inseparables como el café y la arepa ☕🥙", "Su química es de otro planeta 🌌", "Pareja explosiva que enciende el grupo 🔥", "Amor que ni el tiempo puede borrar ⏳❤️", "Se miran y el mundo desaparece 🌍💫", "Romance digno de novela 📖💘", "Pareja que todos envidian 😍👀", "Son el alma del grupo juntos 🎉💑", "Amor que nació en los stickers 💬💞", "Pareja que comparte hasta los datos móviles 📱❤️", "Su conexión es más fuerte que el WiFi 📶💘", "Pareja que se entiende con solo emojis 😘😎", "Amor que ni el bot puede ignorar 🤖💓", "Pareja que merece su propio comando 🧾💑", "Son tan dulces que suben el azúcar 🍭💕"]
+const frases = ["This couple is destined to be together 💙", "Two little lovebirds in love ✨", "They should even have a family. 🤱🧑‍🍼", "They got married in secret 💍", "They are on their honeymoon ✨🥵😍❤️", "They are inseparable like coffee and arepa ☕🥙", "Their chemistry is from another planet 🌌", "Explosive couple that ignites the group 🔥", "Love that not even time can erase ⏳❤️", "They look at each other and the world disappears 🌍💫", "Romance worthy of a novel 📖💘", "A couple that everyone envies 😍👀", "They are the soul of the group together 🎉💑", "Love that was born in stickers 💬💞", "A couple that even shares mobile data 📱❤️", "Su conexión es más fuerte que el WiFi 📶💘", "Couple that understands each other with just emojis 😘😎", "Love that not even the bot can ignore 🤖💓", "Couple that deserves their own command 🧾💑", "They are so sweet that they raise your sugar 🍭💕"]
 let cantidad = Math.min(Math.max(parseInt(args[0]) || 1, 1), 10)
 let ps = groupMetadata.participants.map(v => v.id)
-if (ps.length < cantidad * 2) return m.reply(`🎀 No hay miembros suficientes para formar ${cantidad} pareja${cantidad === 1 ? '' : 's'}`)
+if (ps.length < cantidad * 2) return m.reply(`🎀 There are not enough members to form ${cantidad} couple${cantidad === 1 ? '' : 's'}`)
 let usados = new Set()
 let parejas = []
 let menciones = []
@@ -92,13 +92,13 @@ usados.add(b)
 parejas.push({a, b})
 menciones.push(a, b)
 }
-let texto = cantidad === 1 ? `*😍 _La mejor pareja del grupo_ 😍*\n\n` : `*😍 _Las ${cantidad} mejores parejas del grupo_ 😍*\n\n`
+let texto = cantidad === 1 ? `*😍 _The best couple in the group_ 😍*\n\n` : `*😍 _The ${cantidad} best couples in the group_ 😍*\n\n`
 parejas.forEach((p, i) => {
 texto += `${i + 1}.- ${toM(p.a)} y ${toM(p.b)}\n${frases[i % frases.length]}\n\n`
 })
 return m.reply(texto.trim(), null, { mentions: menciones })
 }
-if (['gay','lesbiana','pajero','pajera','puto','puta','manco','manca','rata','prostituto','prostituta'].includes(command)) {
+if (['gay','lesbian','pajero','pajera','puto','puta','manco','manca','rat','prostitute','prostitute'].includes(command)) {
 const mentionedJid = await m.mentionedJid
 const usser = mentionedJid?.[0] || (m.quoted && await m.quoted.sender) || conn.parseMention(text)?.[0] || text || null
 const userId = usser?.includes('@s.whatsapp.net') ? `@${usser.split('@')[0]}` : `*${usser}*`

@@ -9,22 +9,96 @@ const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-z
 const API_BASE = "https://api.dhamzxploit.my.id"
 const API_KEY = "Russellxz" // kept same for compatibility
 
+// Replace your existing skyYT function with this one
 async function skyYT(url, format) {
-  const response = await fetch(`${API_BASE}/api/yta?url=${encodeURIComponent(url)}`, {
-    headers: { 
-      Authorization: `Bearer ${API_KEY}`
-    },
-    timeout: 30000
-  })
-  
-  if (!response.ok) throw new Error(`HTTP ${response.status}`)
-  
-  const data = await response.json()
-  if (!data || !data.result || !data.result.dl_url) throw new Error(data?.error || "Error in API")
-  
-  return {
-    audio: data.result.dl_url,
-    video: data.result.dl_url
+  // list of candidate endpoints that return either mp3/mp4 or a generic dl_url
+  const endpoints = [
+    // primary candidate (audio/video endpoints)
+    // (no API key required for these; we keep API_KEY in file for compatibility)
+    (u) => `https://api.dhamzxploit.my.id/api/yta?url=${encodeURIComponent(u)}`,
+    (u) => `https://api.akuari.my.id/downloader/youtube?link=${encodeURIComponent(u)}`,
+    (u) => `https://api.lolhuman.xyz/api/youtube?link=${encodeURIComponent(u)}&apikey=hello`, // example (may require key)
+    // fallback generic endpoints (try them if others fail)
+    (u) => `https://api.sumanjay.workers.dev?url=${encodeURIComponent(u)}`,
+  ]
+
+  // helper to perform fetch with timeout
+  const fetchWithTimeout = async (url, opts = {}, ms = 20000) => {
+    const controller = new AbortController()
+    const id = setTimeout(() => controller.abort(), ms)
+    try {
+      const res = await fetch(url, { ...opts, signal: controller.signal })
+      clearTimeout(id)
+      return res
+    } catch (err) {
+      clearTimeout(id)
+      throw err
+    }
+  }
+
+  for (let makeEndpoint of endpoints) {
+    const endpoint = makeEndpoint(url)
+    try {
+      console.log(`[skyYT] Trying endpoint: ${endpoint}`)
+      // keep Authorization header for compatibility; if not needed API will ignore it
+      const res = await fetchWithTimeout(endpoint, {
+        headers: { Authorization: `Bearer ${API_KEY}` },
+      }, 20000)
+
+      if (!res.ok) {
+        console.log(`[skyYT] Endpoint returned HTTP ${res.status} for ${endpoint}`)
+        continue
+      }
+
+      const data = await res.json().catch(e => {
+        console.log('[skyYT] Failed to parse JSON from', endpoint, e)
+        return null
+      })
+
+      console.log('[skyYT] API RESPONSE:', endpoint, data)
+
+      if (!data) continue
+
+      // Normalize many common response shapes to { audio, video }
+      // 1) some apis return { result: { dl_url: '...' } }
+      if (data.result?.dl_url) {
+        const dl = data.result.dl_url
+        return { audio: dl, video: dl }
+      }
+
+      // 2) some return { url: '...' } or { data: { url: '...' } }
+      if (data.url) return { audio: data.url, video: data.url }
+      if (data.data?.url) return { audio: data.data.url, video: data.data.url }
+
+      // 3) some return { mp3: '...', mp4: '...' } 
+      if (data.mp3 || data.mp4) {
+        return { audio: data.mp3 || data.mp4, video: data.mp4 || data.mp3 }
+      }
+
+      // 4) some return { result: { mp3: '...', mp4: '...' } }
+      if (data.result?.mp3 || data.result?.mp4) {
+        return { audio: data.result.mp3 || data.result.mp4, video: data.result.mp4 || data.result.mp3 }
+      }
+
+      // 5) some return { data: { audio: '...', video: '...' } }
+      if (data.data?.audio || data.data?.video) {
+        return { audio: data.data.audio, video: data.data.video }
+      }
+
+      // 6) some return { success: true, link: '...' } 
+      if (data.link) return { audio: data.link, video: data.link }
+
+      // if we reach here, endpoint responded but unrecognized shape
+      console.log('[skyYT] Unrecognized API response shape, trying next endpoint.')
+    } catch (err) {
+      // network error, DNS error, timeout, etc.
+      console.log('[skyYT] Endpoint error:', err.message || err)
+      // continue to next endpoint
+    }
+  }
+
+  // If all endpoints failed
+  throw new Error('All downloader APIs failed or returned unexpected responses.')
   }
 }
 

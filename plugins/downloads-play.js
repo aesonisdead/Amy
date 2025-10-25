@@ -5,23 +5,22 @@ import yts from "yt-search"
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
-const API_BASE = "https://api-sky.ultraplus.click"
-const API_KEY = "Russellxz"
+// Replaced API logic — the constants below are no longer used, but kept for structure
+const API_BASE = "https://esm.apiis.dpdns.org/youtube/ytdl"
+const API_KEY = "anya-md"
 
 async function skyYT(url, format) {
-  const response = await fetch(`${API_BASE}/api/download/yt.php?url=${encodeURIComponent(url)}&format=${format}`, {
-    headers: { 
-      Authorization: `Bearer ${API_KEY}`
-    },
-    timeout: 30000
-  })
-  
-  if (!response.ok) throw new Error(`HTTP ${response.status}`)
-  
-  const data = await response.json()
-  if (!data || data.status !== "true" || !data.data) throw new Error(data?.error || "Error en la API")
-  
-  return data.data
+  try {
+    const type = format === "audio" ? "mp3" : "mp4"
+    const apiUrl = `${API_BASE}?apikey=${API_KEY}&type=${type}&url=${encodeURIComponent(url)}`
+    const res = await fetch(apiUrl)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const json = await res.json()
+    if (!json?.result) throw new Error("Invalid API response")
+    return json.result
+  } catch (err) {
+    throw new Error(`API Error: ${err.message}`)
+  }
 }
 
 const handler = async (m, { conn, text, command }) => {
@@ -58,17 +57,17 @@ const handler = async (m, { conn, text, command }) => {
 > 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
     `.trim()
 
-    // Enviar mensaje con imagen y detalles
+    // Send image and info
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: infoMessage
     }, { quoted: m })
 
-    // Descargar y enviar directamente
+    // Download and send directly
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
       try {
         const d = await skyYT(url, "audio")
-        const mediaUrl = d.audio || d.video
+        const mediaUrl = d.audio || d.video || d.url
         if (!mediaUrl) throw new Error("No audio URL obtained")
         
         await conn.sendMessage(m.chat, {
@@ -87,7 +86,7 @@ const handler = async (m, { conn, text, command }) => {
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
       try {
         const d = await skyYT(url, "video")
-        const mediaUrl = d.video || d.audio
+        const mediaUrl = d.video || d.audio || d.url
         if (!mediaUrl) throw new Error("No video URL obtained")
         
         await conn.sendMessage(m.chat, {
@@ -121,4 +120,4 @@ function formatViews(views) {
   if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`
   if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k`
   return views.toString()
-}
+    }

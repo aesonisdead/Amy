@@ -88,7 +88,7 @@ const handler = async (m, { conn, text, command }) => {
       try {
         const d = await skyYT(url, "video")
         const mediaUrl = d.video || d.audio
-        if (!mediaUrl) throw new Error(""No video URL obtained")
+        if (!mediaUrl) throw new Error("No video URL obtained")
         
         await conn.sendMessage(m.chat, {
           video: { url: mediaUrl },

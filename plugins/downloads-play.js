@@ -1,5 +1,5 @@
-// creado por speed3xz
-
+// Creado por Speed3xz
+// Api by russellxz
 import fetch from "node-fetch"
 import yts from "yt-search"
 
@@ -11,21 +11,15 @@ const API_KEY = "Russellxz"
 async function skyYT(url, format) {
   const response = await fetch(`${API_BASE}/api/download/yt.php?url=${encodeURIComponent(url)}&format=${format}`, {
     headers: { 
-      Authorization: `Bearer ${API_KEY}`,
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      Authorization: `Bearer ${API_KEY}`
     },
-    timeout: 60000
+    timeout: 30000
   })
   
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`)
-  }
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
   
   const data = await response.json()
-  
-  if (!data || data.status !== "true" || !data.data) {
-    throw new Error(data?.error || "Error en la API Sky")
-  }
+  if (!data || data.status !== "true" || !data.data) throw new Error(data?.error || "Error en la API")
   
   return data.data
 }
@@ -33,20 +27,15 @@ async function skyYT(url, format) {
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `You must write *the name or link* of the audio to download.`, m)
+      return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! You must write *the name or link* of the video/audio to download.`, m)
     }
 
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key }})
 
-    let videoIdToFind = text.match(youtubeRegexID) || null
-    let ytplay2 = await yts(videoIdToFind ? "https://youtu.be/" + videoIdToFind[1] : text)
-
-    if (videoIdToFind) {
-      const videoId = videoIdToFind[1]
-      ytplay2 = ytplay2.all.find(item => item.videoId === videoId) || ytplay2.videos.find(item => item.videoId === videoId)
-    }
-
-    ytplay2 = ytplay2.all?.[0] || ytplay2.videos?.[0] || ytplay2
+    let videoIdToFind = text.match(youtubeRegexID)
+    let searchResults = await yts(videoIdToFind ? "https://youtu.be/" + videoIdToFind[1] : text)
+    
+    let ytplay2 = searchResults.videos?.[0] || searchResults.all?.[0]
     if (!ytplay2) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
       return m.reply("⚠︎ I didn't find any results, try another name or link..")
@@ -54,7 +43,7 @@ const handler = async (m, { conn, text, command }) => {
 
     let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
     const vistas = formatViews(views)
-    const canal = author?.name || "Desconocido"
+    const canal = author?.name || "Unknown"
 
     const infoMessage = `
 ╭──❀ Content details ❀──╮
@@ -66,62 +55,70 @@ const handler = async (m, { conn, text, command }) => {
 🔗 Link » *${url}*  
 ╰──────────────────────╯
 
-𐙚🌷 ｡･ﾟ✧ Sending audio please wait a moment... ˙𐙚🌸`.trim()
+> 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
+    `.trim()
 
-    const thumb = (await conn.getFile(thumbnail))?.data
-    await conn.reply(m.chat, infoMessage, m, {
-      contextInfo: {
-        externalAdReply: {
-          title: botname,
-          body: dev,
-          mediaType: 1,
-          thumbnail: thumb,
-          renderLargerThumbnail: true,
-          mediaUrl: url,
-          sourceUrl: url
-        }
-      }
-    })
-
-    let audioData = null
-    try {
-      const d = await skyYT(url, "audio")
-      const mediaUrl = d.audio || d.video
-      if (mediaUrl) {
-        audioData = { link: mediaUrl, title: d.title || title }
-      }
-    } catch {}
-
-    if (!audioData) {
-      await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-      return conn.reply(m.chat, "✦ The audio could not be downloaded. Please try again later..", m)
-    }
-
+    // Enviar mensaje con imagen y detalles
     await conn.sendMessage(m.chat, {
-      audio: { url: audioData.link },
-      fileName: `${audioData.title || "music"}.mp3`,
-      mimetype: "audio/mpeg",
-      ptt: false
+      image: { url: thumbnail },
+      caption: infoMessage
     }, { quoted: m })
 
-    await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+    // Descargar y enviar directamente
+    if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
+      try {
+        const d = await skyYT(url, "audio")
+        const mediaUrl = d.audio || d.video
+        if (!mediaUrl) throw new Error("No se obtuvo URL de audio")
+        
+        await conn.sendMessage(m.chat, {
+          audio: { url: mediaUrl },
+          fileName: `${title}.mp3`,
+          mimetype: "audio/mpeg",
+          ptt: false
+        }, { quoted: m })
+        
+        await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+      } catch (error) {
+        await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
+        return conn.reply(m.chat, "✦ Error downloading audio. Please try again later..", m)
+      }
+    }
+    else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
+      try {
+        const d = await skyYT(url, "video")
+        const mediaUrl = d.video || d.audio
+        if (!mediaUrl) throw new Error("No video URL obtained")
+        
+        await conn.sendMessage(m.chat, {
+          video: { url: mediaUrl },
+          fileName: `${title}.mp4`,
+          caption: `${title}`,
+          mimetype: "video/mp4"
+        }, { quoted: m })
+        
+        await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+      } catch (error) {
+        await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
+        return conn.reply(m.chat, "✦ Error downloading video. Please try again later..", m)
+      }
+    }
 
   } catch (error) {
     await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-    return m.reply(`⚠︎ Unexpected error:\n\n${error}`)
+    return m.reply(`⚠︎ Unexpected error:\n\n${error.message}`)
   }
 }
 
-handler.help = ["play"]
-handler.tags = ["media"]
-handler.command = ["play", "ytaudio", "ytmp3"]
+handler.command = handler.help = ["play", "ytaudio", "yta", "ytmp3", "mp3", "play2", "ytmp4", "ytv", "mp4"]
+handler.tags = ["descargas"]
 
 export default handler
 
 function formatViews(views) {
-  if (!views) return "No disponible"
+  if (!views) return "Not available"
   if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B`
   if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`
   if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k`
   return views.toString()
-    }
+}

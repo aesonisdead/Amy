@@ -1,39 +1,33 @@
 // Creado por Speed3xz
-// API reemplazada por yt-dlp local
-import { exec } from "child_process"
+// Api by russellxz
+import fetch from "node-fetch"
 import yts from "yt-search"
-import fs from "fs"
-import path from "path"
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
-const TEMP_DIR = "/tmp" // puedes cambiar a otra carpeta en tu phone si quieres
+const API_BASE = "https://api-sky.ultraplus.click"
+const API_KEY = "Russellxz"
 
-async function downloadYT(url, format = "audio") {
-  return new Promise((resolve, reject) => {
-    const outputPath = path.join(TEMP_DIR, `yt_${Date.now()}.%(ext)s`)
-    let cmd = `yt-dlp -o "${outputPath}"`
-
-    if (format === "audio") cmd += " -x --audio-format mp3"
-    else if (format === "video") cmd += " -f mp4"
-
-    cmd += ` "${url}"`
-
-    exec(cmd, (error, stdout, stderr) => {
-      if (error) return reject(error)
-
-      // buscar archivo descargado
-      const files = fs.readdirSync(TEMP_DIR).filter(f => f.includes("yt_"))
-      if (!files.length) return reject(new Error("No se encontró archivo descargado"))
-      resolve(path.join(TEMP_DIR, files[files.length - 1]))
-    })
+async function skyYT(url, format) {
+  const response = await fetch(`${API_BASE}/api/download/yt.php?url=${encodeURIComponent(url)}&format=${format}`, {
+    headers: { 
+      Authorization: `Bearer ${API_KEY}`
+    },
+    timeout: 30000
   })
+  
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  
+  const data = await response.json()
+  if (!data || data.status !== "true" || !data.data) throw new Error(data?.error || "Error en la API")
+  
+  return data.data
 }
 
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! Debes escribir *el nombre o link* del video/audio para descargar.`, m)
+      return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! You must write *the name or link* of the video/audio to download.`, m)
     }
 
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key }})
@@ -44,70 +38,80 @@ const handler = async (m, { conn, text, command }) => {
     let ytplay2 = searchResults.videos?.[0] || searchResults.all?.[0]
     if (!ytplay2) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-      return m.reply("⚠︎ No encontré resultados, intenta con otro nombre o link.")
+      return m.reply("⚠︎ I didn't find any results, try another name or link.")
     }
 
     let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
     const vistas = formatViews(views)
-    const canal = author?.name || "Desconocido"
+    const canal = author?.name || "Unknown"
 
     const infoMessage = `
-╭──❀ Detalles del contenido ❀──╮
-🎀 Título » *${title}*  
-🌸 Canal » *${canal}*  
-🍃 Vistas » *${vistas}*  
-⏳ Duración » *${timestamp}*  
-🗓️ Publicado » *${ago}*  
+╭──❀ Content details ❀──╮
+🎀 Title » *${title}*  
+🌸 Channel » *${canal}*  
+🍃 Views » *${vistas}*  
+⏳ Duration » *${timestamp}*  
+🗓️ Published » *${ago}*  
 🔗 Link » *${url}*  
 ╰──────────────────────╯
 
-> 𐙚🌷 ｡･ﾟ✧ Preparando tu descarga... ˙𐙚🌸
+> 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
     `.trim()
 
+    // Enviar mensaje con imagen y detalles
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: infoMessage
     }, { quoted: m })
 
+    // Descargar y enviar directamente
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
       try {
-        const filePath = await downloadYT(url, "audio")
+        const d = await skyYT(url, "audio")
+        const mediaUrl = d.audio || d.video
+        if (!mediaUrl) throw new Error("No audio URL obtained")
+        
         await conn.sendMessage(m.chat, {
-          audio: { url: "file://" + filePath },
+          audio: { url: mediaUrl },
           fileName: `${title}.mp3`,
           mimetype: "audio/mpeg",
           ptt: false
         }, { quoted: m })
+        
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-        return conn.reply(m.chat, "✦ Error al descargar el audio. Intenta más tarde.", m)
+        return conn.reply(m.chat, "✦ Error downloading audio. Please try again later.", m)
       }
     }
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
       try {
-        const filePath = await downloadYT(url, "video")
+        const d = await skyYT(url, "video")
+        const mediaUrl = d.video || d.audio
+        if (!mediaUrl) throw new Error(""No video URL obtained")
+        
         await conn.sendMessage(m.chat, {
-          video: { url: "file://" + filePath },
+          video: { url: mediaUrl },
           fileName: `${title}.mp4`,
           caption: `${title}`,
           mimetype: "video/mp4"
         }, { quoted: m })
+        
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-        return conn.reply(m.chat, "✦ Error al descargar el video. Intenta más tarde.", m)
+        return conn.reply(m.chat, "✦ Error downloading video. Please try again later..", m)
       }
     }
 
   } catch (error) {
     await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-    return m.reply(`⚠︎ Error inesperado:\n\n${error.message}`)
+    return m.reply(`⚠︎ Unexpected error:\n\n${error.message}`)
   }
 }
 
 handler.command = handler.help = ["play", "ytaudio", "yta", "ytmp3", "mp3", "play2", "ytmp4", "ytv", "mp4"]
-handler.tags = ["descargas"]
+handler.tags = ["media"]
 
 export default handler
 

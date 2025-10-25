@@ -1,78 +1,33 @@
-// Created by Speed3xz
-// API by russellxz (fixed & translated)
+// Creado por Speed3xz
+// Api by russellxz
 import fetch from "node-fetch"
 import yts from "yt-search"
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
-const API_KEY = "Russellxz" // kept for compatibility
+const API_BASE = "https://api-sky.ultraplus.click"
+const API_KEY = "Russellxz"
 
-// ------------------- skyYT Function -------------------
 async function skyYT(url, format) {
-  const endpoints = [
-    (u) => `https://api.dhamzxploit.my.id/api/yta?url=${encodeURIComponent(u)}`,
-    (u) => `https://api.akuari.my.id/downloader/youtube?link=${encodeURIComponent(u)}`,
-    (u) => `https://api.lolhuman.xyz/api/youtube?link=${encodeURIComponent(u)}&apikey=hello`,
-    (u) => `https://api.sumanjay.workers.dev?url=${encodeURIComponent(u)}`,
-  ]
-
-  const fetchWithTimeout = async (url, opts = {}, ms = 20000) => {
-    const controller = new AbortController()
-    const id = setTimeout(() => controller.abort(), ms)
-    try {
-      const res = await fetch(url, { ...opts, signal: controller.signal })
-      clearTimeout(id)
-      return res
-    } catch (err) {
-      clearTimeout(id)
-      throw err
-    }
-  }
-
-  for (let makeEndpoint of endpoints) {
-    const endpoint = makeEndpoint(url)
-    try {
-      console.log(`[skyYT] Trying endpoint: ${endpoint}`)
-      const res = await fetchWithTimeout(endpoint, {
-        headers: { Authorization: `Bearer ${API_KEY}` },
-      }, 20000)
-
-      if (!res.ok) {
-        console.log(`[skyYT] Endpoint returned HTTP ${res.status} for ${endpoint}`)
-        continue
-      }
-
-      const data = await res.json().catch(e => {
-        console.log('[skyYT] Failed to parse JSON from', endpoint, e)
-        return null
-      })
-
-      console.log('[skyYT] API RESPONSE:', endpoint, data)
-
-      if (!data) continue
-
-      if (data.result?.dl_url) return { audio: data.result.dl_url, video: data.result.dl_url }
-      if (data.url) return { audio: data.url, video: data.url }
-      if (data.data?.url) return { audio: data.data.url, video: data.data.url }
-      if (data.mp3 || data.mp4) return { audio: data.mp3 || data.mp4, video: data.mp4 || data.mp3 }
-      if (data.result?.mp3 || data.result?.mp4) return { audio: data.result.mp3 || data.result.mp4, video: data.result.mp4 || data.result.mp3 }
-      if (data.data?.audio || data.data?.video) return { audio: data.data.audio, video: data.data.video }
-      if (data.link) return { audio: data.link, video: data.link }
-
-      console.log('[skyYT] Unrecognized API response shape, trying next endpoint.')
-    } catch (err) {
-      console.log('[skyYT] Endpoint error:', err.message || err)
-    }
-  }
-
-  throw new Error('All downloader APIs failed or returned unexpected responses.')
+  const response = await fetch(`${API_BASE}/api/download/yt.php?url=${encodeURIComponent(url)}&format=${format}`, {
+    headers: { 
+      Authorization: `Bearer ${API_KEY}`
+    },
+    timeout: 30000
+  })
+  
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  
+  const data = await response.json()
+  if (!data || data.status !== "true" || !data.data) throw new Error(data?.error || "Error en la API")
+  
+  return data.data
 }
 
-// ------------------- Handler -------------------
 const handler = async (m, { conn, text, command }) => {
   try {
-    if (!text?.trim()) {
-      return conn.reply(m.chat, `✧ Hey! You must write *the name or link* of the video/audio to download.`, m)
+    if (!text.trim()) {
+      return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! Debes escribir *el nombre o link* del video/audio para descargar.`, m)
     }
 
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key }})
@@ -83,37 +38,38 @@ const handler = async (m, { conn, text, command }) => {
     let ytplay2 = searchResults.videos?.[0] || searchResults.all?.[0]
     if (!ytplay2) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-      return m.reply("⚠︎ I didn't find any results, try another name or link.")
+      return m.reply("⚠︎ No encontré resultados, intenta con otro nombre o link.")
     }
 
     let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
     const vistas = formatViews(views)
-    const canal = author?.name || "Unknown"
+    const canal = author?.name || "Desconocido"
 
     const infoMessage = `
-╭──❀ Content Details ❀──╮
-🎀 Title » *${title}*  
-🌸 Channel » *${canal}*  
-🍃 Views » *${vistas}*  
-⏳ Duration » *${timestamp}*  
-🗓️ Published » *${ago}*  
+╭──❀ Detalles del contenido ❀──╮
+🎀 Título » *${title}*  
+🌸 Canal » *${canal}*  
+🍃 Vistas » *${vistas}*  
+⏳ Duración » *${timestamp}*  
+🗓️ Publicado » *${ago}*  
 🔗 Link » *${url}*  
 ╰──────────────────────╯
 
-> 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
+> 𐙚🌷 ｡･ﾟ✧ Preparando tu descarga... ˙𐙚🌸
     `.trim()
 
+    // Enviar mensaje con imagen y detalles
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: infoMessage
     }, { quoted: m })
 
-    // ------------------- Audio -------------------
+    // Descargar y enviar directamente
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
       try {
         const d = await skyYT(url, "audio")
         const mediaUrl = d.audio || d.video
-        if (!mediaUrl) throw new Error("No audio URL obtained.")
+        if (!mediaUrl) throw new Error("No se obtuvo URL de audio")
         
         await conn.sendMessage(m.chat, {
           audio: { url: mediaUrl },
@@ -125,16 +81,14 @@ const handler = async (m, { conn, text, command }) => {
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-        return conn.reply(m.chat, "✦ The audio could not be downloaded. Please try again later.", m)
+        return conn.reply(m.chat, "✦ Error al descargar el audio. Intenta más tarde.", m)
       }
     }
-
-    // ------------------- Video -------------------
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
       try {
         const d = await skyYT(url, "video")
         const mediaUrl = d.video || d.audio
-        if (!mediaUrl) throw new Error("No video URL obtained.")
+        if (!mediaUrl) throw new Error("No se obtuvo URL de video")
         
         await conn.sendMessage(m.chat, {
           video: { url: mediaUrl },
@@ -146,24 +100,23 @@ const handler = async (m, { conn, text, command }) => {
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-        return conn.reply(m.chat, "✦ The video could not be downloaded. Please try again later.", m)
+        return conn.reply(m.chat, "✦ Error al descargar el video. Intenta más tarde.", m)
       }
     }
 
   } catch (error) {
     await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-    return m.reply(`⚠︎ Unexpected error:\n\n${error.message}`)
+    return m.reply(`⚠︎ Error inesperado:\n\n${error.message}`)
   }
 }
 
 handler.command = handler.help = ["play", "ytaudio", "yta", "ytmp3", "mp3", "play2", "ytmp4", "ytv", "mp4"]
-handler.tags = ["media"]
+handler.tags = ["descargas"]
 
 export default handler
 
-// ------------------- Helper -------------------
 function formatViews(views) {
-  if (!views) return "Not available"
+  if (!views) return "No disponible"
   if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B`
   if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`
   if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k`

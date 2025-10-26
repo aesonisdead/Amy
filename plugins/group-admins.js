@@ -19,8 +19,8 @@ conn.sendFile(m.chat, pp, 'error.jpg', text, m, false, {mentions: [...groupAdmin
 
 handler.help = ['admins']
 handler.tags = ['group']
+handler.command = ['admins', 'a', '@admins']
 handler.customPrefix = /^(@admins|\/a|\/admins)$/i
-handler.command = new RegExp()
 handler.group = true
 
 export default handler

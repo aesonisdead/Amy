@@ -2,7 +2,7 @@ import db from '../lib/database.js'
 
 const handler = async (m, { conn, text, command, usedPrefix }) => {
 try {
-const pp = await conn.profilePictureUrl(m.chat, 'image').catch(() => 'https://files.catbox.moe/xr2m6u.jpg')
+const pp = await conn.profilePictureUrl(m.chat, 'image').catch(() => 'https://files.catbox.moe/mq2yh8.jpg')
 let mentionedJid = await m.mentionedJid
 let who = mentionedJid && mentionedJid.length ? mentionedJid[0] : m.quoted && await m.quoted.sender ? await m.quoted.sender : null
 const user = global.db.data.users[m.sender]
@@ -13,43 +13,43 @@ const ownerBot = global.owner[0][0] + '@s.whatsapp.net'
 switch (command) {
 case 'advertencia': case 'warn': case 'addwarn': {
 if (!who || typeof who !== 'string' || !who.includes('@')) {
-return m.reply(`❀ Debés mencionar o citar un mensaje de un usuario para aplicar una advertencia.\n> Ejemplo: *${usedPrefix + command} @usuario (motivo | opcional)*`)
+return m.reply(`❀ You must mention or quote a user's post to apply a warning.\n> Example: *${usedPrefix + command} @user (reason | optional)*`)
 }
 const msgtext = text?.trim() || ''
 const partes = msgtext.split(/\s+/)
 const tieneMencion = partes.some(part => part.startsWith('@'))
-const motivo = tieneMencion ? partes.filter(part => !part.startsWith('@')).join(' ').trim() || 'Sin especificar' : msgtext || 'Sin especificar'
-if (who === conn.user.jid) return conn.reply(m.chat, `ꕥ No puedo ponerle advertencias al bot.`, m)
-if (who === ownerGroup) return conn.reply(m.chat, `ꕥ No puedo darle advertencias al propietario del grupo.`, m)
-if (who === ownerBot) return conn.reply(m.chat, `ꕥ No puedo darle advertencias al propietario del bot.`, m)
+const motivo = tieneMencion ? partes.filter(part => !part.startsWith('@')).join(' ').trim() || 'Unspecified' : msgtext || 'Unspecified'
+if (who === conn.user.jid) return conn.reply(m.chat, `ꕥ I can't give the bot warnings.`, m)
+if (who === ownerGroup) return conn.reply(m.chat, `ꕥ I can't give warnings to the group owner..`, m)
+if (who === ownerBot) return conn.reply(m.chat, `ꕥ I can't give warnings to the bot owner.`, m)
 user.warn = (user.warn || 0) + 1
-await m.reply(`*@${who.split`@`[0]}* recibió una advertencia en este grupo!\nMotivo: ${motivo}\n*Advertencias: ${user.warn}/3*`, null, { mentions: [who] })
+await m.reply(`*@${who.split`@`[0]}* You received a warning in this group!\nReason: ${motivo}\n*Warnings: ${user.warn}/3*`, null, { mentions: [who] })
 if (user.warn >= 3) {
 user.warn = 0
-await m.reply(`❀ ¡Te lo advertí varias veces!\n*@${who.split`@`[0]}* superó las *3* advertencias, ahora será eliminado/a.`, null, { mentions: [who] })
+await m.reply(`❀ I warned you several times!\n*@${who.split`@`[0]}* Exceeded *3* warnings, will now be removed/a.`, null, { mentions: [who] })
 await conn.groupParticipantsUpdate(m.chat, [who], 'remove')
 }
 break
 }
 case 'delwarn': case 'unwarn': {
-if (!who) return m.reply(`❀ Etiqueta a un usuario para quitarle las advertencias.`)
+if (!who) return m.reply(`❀ Tag a user to remove warnings.`)
 if (mentionedJid.includes(conn.user.jid)) return
-if (user.warn === 0) throw `ꕥ El usuario tiene 0 advertencias.`
+if (user.warn === 0) throw `ꕥ The user has 0 warnings.`
 user.warn -= 1
 await m.reply(`${user.warn === 1 ? `*@${who.split`@`[0]}*` : `❀ *@${who.split`@`[0]}*`} Se le quitó una advertencia.\n*ADVERTENCIAS ${user.warn}/3*`, null, { mentions: [who] })
 break
 }
-case 'listadv': case 'advlist': {
+case 'listwrn': case 'wrnlist': {
 const adv = Object.entries(global.db.data.chats[m.chat].users).filter(([_, u]) => u.warn)
 const warns = global.db.data.chats[m.chat].users.warn || 0
-const listadvs = `❀ Usuarios Advertidos\n\n*Total : ${adv.length} Usuarios*${adv.length > 0 ? '\n' + adv.map(([jid, user]) => `*●* @${jid.split`@`[0]} : *(${user.warn}/3)*`).join('\n') : ''}\n\n⚠︎ Advertencias ⇢ *${warns ? `${warns}/3` : '0/3'}*`
+const listadvs = `❀ Warned Users\n\n*Total : ${adv.length} Users*${adv.length > 0 ? '\n' + adv.map(([jid, user]) => `*●* @${jid.split`@`[0]} : *(${user.warn}/3)*`).join('\n') : ''}\n\n⚠︎ Warnings ⇢ *${warns ? `${warns}/3` : '0/3'}*`
 await conn.sendMessage(m.chat, { image: { url: pp }, caption: listadvs, mentions: await conn.parseMention(listadvs) }, { quoted: m })
 break
 }}} catch (error) {
-m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
+m.reply(`⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* para informarlo.\n\n${error.message}`)
 }}
 
-handler.command = ['advertencia', 'warn', 'addwarn', 'delwarn', 'unwarn', 'listadv', 'advlist']
+handler.command = ['addvertencia', 'warn', 'addwarn', 'delwarn', 'unwarn', 'listwrn', 'wrnlist']
 handler.group = true
 handler.admin = true
 handler.botAdmin = true

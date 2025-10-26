@@ -15,6 +15,11 @@ function sanitizeFilename(name) {
   return name.replace(/[\/\\?%*:|"<>()]/g, '').trim()
 }
 
+// Replace spaces with underscores for safer Termux handling
+function safeFilenameForYT(name) {
+  return sanitizeFilename(name).replace(/ /g, "_")
+}
+
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
@@ -26,16 +31,16 @@ const handler = async (m, { conn, text, command }) => {
     let videoIdToFind = text.match(youtubeRegexID)
     let searchResults = await yts(videoIdToFind ? "https://youtu.be/" + videoIdToFind[1] : text)
     
-    let ytplay2 = searchResults.videos?.[0] || searchResults.all?.[0]
-    if (!ytplay2) {
+    let ytVideo = searchResults.videos?.[0] || searchResults.all?.[0]
+    if (!ytVideo) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
       return m.reply("⚠︎ I didn't find any results, try another name or link.")
     }
 
-    let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
+    let { title, thumbnail, timestamp, views, ago, url, author } = ytVideo
     const vistas = formatViews(views)
     const canal = author?.name || "Unknown"
-    const safeTitle = sanitizeFilename(title)
+    const safeTitle = safeFilenameForYT(title)
 
     const infoMessage = `
 ╭──❀ Content details ❀──╮
@@ -50,84 +55,59 @@ const handler = async (m, { conn, text, command }) => {
 > 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
     `.trim()
 
-    // Send message with thumbnail and details
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: infoMessage
     }, { quoted: m })
 
-    // Audio download using yt-dlp (robust fallback)
+    // Audio download (/play)
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
+      const outputPath = path.join(TMP_DIR, `${safeTitle}.mp3`)
+      const cmdHQ = `yt-dlp -f "bestaudio" --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
+      const cmdFallback = `yt-dlp -f "anyaudio" --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
+
       try {
-        const outputPath = path.join(TMP_DIR, `${safeTitle}.mp3`)
-        let cmd = `yt-dlp -f "bestaudio" --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
-
-        // first attempt: high-quality audio
-        try {
-          await new Promise((resolve, reject) => {
-            exec(cmd, (error, stdout, stderr) => {
-              if (error) return reject(error)
-              resolve(stdout)
-            })
-          })
-        } catch (err) {
-          // fallback: any available audio
-          cmd = `yt-dlp --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
-          await new Promise((resolve, reject) => {
-            exec(cmd, (error, stdout, stderr) => {
-              if (error) return reject(error)
-              resolve(stdout)
-            })
-          })
-        }
-
-        await conn.sendMessage(m.chat, {
-          audio: { url: outputPath },
-          fileName: `${safeTitle}.mp3`,
-          mimetype: "audio/mpeg",
-          ptt: false
-        }, { quoted: m })
-
-        await conn.sendMessage(m.chat, { react: { text: "✔️", key: m.key }})
-
-        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
-      } catch (error) {
-        await conn.sendMessage(m.chat, { react: { text: "✖️", key: m.key }})
-        return conn.reply(m.chat, `✦ Error downloading audio. Please try again later.\n\n${error.message}`, m)
+        await runYTDLP(cmdHQ)
+      } catch {
+        await runYTDLP(cmdFallback)
       }
+
+      await conn.sendMessage(m.chat, {
+        audio: { url: outputPath },
+        fileName: `${safeTitle}.mp3`,
+        mimetype: "audio/mpeg",
+        ptt: false
+      }, { quoted: m })
+
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
+      await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
     }
 
-    // Video download using yt-dlp (unchanged from last working version)
+    // Video download (/play2)
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
+      const outputPath = path.join(TMP_DIR, `${safeTitle}.mp4`)
+      const cmdHQ = `yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
+      const cmdFallback = `yt-dlp -f "best" --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
+
       try {
-        const outputPath = path.join(TMP_DIR, `${safeTitle}.mp4`)
-        const cmd = `yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
-
-        await new Promise((resolve, reject) => {
-          exec(cmd, (error, stdout, stderr) => {
-            if (error) return reject(error)
-            resolve(stdout)
-          })
-        })
-
-        await conn.sendMessage(m.chat, {
-          video: { url: outputPath },
-          fileName: `${safeTitle}.mp4`,
-          caption: `${title}`,
-          mimetype: "video/mp4"
-        }, { quoted: m })
-
-        await conn.sendMessage(m.chat, { react: { text: "✔️", key: m.key }})
-
-        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
-      } catch (error) {
-        await conn.sendMessage(m.chat, { react: { text: "✖️", key: m.key }})
-        return conn.reply(m.chat, `⚠︎ Error downloading video. Please try again later.\n\n${error.message}`, m)
+        await runYTDLP(cmdHQ)
+      } catch {
+        await runYTDLP(cmdFallback)
       }
+
+      await conn.sendMessage(m.chat, {
+        video: { url: outputPath },
+        fileName: `${safeTitle}.mp4`,
+        caption: title,
+        mimetype: "video/mp4"
+      }, { quoted: m })
+
+      if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
+      await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
     }
 
   } catch (error) {
-    await conn.sendMessage(m.chat, { react: { text: "✖️", key: m.key }})
+    await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
     return m.reply(`⚠︎ Unexpected error:\n\n${error.message}`)
   }
 }
@@ -136,6 +116,16 @@ handler.command = handler.help = ["play", "ytaudio", "yta", "ytmp3", "mp3", "pla
 handler.tags = ["media"]
 
 export default handler
+
+// Helper to run yt-dlp command
+function runYTDLP(cmd) {
+  return new Promise((resolve, reject) => {
+    exec(cmd, (error, stdout, stderr) => {
+      if (error) return reject(error)
+      resolve(stdout)
+    })
+  })
+}
 
 function formatViews(views) {
   if (!views) return "No disponible"

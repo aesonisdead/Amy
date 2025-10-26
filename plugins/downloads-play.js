@@ -50,23 +50,19 @@ const handler = async (m, { conn, text, command }) => {
 > 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
     `.trim()
 
-    // Send message with thumbnail and details
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: infoMessage
     }, { quoted: m })
 
-    // Audio download using yt-dlp
+    // AUDIO: /play and variants
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
       try {
         const outputPath = path.join(TMP_DIR, `${safeTitle}.mp3`)
         const cmd = `yt-dlp -f "bestaudio" --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
 
         await new Promise((resolve, reject) => {
-          exec(cmd, (error, stdout, stderr) => {
-            if (error) return reject(error)
-            resolve(stdout)
-          })
+          exec(cmd, (error) => error ? reject(error) : resolve())
         })
 
         await conn.sendMessage(m.chat, {
@@ -77,7 +73,6 @@ const handler = async (m, { conn, text, command }) => {
         }, { quoted: m })
 
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
-
         if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
@@ -85,17 +80,14 @@ const handler = async (m, { conn, text, command }) => {
       }
     }
 
-    // Video download using yt-dlp
+    // VIDEO: /play2 and variants (single mp4 stream)
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
       try {
         const outputPath = path.join(TMP_DIR, `${safeTitle}.mp4`)
-        const cmd = `yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
+        const cmd = `yt-dlp -f "mp4" --no-playlist --output "${outputPath}" "${url}"` // single-stream mp4 for Termux reliability
 
         await new Promise((resolve, reject) => {
-          exec(cmd, (error, stdout, stderr) => {
-            if (error) return reject(error)
-            resolve(stdout)
-          })
+          exec(cmd, (error) => error ? reject(error) : resolve())
         })
 
         await conn.sendMessage(m.chat, {
@@ -106,7 +98,6 @@ const handler = async (m, { conn, text, command }) => {
         }, { quoted: m })
 
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
-
         if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})

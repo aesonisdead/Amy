@@ -1,7 +1,7 @@
 var handler = async (m, { conn, usedPrefix, command, text, groupMetadata, isAdmin }) => {
 let mentionedJid = await m.mentionedJid
 let user = mentionedJid && mentionedJid.length ? mentionedJid[0] : m.quoted && await m.quoted.sender ? await m.quoted.sender : null
-if (!user) return conn.reply(m.chat, `❀ You must mention a user to be able to promote them to administrator.`, m)
+if (!user) return conn.reply(m.chat, `❀ You must mention an user to be able to promote them to administrator.`, m)
 try {
 const groupInfo = await conn.groupMetadata(m.chat)
 const ownerGroup = groupInfo.owner || m.chat.split('-')[0] + '@s.whatsapp.net'

@@ -13,7 +13,7 @@ const ownerBot = global.owner[0][0] + '@s.whatsapp.net'
 switch (command) {
 case 'advertencia': case 'warn': case 'addwarn': {
 if (!who || typeof who !== 'string' || !who.includes('@')) {
-return m.reply(`❀ You must mention or quote a user's message to apply a warning.\n> Example: *${usedPrefix + command} @user (reason | optional)*`)
+return m.reply(`❀ You must mention or quote an user's message to apply a warning.\n> Example: *${usedPrefix + command} @user (reason | optional)*`)
 }
 const msgtext = text?.trim() || ''
 const partes = msgtext.split(/\s+/)
@@ -32,7 +32,7 @@ await conn.groupParticipantsUpdate(m.chat, [who], 'remove')
 break
 }
 case 'delwarn': case 'unwarn': {
-if (!who) return m.reply(`❀ Tag a user to remove warnings.`)
+if (!who) return m.reply(`❀ Tag an user to remove warnings.`)
 if (mentionedJid.includes(conn.user.jid)) return
 if (user.warn === 0) throw `ꕥ The user has 0 warnings.`
 user.warn -= 1
@@ -46,7 +46,7 @@ const listadvs = `❀ Warned Users\n\n*Total : ${adv.length} Users*${adv.length 
 await conn.sendMessage(m.chat, { image: { url: pp }, caption: listadvs, mentions: await conn.parseMention(listadvs) }, { quoted: m })
 break
 }}} catch (error) {
-m.reply(`⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* para informarlo.\n\n${error.message}`)
+m.reply(`⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${error.message}`)
 }}
 
 handler.command = ['addvertencia', 'warn', 'addwarn', 'delwarn', 'unwarn', 'listwrn', 'wrnlist']

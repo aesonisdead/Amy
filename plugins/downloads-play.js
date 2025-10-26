@@ -88,11 +88,11 @@ const handler = async (m, { conn, text, command }) => {
           ptt: false
         }, { quoted: m })
 
-        await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+        await conn.sendMessage(m.chat, { react: { text: "✔️", key: m.key }})
 
         if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
       } catch (error) {
-        await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
+        await conn.sendMessage(m.chat, { react: { text: "✖️", key: m.key }})
         return conn.reply(m.chat, `✦ Error downloading audio. Please try again later.\n\n${error.message}`, m)
       }
     }
@@ -117,17 +117,17 @@ const handler = async (m, { conn, text, command }) => {
           mimetype: "video/mp4"
         }, { quoted: m })
 
-        await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+        await conn.sendMessage(m.chat, { react: { text: "✔️", key: m.key }})
 
         if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
       } catch (error) {
-        await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
+        await conn.sendMessage(m.chat, { react: { text: "✖️", key: m.key }})
         return conn.reply(m.chat, `⚠︎ Error downloading video. Please try again later.\n\n${error.message}`, m)
       }
     }
 
   } catch (error) {
-    await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
+    await conn.sendMessage(m.chat, { react: { text: "✖️", key: m.key }})
     return m.reply(`⚠︎ Unexpected error:\n\n${error.message}`)
   }
 }

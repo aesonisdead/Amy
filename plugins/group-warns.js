@@ -40,11 +40,25 @@ await m.reply(`${user.warn === 1 ? `*@${who.split`@`[0]}*` : `❀ *@${who.split`
 break
 }
 case 'listwrn': case 'wrnlist': {
-const adv = Object.entries(global.db.data.chats[m.chat].users).filter(([_, u]) => u.warn)
-const warns = global.db.data.chats[m.chat].users.warn || 0
-const listadvs = `❀ Warned Users\n\n*Total : ${adv.length} Users*${adv.length > 0 ? '\n' + adv.map(([jid, user]) => `*●* @${jid.split`@`[0]} : *(${user.warn}/3)*`).join('\n') : ''}\n\n⚠︎ Warnings ⇢ *${warns ? `${warns}/3` : '0/3'}*`
-await conn.sendMessage(m.chat, { image: { url: pp }, caption: listadvs, mentions: await conn.parseMention(listadvs) }, { quoted: m })
-break
+  const chatData = global.db.data.chats[m.chat] || { users: {} }
+  const users = chatData.users || {}
+
+  // Get all users with warnings
+  const adv = Object.entries(users).filter(([_, u]) => u.warn && u.warn > 0)
+
+  const listadvs = `❀ Warned Users\n\n*Total : ${adv.length} Users*${adv.length > 0 ? '\n' + adv.map(([jid, u]) => `*●* @${jid.split`@`[0]} : *(${u.warn}/3)*`).join('\n') : ''}`
+
+  await conn.sendMessage(
+    m.chat,
+    {
+      image: { url: pp },
+      caption: listadvs,
+      mentions: adv.map(([jid]) => jid)
+    },
+    { quoted: m }
+  )
+  break
+}
 }}} catch (error) {
 m.reply(`⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${error.message}`)
 }}

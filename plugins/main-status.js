@@ -9,13 +9,13 @@ let totalChats = Object.keys(global.db.data.chats).length
 let totalPlugins = Object.values(global.plugins).filter((v) => v.help && v.tags).length
 let totalBots = global.conns.filter(conn => conn.user && conn.ws.socket && conn.ws.socket.readyState !== 3).length
 let totalCommands = Object.values(global.db.data.users).reduce((acc, user) => acc + (user.commands || 0), 0)
-let system = `*「✦」Estado del Sistema*\n\n◇ *Comandos ejecutados* » ${toNum(totalCommands)}\n◇ *Usuarios registrados* » ${totalUsers.toLocaleString()}\n◇ *Grupos registrados* » ${totalChats.toLocaleString()}\n◇ *Plugins* » ${totalPlugins}\n◇ *Bots Activos* » ${totalBots}\n\n❍ *Estado del Servidor*\n\n◆ *Sistema* » ${platform()}\n◆ *CPU* » ${_cpus().length} cores\n◆ *RAM* » ${format(totalmem())}\n◆ *RAM Usado* » ${format(totalmem() - freemem())}\n◆ *Arquitectura* » ${process.arch}\n◆ *Host ID* » ${hostname().slice(0, 8)}...\n\n*❑ Uso de Memoria NODEJS*\n\n◈ *Ram Utilizada* » ${format(process.memoryUsage().rss)}\n◈ *Heap Reservado* » ${format(process.memoryUsage().heapTotal)}\n◈ *Heap Usado* » ${format(process.memoryUsage().heapUsed)}\n◈ *Módulos Nativos* » ${format(process.memoryUsage().external)}\n◈ *Buffers de Datos* » ${format(process.memoryUsage().arrayBuffers)}`
+let system = `*「✦」System Status*\n\n◇ *Commands executed* » ${toNum(totalCommands)}\n◇ *Registered users* » ${totalUsers.toLocaleString()}\n◇ *Registered groups* » ${totalChats.toLocaleString()}\n◇ *Plugins* » ${totalPlugins}\n◇ *Active Bots* » ${totalBots}\n\n❍ *Server Status*\n\n◆ *System* » ${platform()}\n◆ *CPU* » ${_cpus().length} cores\n◆ *RAM* » ${format(totalmem())}\n◆ *RAM Used* » ${format(totalmem() - freemem())}\n◆ *Architecture* » ${process.arch}\n◆ *Host ID* » ${hostname().slice(0, 8)}...\n\n*❑ NODEJS Memory Usage*\n\n◈ *Ram Used* » ${format(process.memoryUsage().rss)}\n◈ *Reserved Heap* » ${format(process.memoryUsage().heapTotal)}\n◈ *Used Heap* » ${format(process.memoryUsage().heapUsed)}\n◈ *Native Modules* » ${format(process.memoryUsage().external)}\n◈ *Data Buffers* » ${format(process.memoryUsage().arrayBuffers)}`
 await conn.reply(m.chat, system, m, rcanal)
 }
 
-handler.help = ['estado']
+handler.help = ['system']
 handler.tags = ['info']
-handler.command = ['estado', 'status']
+handler.command = ['system', 'status']
 
 export default handler
 

@@ -5,10 +5,10 @@ const chat = global.db.data.chats[m.chat]
 let type = command.toLowerCase()
 let isEnable = chat[type] !== undefined ? chat[type] : false
 if (args[0] === 'on' || args[0] === 'enable') {
-if (isEnable) return conn.reply(m.chat, `ꕥ *${type}* it was already *activated*.`, m)
+if (isEnable) return conn.reply(m.chat, `ꕥ *${type}* was already *activated*.`, m)
 isEnable = true
 } else if (args[0] === 'off' || args[0] === 'disable') {
-if (!isEnable) return conn.reply(m.chat, `ꕥ *${type}* it was already *deactivated*.`, m)
+if (!isEnable) return conn.reply(m.chat, `ꕥ *${type}* was already *deactivated*.`, m)
 isEnable = false
 } else {
 return conn.reply(m.chat, `「✦」An administrator can enable or disable the *${command}* using:\n\n● _Activate_ » *${usedPrefix}${command} enable*\n● _Deactivate_ » *${usedPrefix}${command} disable*\n\nꕥ Current status » *${isEnable ? '✓ Activated' : '✗ Disabled'}*`, m)

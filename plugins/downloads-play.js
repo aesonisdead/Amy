@@ -68,8 +68,10 @@ const handler = async (m, { conn, text, command }) => {
 
       try {
         await runYTDLP(cmdHQ)
+        if (!fs.existsSync(outputPath)) throw new Error("High-quality audio not available")
       } catch {
         await runYTDLP(cmdFallback)
+        if (!fs.existsSync(outputPath)) throw new Error("Audio download failed")
       }
 
       await conn.sendMessage(m.chat, {

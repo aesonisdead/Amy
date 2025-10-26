@@ -86,14 +86,8 @@ const handler = async (m, { conn, text, command }) => {
     // Video download (/play2)
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
       const outputPath = path.join(TMP_DIR, `${safeTitle}.mp4`)
-      const cmdHQ = `yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
-      const cmdFallback = `yt-dlp -f "best" --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
-
-      try {
-        await runYTDLP(cmdHQ)
-      } catch {
-        await runYTDLP(cmdFallback)
-      }
+      const cmd = `yt-dlp --no-playlist --merge-output-format mp4 --output "${outputPath}" "${url}"`
+      await runYTDLP(cmd)
 
       await conn.sendMessage(m.chat, {
         video: { url: outputPath },

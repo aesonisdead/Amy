@@ -15,35 +15,6 @@ function sanitizeFilename(name) {
   return name.replace(/[\/\\?%*:|"<>()]/g, '').trim()
 }
 
-// Helper to execute yt-dlp with fallback
-async function ytDlpDownload(url, outputPath, format) {
-  const cmdHighQuality = format === "audio" 
-    ? `yt-dlp -f bestaudio --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
-    : `yt-dlp -f bestvideo+bestaudio/best --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
-
-  const cmdFallback = format === "audio"
-    ? `yt-dlp -f anyaudio --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
-    : `yt-dlp -f best[ext=mp4]/best --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
-
-  // Try high quality first
-  try {
-    await new Promise((resolve, reject) => {
-      exec(cmdHighQuality, (error, stdout, stderr) => {
-        if (error) return reject(error)
-        resolve(stdout)
-      })
-    })
-  } catch {
-    // If failed, fallback
-    await new Promise((resolve, reject) => {
-      exec(cmdFallback, (error, stdout, stderr) => {
-        if (error) return reject(error)
-        resolve(stdout)
-      })
-    })
-  }
-}
-
 const handler = async (m, { conn, text, command }) => {
   try {
     if (!text.trim()) {
@@ -79,16 +50,36 @@ const handler = async (m, { conn, text, command }) => {
 > 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
     `.trim()
 
+    // Send message with thumbnail and details
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: infoMessage
     }, { quoted: m })
 
-    // Audio download
+    // Audio download using yt-dlp (robust fallback)
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
       try {
         const outputPath = path.join(TMP_DIR, `${safeTitle}.mp3`)
-        await ytDlpDownload(url, outputPath, "audio")
+        let cmd = `yt-dlp -f "bestaudio" --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
+
+        // first attempt: high-quality audio
+        try {
+          await new Promise((resolve, reject) => {
+            exec(cmd, (error, stdout, stderr) => {
+              if (error) return reject(error)
+              resolve(stdout)
+            })
+          })
+        } catch (err) {
+          // fallback: any available audio
+          cmd = `yt-dlp --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
+          await new Promise((resolve, reject) => {
+            exec(cmd, (error, stdout, stderr) => {
+              if (error) return reject(error)
+              resolve(stdout)
+            })
+          })
+        }
 
         await conn.sendMessage(m.chat, {
           audio: { url: outputPath },
@@ -106,11 +97,18 @@ const handler = async (m, { conn, text, command }) => {
       }
     }
 
-    // Video download
+    // Video download using yt-dlp (unchanged from last working version)
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
       try {
         const outputPath = path.join(TMP_DIR, `${safeTitle}.mp4`)
-        await ytDlpDownload(url, outputPath, "video")
+        const cmd = `yt-dlp -f "bestvideo+bestaudio/best" --merge-output-format mp4 --no-playlist --output "${outputPath}" "${url}"`
+
+        await new Promise((resolve, reject) => {
+          exec(cmd, (error, stdout, stderr) => {
+            if (error) return reject(error)
+            resolve(stdout)
+          })
+        })
 
         await conn.sendMessage(m.chat, {
           video: { url: outputPath },
@@ -140,7 +138,7 @@ handler.tags = ["media"]
 export default handler
 
 function formatViews(views) {
-  if (!views) return "unavailable"
+  if (!views) return "No disponible"
   if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B`
   if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`
   if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k`

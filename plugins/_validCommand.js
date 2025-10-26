@@ -22,7 +22,6 @@ if (chat.isBanned && !owner) return
 if (validCommand(command, global.plugins)) {
 } else {
 const comando = command
-if (/^(@admins|\/a|\/admins)$/i.test(m.text)) return
   
 await m.reply(`🌷 *Command <${comando}> Does Not Exist* 🌷\n\n┊ Use *${usedPrefix}help* to see the list of available commands.✨`)
 }}

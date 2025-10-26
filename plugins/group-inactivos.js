@@ -23,14 +23,14 @@ sider.push(member[i])
 }}}
 const delay = time => new Promise(res => setTimeout(res, time))
 switch (command) {
-case 'inactivos': case 'fantasmas': {
-if (total == 0) return conn.reply(m.chat, `🌸✨ ¡Qué grupo tan activo! No se encontraron fantasmas 🐾.`, m)
-m.reply(`❀ *Revisión de inactivos*\n\n✦ *Lista de fantasmas*\n${sider.map(v => '@' + v.replace(/@.+/, '')).join('\n')}\n\n> ✰ NOTA: Esto no es al 100% acertado, el bot inicia el conteo de mensajes a partir del momento que se activa en este grupo.`, null, { mentions: sider })
+case 'inactive': case 'fantasmas': {
+if (total == 0) return conn.reply(m.chat, `🌸✨ What an active group! No ghosts found. 🐾.`, m)
+m.reply(`❀ *Revisión de inactivos*\n\n✦ *Lista de fantasmas*\n${sider.map(v => '@' + v.replace(/@.+/, '')).join('\n')}\n\n> ✰ NOTE: This is not 100% accurate, the bot starts counting messages from the moment it is activated in this group.`, null, { mentions: sider })
 break
 }
-case 'kickinactivos': case 'kickfantasmas': {
-if (total == 0) return conn.reply(m.chat, `ꕥ Este grupo es activo no tiene fantasmas.`, m)
-await m.reply(`❀ *Eliminación de inactivos*\n\n✦ *Lista de fantasmas*\n${sider.map(v => '@' + v.replace(/@.+/, '')).join('\n')}\n\n> ✰ Nota: El bot eliminara a los usuarios de la lista mencionada cada 10 segundos.`, null, { mentions: sider })
+case 'inactivekick': case 'kickfantasmas': {
+if (total == 0) return conn.reply(m.chat, `ꕥ This group is active and has no ghosts.`, m)
+await m.reply(`❀ *Elimination of inactive assets*\n\n✦ *List of ghosts*\n${sider.map(v => '@' + v.replace(/@.+/, '')).join('\n')}\n\n> ✰ Note: The bot will remove users from the mentioned list every 10 seconds.`, null, { mentions: sider })
 await delay(1 * 10000)
 let chat = global.db.data.chats[m.chat]
 chat.welcome = false
@@ -47,11 +47,11 @@ chat.welcome = true
 }
 break
 }}} catch (e) {
-m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`)
+m.reply(`⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${e.message}`)
 }}
 
 handler.tags = ['grupo']
-handler.command = ['inactivos', 'fantasmas', 'kickinactivos', 'kickfantasmas']
+handler.command = ['inactive', 'fantasmas', 'inactivekick', 'kickfantasmas']
 handler.group = true
 handler.botAdmin = true
 handler.admin = true

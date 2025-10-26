@@ -29,7 +29,7 @@ let handler = async (m, { conn, args }) => {
 > ⚘ Shows the command menu.
  */sug • /suggest*
 > ⚘ Suggest new features to the developer.
- */reporte • /rep*
+ */report • /rep*
 > ⚘ Report bot bugs or issues.
  */owner • /creator*
 > ⚘ Bot creator contact.

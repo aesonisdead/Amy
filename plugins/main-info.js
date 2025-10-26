@@ -19,7 +19,7 @@ case 'suggest': case 'sug': {
 if (!text) return conn.reply(m.chat, '❀ Write the suggestion you want to send to the Bot owner.', m)
 if (text.length < 10) return conn.reply(m.chat, '🎀 The suggestion must be more than 10 characters long..', m)
 await m.react('🕒')
-const sug = `❀ 𝗦𝗨𝗚𝗚𝗘𝗦𝗧𝗜𝗢𝗡 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Suggestion* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Fecha* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
+const sug = `❀ 𝗦𝗨𝗚𝗚𝗘𝗦𝗧𝗜𝗢𝗡 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Suggestion* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
 await conn.sendMessage(`${suittag}@s.whatsapp.net`, { text: sug, mentions: [m.sender, ...usertag] }, { quoted: m })
 await m.react('✔️')
 m.reply('❀ The suggestion has been sent to the developer. Thank you for helping improve our experience.')
@@ -96,11 +96,11 @@ await m.react('✔️')
 break
 }}} catch (err) {
 await m.react('✖️')
-conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${err.message}`, m)
+conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${err.message}`, m)
 }}
 
-handler.help = ['suggest', 'reporte', 'invite', 'speedtest', 'fixmsg', 'script']
+handler.help = ['suggest', 'report', 'invite', 'speedtest', 'fixmsg', 'script']
 handler.tags = ['main']
-handler.command = ['suggest', 'sug', 'report', 'invite', 'speedtest', 'stest', 'fixmsg', 'ds', 'sc', 'script']
+handler.command = ['suggest', 'sug', 'report', 'rep', 'invite', 'speedtest', 'stest', 'fixmsg', 'ds', 'sc', 'script']
 
 export default handler

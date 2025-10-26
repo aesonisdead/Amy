@@ -4,11 +4,16 @@ const usedPrefix = global.prefix.exec(m.text)[0]
 const command = m.text.slice(usedPrefix.length).trim().split(' ')[0].toLowerCase()
 if (!command || command.length === 0) return
 const validCommand = (command, plugins) => {
-for (let plugin of Object.values(plugins)) {
-if (plugin.command && (Array.isArray(plugin.command) ? plugin.command : [plugin.command]).includes(command)) {
-return true
-}}
-return false
+  for (let plugin of Object.values(plugins)) {
+    if (!plugin.command) continue
+    const cmds = Array.isArray(plugin.command) ? plugin.command : [plugin.command]
+    for (let cmd of cmds) {
+      if (cmd instanceof RegExp ? cmd.test(command) : cmd === command) {
+        return true
+      }
+    }
+  }
+  return false
 }
 let chat = global.db.data.chats[m.chat]
 let settings = global.db.data.settings[this.user.jid]

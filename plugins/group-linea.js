@@ -1,7 +1,7 @@
 import axios from "axios"
 
 let handler = async (m, { conn, args, usedPrefix }) => {
-const pp = await conn.profilePictureUrl(m.chat, 'image').catch((_) => 'https://files.catbox.moe/xr2m6u.jpg')
+const pp = await conn.profilePictureUrl(m.chat, 'image').catch((_) => 'https://files.catbox.moe/mq2yh8.jpg')
 try {
 let id = args?.[0]?.match(/\d+\-\d+@g.us/) || m.chat
 const participantesUnicos = Object.values(conn.chats[id]?.messages || {}).map((item) => item.key.participant).filter((value, index, self) => self.indexOf(value) === index)
@@ -16,15 +16,15 @@ return 0
 const listaEnLinea =
 participantesOrdenados
 .map((k) => `*●* @${k.split("@")[0]}`)
-.join("\n") || "ꕥ No hay usuarios en línea en este momento."
-await conn.sendMessage(m.chat, { image: { url: pp }, caption: `*❀ Lista de usuarios en línea:*\n\n${listaEnLinea}\n\n> ${dev}`, contextInfo: { mentionedJid: participantesOrdenados }}, { quoted: m })
+.join("\n") || "ꕥ There are no users online at this time.."
+await conn.sendMessage(m.chat, { image: { url: pp }, caption: `*❀ List of online users:*\n\n${listaEnLinea}\n\n> ${dev}`, contextInfo: { mentionedJid: participantesOrdenados }}, { quoted: m })
 } catch (error) {
-await m.reply(`⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`)
+await m.reply(`⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${error.message}`)
 }}
 
 handler.help = ["listonline"]
 handler.tags = ["owner"]
-handler.command = ["listonline", "online", "linea", "enlinea"]
+handler.command = ["listonline", "online", "liston", "enlinea"]
 handler.group = true
 
 export default handler

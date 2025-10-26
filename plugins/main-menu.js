@@ -262,7 +262,7 @@ let handler = async (m, { conn, args }) => {
  */prem • /vip*
 > ⚘ Comprar membresía premium.`,
 
-    groups: `
+    group: `
 ₊ ‧  ꒰🦋꒱  — \`『 G R O U P 』\` 
 > Commands for *Administrators* of groups.
  */tag • /hidetag • /tagall* + [message]
@@ -295,7 +295,7 @@ let handler = async (m, { conn, args }) => {
 > ⚘ Enable/Disable NSFW Commands
  */onlyadmin* + [enable/disable]
 > ⚘ Allow only administrators to use commands.
- */open • /oe*
+ */open • /o*
 > ⚘ Open the group so that all users can send messages.
  */promote* + <@user> | {mention}
 > ⚘ Promote an user to administrator.
@@ -315,7 +315,7 @@ let handler = async (m, { conn, args }) => {
 > ⚘ View and delete inactive users.
  */listnum • /kicknum* [text]
 > ⚘ Delete users with a specific country code.
- */gpbanner • /groupimg*
+ */gpimg • /groupimg*
 > ⚘ Change the group image.
  */gpname • /groupname* [text]
 > ⚘ Change the group name.

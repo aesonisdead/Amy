@@ -11,12 +11,12 @@ const mensaje = (chat.sWelcome || '૮꒰ ˶• ᴗ •˶꒱ა Enjoy your stay 
 const caption = `
 ╭───·˚ 🐝 𝐖𝐄𝐋𝐂𝐎𝐌𝐄 🐝 ·˚───╮
 
-  𐔌՞. .՞𐦯 ¡Hola, ${username}  
+  𐔌՞. .՞𐦯 Hola, ${username}  
   Welcome to: *${groupMetadata.subject}*
 
 ${mensaje}
   
-╰──·˚ 🌷 ¡Enjoy your stay! ˚·──╯`
+╰──·˚ 🌷 Enjoy your stay! ˚·──╯`
 return { pp, caption, mentions: [userId] }
 }
 async function generarDespedida({ conn, userId, groupMetadata, chat }) {
@@ -34,7 +34,7 @@ const caption = `
 
 ${mensaje}
   
-╰───·˚  🌷 ¡See you soon!  ˚·───╯`
+╰───·˚  🌷 See you soon!  ˚·───╯`
 return { pp, caption, mentions: [userId] }
 }
 let handler = m => m

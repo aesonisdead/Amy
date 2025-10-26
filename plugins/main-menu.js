@@ -13,7 +13,7 @@ let handler = async (m, { conn, args }) => {
 
 ╭┈ ↷
 │❀ *Mode* » Public
-│ᰔ *Type* » ${(conn.user.jid == global.conn.user.jid ? 'Principal 🎀' : 'Mini-Bot 💗')}
+│ᰔ *Type* » ${(conn.user.jid == global.conn.user.jid ? 'Main-Bot 🎀' : 'Mini-Bot 💗')}
 │✰ *Users* » ${totalreg.toLocaleString()}
 │⚘ *Version* » ${vs}
 │ꕥ *Commands* » ${totalCommands}
@@ -264,71 +264,71 @@ let handler = async (m, { conn, args }) => {
 
     groups: `
 ₊ ‧  ꒰🦋꒱  — \`『 G R O U P 』\` 
-> Comandos para *Administradores* de grupos.
- */tag • /hidetag • /invocar • /tagall* + [mensaje]
-> ⚘ Envía un mensaje mencionando a todos los usuarios del grupo.
- */detect • /alertas* + [enable/disable]
-> ⚘ Activar/desactivar las alertas de promote/demote
- */antilink • /antienlace* + [enable/disable]
-> ⚘ Activar/desactivar el antienlace
+> Commands for *Administrators* of groups.
+ */tag • /hidetag • /tagall* + [message]
+> ⚘ Send a message mentioning all the users in the group.
+ */detect • /alerts* + [enable/disable]
+> ⚘ Enable/disable promote/demote alerts
+ */antilink • /atk* + [enable/disable]
+> ⚘ Enable/disable anti-link
  */bot* + [enable/disable]
-> ⚘ Activar/desactivar al bot
- */close • /cerrar*
-> ⚘ Cerrar el grupo para que solo los administradores puedan enviar mensajes.
- */demote* + <@usuario> | {mencion}
-> ⚘ Descender a un usuario de administrador.
+> ⚘ Activate/deactivate the bot
+ */close • /cs*
+> ⚘ Close the group so that only administrators can send messages.
+ */demote* + <@user> | {mention}
+> ⚘ Demote an administrator user.
  */economy* + [enable/disable]
-> ⚘ Activar/desactivar los comandos de economía
+> ⚘ Enable/Disable Economy Commands
  */gacha* + [enable/disable]
-> ⚘ Activar/desactivar los comandos de Gacha y Games.
- */welcome • /bienvenida* + [enable/disable]
-> ⚘ Activar/desactivar la bienvenida y despedida.
- */setbye* + [texto]
-> ⚘ Establecer un mensaje de despedida personalizado.
+> ⚘ Enable/Disable Gacha and Games Commands.
+ */welcome • /wlcm* + [enable/disable]
+> ⚘ Activate/deactivate welcome and farewell.
+ */setbye* + [text]
+> ⚘ Set a personalized farewell message.
  */setprimary* + [@bot]
-> ⚘ Establece un bot como primario del grupo.
- */setwelcome* + [texto]
-> ⚘ Establecer un mensaje de bienvenida personalizado.
- */kick* + <@usuario> | {mencion}
-> ⚘ Expulsar a un usuario del grupo.
+> ⚘ Set a bot as the group's primary.
+ */setwelcome* + [text]
+> ⚘ Set a custom welcome message.
+ */kick* + <@user> | {mention}
+> ⚘ Kick an user out of the group.
  */nsfw* + [enable/disable]
-> ⚘ Activar/desactivar los comandos NSFW
+> ⚘ Enable/Disable NSFW Commands
  */onlyadmin* + [enable/disable]
-> ⚘ Permitir que solo los administradores puedan utilizar los comandos.
- */open • /abrir*
-> ⚘ Abrir el grupo para que todos los usuarios puedan enviar mensajes.
- */promote* + <@usuario> | {mencion}
-> ⚘ Ascender a un usuario a administrador.
- */add • /añadir • /agregar* + {número}
-> ⚘ Invita a un usuario a tu grupo.
- *admins • admin* + [texto]
-> ⚘ Mencionar a los admins para solicitar ayuda.
- */restablecer • /revoke*
-> ⚘ Restablecer enlace del grupo.
- */addwarn • /warn* + <@usuario> | {mencion}
-> ⚘ Advertir aún usuario.
- */unwarn • /delwarn* + <@usuario> | {mencion}
-> ⚘ Quitar advertencias de un usuario.
- */advlist • /listadv*
-> ⚘ Ver lista de usuarios advertidos.
- */inactivos • /kickinactivos*
-> ⚘ Ver y eliminar a usuarios inactivos.
- */listnum • /kicknum* [texto]
-> ⚘ Eliminar usuarios con prefijo de país.
+> ⚘ Allow only administrators to use commands.
+ */open • /oe*
+> ⚘ Open the group so that all users can send messages.
+ */promote* + <@user> | {mention}
+> ⚘ Promote an user to administrator.
+ */add* + {number}
+> ⚘ Invite an user to your group.
+ */admins • /a* + [text]
+> ⚘ Mention admins to ask for help.
+ */restore • /revoke*
+> ⚘ Reset group link.
+ */addwarn • /warn* + <@user> | {mention}
+> ⚘ Warn user.
+ */unwarn • /delwarn* + <@user> | {mention}
+> ⚘ Remove warnings from an user.
+ */wrnlist • /listwrn*
+> ⚘ View list of warned users.
+ */inactive • /inactivekick*
+> ⚘ View and delete inactive users.
+ */listnum • /kicknum* [text]
+> ⚘ Delete users with a specific country code.
  */gpbanner • /groupimg*
-> ⚘ Cambiar la imagen del grupo.
- */gpname • /groupname* [texto]
-> ⚘ Cambiar la nombre del grupo.
- */gpdesc • /groupdesc* [texto]
-> ⚘ Cambiar la descripción del grupo.
- */del • /delete* + {citar un mensaje}
-> ⚘ Eliminar un mensaje.
- */linea • /listonline*
-> ⚘ Ver lista de usuarios en linea.
+> ⚘ Change the group image.
+ */gpname • /groupname* [text]
+> ⚘ Change the group name.
+ */gpdesc • /groupdesc* [text]
+> ⚘ Change the group description.
+ */del • /delete* + {tag a message}
+> ⚘ Delete a message.
+ */liston • /listonline*
+> ⚘ View list of online users.
  */gp • /infogrupo*
-> ⚘ Ver la Informacion del grupo.
+> ⚘ View Group Information.
  */link*
-> ⚘ Ver enlace de invitación del grupo.`,
+> ⚘ View group invitation link.`,
 
     nsfw: `
 ₊ ‧  ꒰🍒꒱  — \`『 N S F W 』\` 

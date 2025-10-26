@@ -36,7 +36,7 @@ if (!who) return m.reply(`❀ Tag a user to remove warnings.`)
 if (mentionedJid.includes(conn.user.jid)) return
 if (user.warn === 0) throw `ꕥ The user has 0 warnings.`
 user.warn -= 1
-await m.reply(`${user.warn === 1 ? `*@${who.split`@`[0]}*` : `❀ *@${who.split`@`[0]}*`} Se le quitó una advertencia.\n*ADVERTENCIAS ${user.warn}/3*`, null, { mentions: [who] })
+await m.reply(`${user.warn === 1 ? `*@${who.split`@`[0]}*` : `❀ *@${who.split`@`[0]}*`} A warning was removed.\n*WARNINGS ${user.warn}/3*`, null, { mentions: [who] })
 break
 }
 case 'listwrn': case 'wrnlist': {

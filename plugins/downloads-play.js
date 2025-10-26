@@ -3,13 +3,17 @@
 import fetch from "node-fetch"
 import yts from "yt-search"
 import { exec } from "child_process"
-import util from "util"
-const execPromise = util.promisify(exec)
+import fs from "fs"
+import path from "path"
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
 const API_BASE = "https://api-sky.ultraplus.click"
 const API_KEY = "Russellxz"
+
+// Ensure tmp folder exists
+const TMP_DIR = path.join(process.cwd(), "tmp")
+if (!fs.existsSync(TMP_DIR)) fs.mkdirSync(TMP_DIR, { recursive: true })
 
 async function skyYT(url, format) {
   const response = await fetch(`${API_BASE}/api/download/yt.php?url=${encodeURIComponent(url)}&format=${format}`, {
@@ -27,29 +31,22 @@ async function skyYT(url, format) {
   return data.data
 }
 
+// Helper to sanitize filenames
 function sanitizeFilename(name) {
   return name.replace(/[\/\\?%*:|"<>]/g, '').trim()
 }
 
-async function getDirectURL(url, type = 'video') {
-  // type: 'video' or 'audio'
-  let format = type === 'audio' 
-    ? 'bestaudio[ext=m4a]/bestaudio' 
-    : 'best[ext=mp4]/bestvideo+bestaudio'
-  
-  const cmd = `yt-dlp -f "${format}" --no-playlist --print-json "${url}"`
-  const { stdout } = await execPromise(cmd)
-  const info = JSON.parse(stdout)
-  return type === 'audio' ? info.url : info.url
-}
-
 const handler = async (m, { conn, text, command }) => {
   try {
-    if (!text.trim()) return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! You must write *the name or link* of the video/audio to download.`, m)
+    if (!text.trim()) {
+      return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! You must write *the name or link* of the video/audio to download.`, m)
+    }
+
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key }})
 
     let videoIdToFind = text.match(youtubeRegexID)
     let searchResults = await yts(videoIdToFind ? "https://youtu.be/" + videoIdToFind[1] : text)
+    
     let ytplay2 = searchResults.videos?.[0] || searchResults.all?.[0]
     if (!ytplay2) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
@@ -74,39 +71,60 @@ const handler = async (m, { conn, text, command }) => {
 > 𐙚🌷 ｡･ﾟ✧ Preparing your download... ˙𐙚🌸
     `.trim()
 
+    // Send message with thumbnail and details
     await conn.sendMessage(m.chat, {
       image: { url: thumbnail },
       caption: infoMessage
     }, { quoted: m })
 
+    // Audio download
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
       try {
-        const directURL = await getDirectURL(url, 'audio')
+        const d = await skyYT(url, "audio")
+        const mediaUrl = d.audio || d.video
+        if (!mediaUrl) throw new Error("No audio URL obtained")
+        
         await conn.sendMessage(m.chat, {
-          audio: { url: directURL },
+          audio: { url: mediaUrl },
           fileName: `${safeTitle}.mp3`,
           mimetype: "audio/mpeg",
           ptt: false
         }, { quoted: m })
+        
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-        return conn.reply(m.chat, `✦ Error downloading audio. Please try again later.\n\n${error.message}`, m)
+        return conn.reply(m.chat, "✦ Error downloading audio. Please try again later.", m)
       }
     } 
+    // Video download with yt-dlp
     else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
       try {
-        const directURL = await getDirectURL(url, 'video')
+        const outputPath = path.join(TMP_DIR, `${safeTitle}.mp4`)
+        const cmd = `yt-dlp -f "best[ext=mp4]" --no-playlist --output "${outputPath}" "${url}"`
+        
+        await new Promise((resolve, reject) => {
+          exec(cmd, (error, stdout, stderr) => {
+            if (error) return reject(error)
+            resolve(stdout)
+          })
+        })
+
         await conn.sendMessage(m.chat, {
-          video: { url: directURL },
+          video: { url: outputPath },
           fileName: `${safeTitle}.mp4`,
           caption: `${title}`,
           mimetype: "video/mp4"
         }, { quoted: m })
+
         await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+
+        // Delete the file after sending
+        if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath)
+
       } catch (error) {
         await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
-        return conn.reply(m.chat, `✦ Error downloading video. Please try again later.\n\n${error.message}`, m)
+        return conn.reply(m.chat, `⚠︎ Error downloading video. Please try again later.\n\n${error.message}`, m)
       }
     }
 

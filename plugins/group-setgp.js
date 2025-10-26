@@ -3,41 +3,41 @@ import { makeWASocket } from '@whiskeysockets/baileys'
 const handler = async (m, { conn, args, text, command, usedPrefix }) => {
 try {
 switch (command) {
-case 'gpbanner': case 'groupimg': {
+case 'gpimg': case 'groupimg': {
 const q = m.quoted || m
 const mime = (q.msg || q).mimetype || ''
-if (!/image\/(png|jpe?g)/.test(mime)) return m.reply('❀ Te faltó la imagen para cambiar el perfil del grupo.')
+if (!/image\/(png|jpe?g)/.test(mime)) return m.reply('❀ You need an image to change the group profile.')
 const img = await q.download()
-if (!img) return m.reply('❀ Te faltó la imagen para el perfil del grupo.')
+if (!img) return m.reply('❀ You need an image for the group profile.')
 await m.react('🕒')
 await conn.updateProfilePicture(m.chat, img)
 await m.react('✔️')
-m.reply('❀ Se cambió la imagen del grupo correctamente.')
+m.reply('❀ Group image changed successfully.')
 break
 }
 case 'gpdesc': case 'groupdesc': {
-if (!args.length) return m.reply('❀ Por favor, ingresé la nueva descripción qué desea ponerle al grupo.')
+if (!args.length) return m.reply('❀ Please enter the new description you want to set for the group..')
 await m.react('🕒')
 await conn.groupUpdateDescription(m.chat, args.join(' '))
 await m.react('✔️')
-m.reply('❀ Se cambió la descripción del grupo correctamente.')
+m.reply('❀ Group description has been changed successfully.')
 break
 }
 case 'gpname': case 'groupname': {
-if (!text) return m.reply('❀ Por favor, ingresé el nuevo nombre qué desea ponerle al grupo.')
+if (!text) return m.reply('❀ Please enter the new name you would like to give to the group.')
 await m.react('🕒')
 await conn.groupUpdateSubject(m.chat, text)
 await m.react('✔️')
-m.reply('❀ Se cambió el nombre del grupo correctamente.')
+m.reply('❀ Group name changed successfully.')
 break
 }}} catch (e) {
 await m.react('✖️')
-m.reply(`⚠︎ Se ha producido un problema.\n> El detalle del error se mostrará a continuación. Usa ${usedPrefix}report para informarlo.\n\n${e.message}`)
+m.reply(`⚠︎ A problem has occurred.\n> The error details will be displayed below. Use ${usedPrefix}report to inform it.\n\n${e.message}`)
 }}
 
-handler.help = ['gpbanner', 'groupimg', 'gpdesc', 'groupdesc', 'gpname', 'groupname']
-handler.tags = ['grupo']
-handler.command = ['gpbanner', 'groupimg', 'gpdesc', 'groupdesc', 'gpname', 'groupname']
+handler.help = ['gpimg', 'groupimg', 'gpdesc', 'groupdesc', 'gpname', 'groupname']
+handler.tags = ['group']
+handler.command = ['gpimg', 'groupimg', 'gpdesc', 'groupdesc', 'gpname', 'groupname']
 handler.group = true
 handler.admin = true
 handler.botAdmin = true

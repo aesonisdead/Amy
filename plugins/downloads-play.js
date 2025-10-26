@@ -64,7 +64,7 @@ const handler = async (m, { conn, text, command }) => {
     if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
       const outputPath = path.join(TMP_DIR, `${safeTitle}.mp3`)
       const cmdHQ = `yt-dlp -f "bestaudio" --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
-      const cmdFallback = `yt-dlp -f "anyaudio" --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
+      const cmdFallback = `yt-dlp -f --extract-audio --audio-format mp3 --no-playlist --output "${outputPath}" "${url}"`
 
       try {
         await runYTDLP(cmdHQ)

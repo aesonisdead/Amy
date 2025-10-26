@@ -1,6 +1,6 @@
 let handler = async (m, { conn, command }) => {
 if (!m.quoted) {
-return conn.reply(m.chat, `❀ Por favor, cita el mensaje que deseas eliminar.`, m)
+return conn.reply(m.chat, `❀ Please quote the message you want to delete.`, m)
 }
 try {
 let participant = m.message.extendedTextMessage.contextInfo.participant
@@ -12,7 +12,7 @@ return conn.sendMessage(m.chat, { delete: m.quoted.key })
 }}
 
 handler.help = ['delete']
-handler.tags = ['grupo']
+handler.tags = ['group']
 handler.command = ['del', 'delete']
 handler.group = true
 handler.admin = true

@@ -1,11 +1,13 @@
 const handler = async (m, {conn, participants, groupMetadata, args}) => {
+if (!m.text.match(/^(@admins|\/a|\/admins)$/i)) return // ✅ prevents duplicate "Command Does Not Exist" message
+
 const primaryBot = global.db.data.chats[m.chat].primaryBot
 if (primaryBot && conn.user.jid !== primaryBot) throw !1
 const pp = await conn.profilePictureUrl(m.chat, 'image').catch((_) => 'https://files.catbox.moe/mq2yh8.jpg')
 const groupAdmins = participants.filter((p) => p.admin)
 const listAdmin = groupAdmins.map(v => `● @${v.id.split('@')[0]}`).join('\n')
 const owner = groupMetadata.owner || groupAdmins.find((p) => p.admin === 'superadmin')?.id || m.chat.split`-`[0] + '@s.whatsapp.net'
-const pesan = args.join` `
+const pesan = args.join(' ') // ✅ fixed incorrect syntax
 const oi = `» ${pesan}`
 const text = `『✦』Group admins:  
   

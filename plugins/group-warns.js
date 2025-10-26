@@ -13,7 +13,7 @@ const ownerBot = global.owner[0][0] + '@s.whatsapp.net'
 switch (command) {
 case 'advertencia': case 'warn': case 'addwarn': {
 if (!who || typeof who !== 'string' || !who.includes('@')) {
-return m.reply(`❀ You must mention or quote a user's post to apply a warning.\n> Example: *${usedPrefix + command} @user (reason | optional)*`)
+return m.reply(`❀ You must mention or quote a user's message to apply a warning.\n> Example: *${usedPrefix + command} @user (reason | optional)*`)
 }
 const msgtext = text?.trim() || ''
 const partes = msgtext.split(/\s+/)

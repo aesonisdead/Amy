@@ -1,27 +1,56 @@
 // Creado por Speed3xz
-// Rewritten by ChatGPT (yt-dlp local fixed version)
+// Api by russellxz
+import fetch from "node-fetch"
 import yts from "yt-search"
 import { exec } from "child_process"
-import fs from "fs"
-import path from "path"
+import util from "util"
+const execPromise = util.promisify(exec)
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
-const TMP_DIR = "./tmp"
-if (!fs.existsSync(TMP_DIR)) fs.mkdirSync(TMP_DIR)
+const API_BASE = "https://api-sky.ultraplus.click"
+const API_KEY = "Russellxz"
+
+async function skyYT(url, format) {
+  const response = await fetch(`${API_BASE}/api/download/yt.php?url=${encodeURIComponent(url)}&format=${format}`, {
+    headers: { 
+      Authorization: `Bearer ${API_KEY}`
+    },
+    timeout: 30000
+  })
+  
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  
+  const data = await response.json()
+  if (!data || data.status !== "true" || !data.data) throw new Error(data?.error || "Error en la API")
+  
+  return data.data
+}
+
+function sanitizeFilename(name) {
+  return name.replace(/[\/\\?%*:|"<>]/g, '').trim()
+}
+
+async function getDirectURL(url, type = 'video') {
+  // type: 'video' or 'audio'
+  let format = type === 'audio' 
+    ? 'bestaudio[ext=m4a]/bestaudio' 
+    : 'best[ext=mp4]/bestvideo+bestaudio'
+  
+  const cmd = `yt-dlp -f "${format}" --no-playlist --print-json "${url}"`
+  const { stdout } = await execPromise(cmd)
+  const info = JSON.parse(stdout)
+  return type === 'audio' ? info.url : info.url
+}
 
 const handler = async (m, { conn, text, command }) => {
   try {
-    if (!text.trim()) {
-      return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! You must write *the name or link* of the video/audio to download.`, m)
-    }
-
+    if (!text.trim()) return conn.reply(m.chat, `✧ 𝙃𝙚𝙮! You must write *the name or link* of the video/audio to download.`, m)
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key }})
 
     let videoIdToFind = text.match(youtubeRegexID)
     let searchResults = await yts(videoIdToFind ? "https://youtu.be/" + videoIdToFind[1] : text)
     let ytplay2 = searchResults.videos?.[0] || searchResults.all?.[0]
-
     if (!ytplay2) {
       await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
       return m.reply("⚠︎ I didn't find any results, try another name or link.")
@@ -30,6 +59,7 @@ const handler = async (m, { conn, text, command }) => {
     let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
     const vistas = formatViews(views)
     const canal = author?.name || "Unknown"
+    const safeTitle = sanitizeFilename(title)
 
     const infoMessage = `
 ╭──❀ Content details ❀──╮
@@ -49,46 +79,36 @@ const handler = async (m, { conn, text, command }) => {
       caption: infoMessage
     }, { quoted: m })
 
-    const isAudio = ["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)
-    const fileExt = isAudio ? "mp3" : "mp4"
-    const safeTitle = title.replace(/[\\\/:*?"<>|]/g, "")
-    const filePath = path.join(TMP_DIR, `${safeTitle}.${fileExt}`)
-
-    const format = isAudio ? "bestaudio[ext=m4a]" : "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"
-
-    const cmd = `yt-dlp -f "${format}" --no-playlist --output "${filePath}" "${url}"`
-
-    await new Promise((resolve, reject) => {
-      exec(cmd, (err) => {
-        if (err) return reject(err)
-        if (!fs.existsSync(filePath)) return reject(new Error("File not found after download"))
-        resolve()
-      })
-    })
-
-    // Send file properly
-    if (isAudio) {
-      await conn.sendMessage(m.chat, {
-        audio: fs.readFileSync(filePath),
-        fileName: `${safeTitle}.mp3`,
-        mimetype: "audio/mpeg",
-        ptt: false
-      }, { quoted: m })
-    } else {
-      await conn.sendMessage(m.chat, {
-        video: fs.readFileSync(filePath),
-        fileName: `${safeTitle}.mp4`,
-        caption: `${title}`,
-        mimetype: "video/mp4"
-      }, { quoted: m })
+    if (["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)) {
+      try {
+        const directURL = await getDirectURL(url, 'audio')
+        await conn.sendMessage(m.chat, {
+          audio: { url: directURL },
+          fileName: `${safeTitle}.mp3`,
+          mimetype: "audio/mpeg",
+          ptt: false
+        }, { quoted: m })
+        await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+      } catch (error) {
+        await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
+        return conn.reply(m.chat, `✦ Error downloading audio. Please try again later.\n\n${error.message}`, m)
+      }
+    } 
+    else if (["play2", "ytmp4", "ytv", "mp4"].includes(command)) {
+      try {
+        const directURL = await getDirectURL(url, 'video')
+        await conn.sendMessage(m.chat, {
+          video: { url: directURL },
+          fileName: `${safeTitle}.mp4`,
+          caption: `${title}`,
+          mimetype: "video/mp4"
+        }, { quoted: m })
+        await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
+      } catch (error) {
+        await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
+        return conn.reply(m.chat, `✦ Error downloading video. Please try again later.\n\n${error.message}`, m)
+      }
     }
-
-    await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
-
-    // Delete file after sending
-    setTimeout(() => {
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
-    }, 60 * 1000)
 
   } catch (error) {
     await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})
@@ -96,10 +116,7 @@ const handler = async (m, { conn, text, command }) => {
   }
 }
 
-handler.command = handler.help = [
-  "play", "ytaudio", "yta", "ytmp3", "mp3",
-  "play2", "ytmp4", "ytv", "mp4"
-]
+handler.command = handler.help = ["play", "ytaudio", "yta", "ytmp3", "mp3", "play2", "ytmp4", "ytv", "mp4"]
 handler.tags = ["media"]
 
 export default handler

@@ -14,7 +14,7 @@ isEnable = false
 return conn.reply(m.chat, `「✦」An administrator can enable or disable the *${command}* using:\n\n● _Activate_ » *${usedPrefix}${command} enable*\n● _Deactivate_ » *${usedPrefix}${command} disable*\n\nꕥ Current status » *${isEnable ? '✓ Activated' : '✗ Disabled'}*`, m)
 }
 switch (type) {
-case 'welcome': case 'welcome': {
+case 'welcome': case 'wlcm': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -50,7 +50,7 @@ throw false
 chat.detect = isEnable
 break
 }
-case 'antilink': case 'antilink': {
+case 'antilink': case 'atk': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -74,7 +74,7 @@ throw false
 chat.nsfw = isEnable
 break
 }
-case 'economy': case 'economy': {
+case 'economy': case 'eco': {
 if (!m.isGroup) {
 if (!isOwner) {
 global.dfail('group', m, conn)
@@ -99,12 +99,12 @@ chat.gacha = isEnable
 break
 }}
 chat[type] = isEnable
-conn.reply(m.chat, `❀ Has *${isEnable ? 'activated' : 'disabled'}* *${type}* for this group.`, m)
+conn.reply(m.chat, `❀ *${isEnable ? 'activated' : 'disabled'}* *${type}* for this group.`, m)
 }
 
-handler.help = ['welcome', 'welcome', 'modeadmin', 'onlyadmin', 'nsfw', 'modehorny', 'economy', 'economy', 'rpg', 'gacha', 'detect', 'alerts', 'antilink', 'antilink', 'antilinks', 'antilinks']
+handler.help = ['welcome', 'wlcm', 'modeadmin', 'onlyadmin', 'nsfw', 'modehorny', 'economy', 'eco', 'rpg', 'gacha', 'detect', 'alerts', 'antilink', 'atk']
 handler.tags = ['nable']
-handler.command = ['welcome', 'welcome', 'modeadmin', 'onlyadmin', 'nsfw', 'modehorny', 'economy', 'economy', 'rpg', 'gacha', 'detect', 'alerts', 'antilink', 'antilink']
+handler.command = ['welcome', 'wlcm', 'modeadmin', 'onlyadmin', 'nsfw', 'modehorny', 'economy', 'eco', 'rpg', 'gacha', 'detect', 'alerts', 'antilink', 'atk']
 handler.group = true
 
 export default handler

@@ -1,5 +1,5 @@
 // Creado por Speed3xz
-// Rewritten by ChatGPT (yt-dlp local version)
+// Rewritten by ChatGPT (yt-dlp local fixed version)
 import yts from "yt-search"
 import { exec } from "child_process"
 import fs from "fs"
@@ -7,7 +7,6 @@ import path from "path"
 
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
-// Path for temporary downloads
 const TMP_DIR = "./tmp"
 if (!fs.existsSync(TMP_DIR)) fs.mkdirSync(TMP_DIR)
 
@@ -50,33 +49,35 @@ const handler = async (m, { conn, text, command }) => {
       caption: infoMessage
     }, { quoted: m })
 
-    const fileName = `${title.replace(/[\\\/:*?"<>|]/g, "")}.${["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command) ? "mp3" : "mp4"}`
-    const outputPath = path.join(TMP_DIR, fileName)
-
     const isAudio = ["play", "ytaudio", "yta", "ytmp3", "mp3"].includes(command)
-    const format = isAudio ? "bestaudio" : "bestvideo+bestaudio"
+    const fileExt = isAudio ? "mp3" : "mp4"
+    const safeTitle = title.replace(/[\\\/:*?"<>|]/g, "")
+    const filePath = path.join(TMP_DIR, `${safeTitle}.${fileExt}`)
 
-    const cmd = `yt-dlp -f "${format}" --no-playlist --quiet --progress --output "${outputPath}" "${url}"`
+    const format = isAudio ? "bestaudio[ext=m4a]" : "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"
+
+    const cmd = `yt-dlp -f "${format}" --no-playlist --output "${filePath}" "${url}"`
 
     await new Promise((resolve, reject) => {
       exec(cmd, (err) => {
         if (err) return reject(err)
+        if (!fs.existsSync(filePath)) return reject(new Error("File not found after download"))
         resolve()
       })
     })
 
-    // Send the file
+    // Send file properly
     if (isAudio) {
       await conn.sendMessage(m.chat, {
-        audio: { url: outputPath },
-        fileName,
+        audio: fs.readFileSync(filePath),
+        fileName: `${safeTitle}.mp3`,
         mimetype: "audio/mpeg",
         ptt: false
       }, { quoted: m })
     } else {
       await conn.sendMessage(m.chat, {
-        video: { url: outputPath },
-        fileName,
+        video: fs.readFileSync(filePath),
+        fileName: `${safeTitle}.mp4`,
         caption: `${title}`,
         mimetype: "video/mp4"
       }, { quoted: m })
@@ -84,8 +85,10 @@ const handler = async (m, { conn, text, command }) => {
 
     await conn.sendMessage(m.chat, { react: { text: "✅", key: m.key }})
 
-    // Clean up temporary file
-    setTimeout(() => fs.existsSync(outputPath) && fs.unlinkSync(outputPath), 60000)
+    // Delete file after sending
+    setTimeout(() => {
+      if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
+    }, 60 * 1000)
 
   } catch (error) {
     await conn.sendMessage(m.chat, { react: { text: "❌", key: m.key }})

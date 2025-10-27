@@ -50,7 +50,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
       }
 
       // Remove warning
-      case 'delwarn': case 'unwarn' case 'delwrn': {
+      case 'delwarn': case 'unwarn': case 'delwrn': {
         if (!who) return m.reply(`❀ Tag a user to remove warnings.`)
         if (mentionedJid.includes(conn.user.jid)) return
 
@@ -66,7 +66,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
       }
 
       // List warnings
-      case 'listwrn': case 'wrnlist' case 'warnings': {
+      case 'listwrn': case 'wrnlist': case 'warnings': {
         const users = chatData.users || {}
         const adv = Object.entries(users).filter(([_, u]) => u.warn && u.warn > 0)
 

@@ -30,7 +30,7 @@ async function handler(m, { conn }) {
 
 handler.help = ['owner', 'creator']
 handler.tags = ['info']
-handler.command = ['owner', 'creator']
+handler.command = ['owner', 'creator', 'mod', 'mods']
 
 export default handler
 

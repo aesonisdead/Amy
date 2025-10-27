@@ -51,7 +51,9 @@ if (!premArgs.length) return m.reply('ꕥ Send a valid time\n> Example (1h, 2d, 
 let cant, unidad
 const timeArg = premArgs.join('').toLowerCase() // joins "30 d" → "30d"
 
+const timeArg = premArgs.join('').toLowerCase()  // "30 d" -> "30d"
 const match = timeArg.match(/^(\d+)([hdwm])$/)
+if (!match) return m.reply('ꕥ Invalid time.\nOptions:\n h = hours, d = days, w = weeks, m = months')
 if (!match) return m.reply('ꕥ Send a valid time\n> Example (1h, 2d, 3w, 4m).')
 
 cant = parseInt(match[1])

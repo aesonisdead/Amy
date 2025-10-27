@@ -42,7 +42,7 @@ unlinkSync(fullPath)to report it.\n\n${err.message}`
 totalDeleted++
 }}
 await m.react('✔️')
-conn.reply(m.chat, `❀ Done. eliminated ${totalDeleted} files in temporary folders.`, m)
+conn.reply(m.chat, `❀ Done, eliminated ${totalDeleted} files in temporary folders.`, m)
 break
 }}} catch (err) {
 await m.react('✖️')

@@ -19,7 +19,7 @@ case 'suggest': case 'sug': {
 if (!text) return conn.reply(m.chat, '❀ Write the suggestion you want to send to the Bot owner.', m)
 if (text.length < 10) return conn.reply(m.chat, '🎀 The suggestion must be more than 10 characters long..', m)
 await m.react('🕒')
-const sug = `❀ 𝗦𝗨𝗚𝗚𝗘𝗦𝗧𝗜𝗢𝗡 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Suggestion* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
+const sug = `❀ 𝗦𝗨𝗚𝗚𝗘𝗦𝗧𝗜𝗢𝗡 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Suggestion* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *BotInfo* » ${botname} / ${vs}`
 await conn.sendMessage(`${suittag}@s.whatsapp.net`, { text: sug, mentions: [m.sender, ...usertag] }, { quoted: m })
 await m.react('✔️')
 m.reply('❀ The suggestion has been sent to the developer. Thank you for helping improve our experience.')
@@ -29,7 +29,7 @@ case 'report': case 'rep': {
 if (!text) return conn.reply(m.chat, '❀ Please enter the error you want to report..', m)
 if (text.length < 10) return conn.reply(m.chat, '🎀 Please specify the error better, minimum 10 characters.', m)
 await m.react('🕒')
-const rep = `❀ 𝗥𝗘𝗣𝗢𝗥𝗧 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Report* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}`
+const rep = `❀ 𝗥𝗘𝗣𝗢𝗥𝗧 𝗥𝗘𝗖𝗘𝗜𝗩𝗘𝗗\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Report* » ${text}\n✦ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *BotInfo* » ${botname} / ${vs}`
 await conn.sendMessage(`${suittag}@s.whatsapp.net`, { text: rep, mentions: [m.sender, ...usertag] }, { quoted: m })
 await m.react('✔️')
 m.reply('❀ The report has been sent to the developer. Please note that any false reports may result in restrictions on the bot usage.')
@@ -40,7 +40,7 @@ if (!text) return m.reply(`❀ You must send a link to invite the Bot to your gr
 let [_, code] = text.match(linkRegex) || []
 if (!code) return m.reply('🎀 The invitation link is not valid.')
 await m.react('🕒')
-const invite = `❀ 𝗜𝗡𝗩𝗜𝗧𝗔𝗧𝗜𝗢𝗡 𝗧𝗢 𝗔 𝗚𝗥𝗢𝗨𝗣\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *InfoBot* » ${botname} / ${vs}\n✦ *Link* » ${text}`
+const invite = `❀ 𝗜𝗡𝗩𝗜𝗧𝗔𝗧𝗜𝗢𝗡 𝗧𝗢 𝗔 𝗚𝗥𝗢𝗨𝗣\n\nꕥ *User* » ${nombre}\n✩ *Tag* » ${tag}\n✿ *Chat* » ${chatLabel}\n✰ *Date* » ${horario}\n♤ *BotInfo* » ${botname} / ${vs}\n✦ *Link* » ${text}`
 const mainBotNumber = global.conn.user.jid.split('@')[0]
 const senderBotNumber = conn.user.jid.split('@')[0]
 if (mainBotNumber === senderBotNumber)

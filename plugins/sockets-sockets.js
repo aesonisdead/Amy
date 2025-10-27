@@ -9,10 +9,12 @@ try {
 const isSubBots = [conn.user.jid, ...global.owner.map(number => `${number}@s.whatsapp.net`)].includes(m.sender)
 if (!isSubBots) return m.reply(`❀ The command *${command}* can only be executed by the owner.`)
 switch (command) {
-case 'self': case 'public': case 'private': case 'antiprivate': case 'gponly': case 'sologp': {
+case 'pub': case 'public': case 'antiprv': case 'antiprivate': case 'gponly': case 'gconly': {
 const config = global.db.data.settings[conn.user.jid]
 const value = text ? text.trim().toLowerCase() : ''
-const type = /self|public/.test(command) ? 'self' : /private|antiprivate/.test(command) ? 'antiPrivate' : /gponly|sologp/.test(command) ? 'gponly' : null
+const type = /pub|public/.test(command) ? 'public' :
+             /antiprv|antiprivate/.test(command) ? 'self' :
+             /gponly|gconly/.test(command) ? 'gponly' : null
 if (!type) return m.reply(`ꕥ Mode not recognized.`)
 const isEnable = config[type] || false
 const enable = value === 'enable' || value === 'on'
@@ -83,8 +85,8 @@ await m.react('✖️')
 conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* para informarlo.\n\n${error.message || error}`, m)
 }}
 
-handler.command = ['self', 'public', 'antiprivate', 'gponly', 'sologp', 'join', 'j', 'l', 'leave', 'logout', 'reload']
-handler.help = ['self', 'public', 'antiprivate', 'gponly', 'sologp', 'join', 'j', 'l', 'leave', 'logout', 'reload']
+handler.command = ['self', 'pub', 'public', 'antiprivate', 'gponly', 'gconly', 'join', 'j', 'l', 'leave', 'logout', 'reload']
+handler.help = ['self', 'pub', 'public', 'antiprivate', 'gponly', 'gconly', 'join', 'j', 'l', 'leave', 'logout', 'reload']
 handler.tags = ['socket']
 
 export default handler

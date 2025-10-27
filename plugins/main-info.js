@@ -35,7 +35,7 @@ await m.react('✔️')
 m.reply('❀ The report has been sent to the developer. Please note that any false reports may result in restrictions on the bot usage.')
 break
 }
-case 'invite': {
+case 'invite': case 'inv': {
 if (!text) return m.reply(`❀ You must send a link to invite the Bot to your group.`)
 let [_, code] = text.match(linkRegex) || []
 if (!code) return m.reply('🎀 The invitation link is not valid.')
@@ -101,6 +101,6 @@ conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* 
 
 handler.help = ['suggest', 'report', 'invite', 'speedtest', 'fixmsg', 'script']
 handler.tags = ['main']
-handler.command = ['suggest', 'sug', 'report', 'rep', 'invite', 'speedtest', 'stest', 'fixmsg', 'ds', 'sc', 'script']
+handler.command = ['suggest', 'sug', 'report', 'rep', 'invite', 'inv', 'speedtest', 'stest', 'fixmsg', 'ds', 'sc', 'script']
 
 export default handler

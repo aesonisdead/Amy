@@ -53,7 +53,7 @@ if (isEnable === enable) return m.reply(`ꕥ The mode *${type}* was already ${en
 bot[type] = enable
 return conn.reply(m.chat, `❀ Has *${enable ? 'activated' : 'deactivated'}* the mode *${type}* for the socket.`, m)
 }
-conn.reply(m.chat, `「✦」You can turn the mode on or off *${type}* using:\n\n● Activate » ${usedPrefix}${command} enable\n● Deactivate » ${usedPrefix}${command} disable\n\nꕥ Current status » *${isEnable ? '✓ Activated' : '✗ Disabled'}*`, m)
+conn.reply(m.chat, `「✦」You can turn the mode on or off *${type}* using:\n\n● Activate » ${usedPrefix}${command} enable\n● Deactivate » ${usedPrefix}${command} disable\n\nꕥ Current status » *${isEnable ? '✓ Activated' : '✗ Deactivated'}*`, m)
 break
 }}} catch (e) {
 await m.react('✖️')

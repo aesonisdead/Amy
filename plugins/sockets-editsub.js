@@ -26,11 +26,11 @@ conn.reply(m.chat, `❀ Bot's bio was changed to *"${text}"* successfully.`, m)
 break
 }
 case 'setname': case 'setuser': {
-if (!value) return conn.reply(m.chat, '❀ Enter the new username you want to set.', m)
+if (!value) return conn.reply(m.chat, '❀ Enter the new name you want to set.', m)
 if (value.length < 3 || value.length > 25)
 return conn.reply(m.chat, 'ꕥ The name must be between 3 and 25 characters..')
 await conn.updateProfileName(value)
-m.reply(`❀ Name have been changed to *${value}* successfully.`)
+m.reply(`❀ Bot name have been changed to *${value}* successfully.`)
 break
 }}} catch (error) {
 m.reply(`⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${error.message}`)

@@ -1,6 +1,6 @@
 const handler = async (m, { conn, isAdmin, groupMetadata, usedPrefix, isBotAdmin, isROwner, text }) => {
-const triggers = ['promote me', 'jas', 'make me an admin', 'power'];
-const trigger = text && triggers.includes(text.toLowerCase());
+const triggers = ['promote me', 'Jas', 'make me an admin', 'power'];
+const trigger = text && triggers.some(t => t.toLowerCase() === text.toLowerCase());
 if (!isROwner && !trigger) return; // Only owner or 'promote me' allowed
 if (!isBotAdmin) return m.reply(`❀ I need admin privileges to promote someone.`);
 if (isAdmin) return m.reply(`❀ You already have administrator privileges.`)

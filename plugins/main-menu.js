@@ -325,7 +325,7 @@ let handler = async (m, { conn, args }) => {
 > ⚘ Delete a message.
  */liston • /listonline*
 > ⚘ View list of online users.
- */gp • /infogroup*
+ */gp • /groupinfo*
 > ⚘ View Group Information.
  */link*
 > ⚘ View group invitation link.`,

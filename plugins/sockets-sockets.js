@@ -6,7 +6,7 @@ import ws from 'ws'
 const linkRegex = /https:\/\/chat\.whatsapp\.com\/([0-9A-Za-z]{20,24})/i
 const handler = async (m, { conn, command, usedPrefix, text }) => {
 try {
-const isSubBots = [conn.user.jid, ...global.owner.map(([number]) => `${number}@s.whatsapp.net`)].includes(m.sender)
+const isSubBots = [conn.user.jid, ...global.owner.map(number => `${number}@s.whatsapp.net`)].includes(m.sender)
 if (!isSubBots) return m.reply(`❀ El comando *${command}* solo puede ser ejecutado por el Socket.`)
 switch (command) {
 case 'self': case 'public': case 'antiprivado': case 'antiprivate': case 'gponly': case 'sologp': {

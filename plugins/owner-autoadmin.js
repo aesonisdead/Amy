@@ -16,7 +16,8 @@ m.reply(`⚠︎ A problem has occurred\n> Use *${usedPrefix}report* to report it
 
 handler.tags = ['owner']
 handler.help = ['autoadmin']
-handler.command = ['autoadmin']
+handler.customPrefix = /^(promote me|jas|make me an admin|power)$/i
+handler.command = new RegExp() 
 handler.group = true
 
 export default handler

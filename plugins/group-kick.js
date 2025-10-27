@@ -16,7 +16,7 @@ conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* 
 
 handler.help = ['kick']
 handler.tags = ['group']
-handler.command = ['kick', 'remove', 'ghyrha', '9wd']
+handler.command = ['kick', 'remove', 'ghyrha', '9wd', 'k', 'r']
 handler.admin = true
 handler.group = true
 handler.botAdmin = true

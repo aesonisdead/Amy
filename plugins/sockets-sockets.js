@@ -13,7 +13,7 @@ case 'pub': case 'public': case 'antiprv': case 'antiprivate': case 'gponly': ca
 const config = global.db.data.settings[conn.user.jid]
 const value = text ? text.trim().toLowerCase() : ''
 const type = /pub|public/.test(command) ? 'public' :
-             /antiprv|antiprivate/.test(command) ? 'self' :
+             /antiprv|antiprivate/.test(command) ? 'antiprv' :
              /gponly|gconly/.test(command) ? 'gponly' : null
 if (!type) return m.reply(`ꕥ Mode not recognized.`)
 const isEnable = config[type] || false
@@ -25,7 +25,7 @@ return m.reply(`ꕥ The mode *${type}* was already ${enable ? 'activated' : 'dis
 config[type] = enable
 return conn.reply(m.chat, `❀ *${enable ? 'activated' : 'deactivated'}* the mode *${type}* by the owner.`, m)
 }
-conn.reply(m.chat, `「✦」You can turn the mode on or off *${type}* using:\n\n● Activate » ${usedPrefix}${command} enable\n● Deactivate » ${usedPrefix}${command} disable\n\n✧ Current status » *${isEnable ? '✓ Activated' : '✗ Deactivated'}*`, m)
+conn.reply(m.chat, `「✦」You can turn the mode *${type}* on or off using:\n\n● Activate » ${usedPrefix}${command} enable\n● Deactivate » ${usedPrefix}${command} disable\n\n✧ Current status » *${isEnable ? '✓ Activated' : '✗ Deactivated'}*`, m)
 break
 }
 case 'join': case 'j': {
@@ -85,8 +85,8 @@ await m.react('✖️')
 conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* para informarlo.\n\n${error.message || error}`, m)
 }}
 
-handler.command = ['self', 'pub', 'public', 'antiprivate', 'gponly', 'gconly', 'join', 'j', 'l', 'leave', 'logout', 'reload']
-handler.help = ['self', 'pub', 'public', 'antiprivate', 'gponly', 'gconly', 'join', 'j', 'l', 'leave', 'logout', 'reload']
+handler.command = ['self', 'pub', 'public', 'antiprv', 'antiprivate', 'gponly', 'gconly', 'join', 'j', 'l', 'leave', 'logout', 'reload']
+handler.help = ['self', 'pub', 'public', 'antiprv', 'antiprivate', 'gponly', 'gconly', 'join', 'j', 'l', 'leave', 'logout', 'reload']
 handler.tags = ['socket']
 
 export default handler

@@ -33,7 +33,7 @@ if (!code) return m.reply(`ꕥ The invitation link is not valid.`)
 await m.react('🕒')
 await conn.groupAcceptInvite(code)
 await m.react('✔️')
-m.reply(`❀ ${botname} has successfully joined the group.`)
+m.reply(`❀ ${botname} successfully joined the group.`)
 break
 }
 case 'l': case 'leave': {

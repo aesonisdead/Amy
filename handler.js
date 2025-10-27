@@ -184,6 +184,10 @@ continue
 }
 const strRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&")
 const pluginPrefix = plugin.customPrefix || conn.prefix || global.prefix
+// ✅ Allow owner to use commands without prefix
+const ownerNumbers = global.owner.map(v => v[0] + '@s.whatsapp.net')
+const isOwnerNoPrefix = ownerNumbers.includes(m.sender)
+const prefixFreeText = m.text?.trim()?.toLowerCase() || ''
 const match = (pluginPrefix instanceof RegExp ?
 [[pluginPrefix.exec(m.text), pluginPrefix]] :
 Array.isArray(pluginPrefix) ?
@@ -220,7 +224,7 @@ continue
 if (typeof plugin !== "function") {
 continue
 }
-if ((usedPrefix = (match[0] || "")[0])) {
+if ((usedPrefix = (match[0] || "")[0]) || isOwnerNoPrefix) {
 const noPrefix = m.text.replace(usedPrefix, "")
 let [command, ...args] = noPrefix.trim().split(" ").filter(v => v)
 args = args || []

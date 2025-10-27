@@ -2,7 +2,7 @@ let handler = async (m, { conn, usedPrefix, command, isROwner }) => {
 if (!isROwner) return
 try {
 await m.react('🕒')
-m.reply(`❀ Reiniciando a ${botname} જ⁀➴\n> ► Espera hasta que el *Socket* se reinicie.`)
+m.reply(`❀ Rebooting a ${botname} જ⁀➴\n> ► Wait until the *Socket* restarts.`)
 await m.react('✔️')
 setTimeout(() => {
 if (process.send) {
@@ -13,7 +13,7 @@ process.exit(0)
 } catch (error) {
 await m.react('✖️')
 console.log(error)
-conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${error.message}`, m)
+conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${error.message}`, m)
 }}
 
 handler.help = ['restart']

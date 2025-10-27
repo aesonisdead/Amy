@@ -21,7 +21,7 @@ const enable = value === 'enable' || value === 'on'
 const disable = value === 'disable' || value === 'off'
 if (enable || disable) {
 if (isEnable === enable)
-return m.reply(`ꕥ The mode *${type}* was already ${enable ? 'activated' : 'disabled'}.`)
+return m.reply(`ꕥ The mode *${type}* is already ${enable ? 'activated' : 'deactivated'}.`)
 config[type] = enable
 return conn.reply(m.chat, `❀ *${enable ? 'activated' : 'deactivated'}* the mode *${type}* by the owner.`, m)
 }

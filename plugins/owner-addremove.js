@@ -46,10 +46,21 @@ const premArgs = text.replace(/^@\S+\s*/, '').trim().split(' ').filter(arg => ar
 if (premArgs.length < 2) return m.reply('ꕥ Send a valid time\n> Example (1h, 2d, 3w, 4m).')
 await m.react('🕒')
 let tiempo = 0
-const match = premArgs[0].match(/(\d+)([hdwm])/)
-if (!match) return m.reply('ꕥ Invalid time.\nOptions:\n h = hours, d = days, w = weeks, m = months')
-const cant = parseInt(match[1])
-const unidad = match[2]
+let cant, unidad
+// Case 1: single argument like "1w"
+if (/^\d+[hdwm]$/.test(premArgs[0])) {
+  const match = premArgs[0].match(/(\d+)([hdwm])/)
+  cant = parseInt(match[1])
+  unidad = match[2]
+}
+// Case 2: separated like "1 w"
+else if (premArgs.length >= 2 && /^\d+$/.test(premArgs[0]) && /^[hdwm]$/.test(premArgs[1])) {
+  cant = parseInt(premArgs[0])
+  unidad = premArgs[1]
+}
+else {
+  return m.reply('ꕥ Invalid time.\nOptions:\n h = hours, d = days, w = weeks, m = months')
+}
 if (unidad === 'h') tiempo = 3600000 * cant
 else if (unidad === 'd') tiempo = 86400000 * cant
 else if (unidad === 'w') tiempo = 604800000 * cant

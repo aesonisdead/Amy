@@ -19,10 +19,10 @@ await m.react('✔️')
 break
 }
 case 'resetuser': case 'resetear': {
-if (!who) return conn.sendMessage(m.chat, { text: `❀ Formato de usuario no reconocido.` }, { quoted: m })
+if (!who) return conn.sendMessage(m.chat, { text: `❀ Unrecognized user format.` }, { quoted: m })
 const userNumber = who.split('@')[0]
 const userData = global.db.data.users?.[who]
-if (!userData) return conn.sendMessage(m.chat, { text: `✧ El usuario @${userNumber} no se encuentra en mi base de datos.`, mentions: [who] }, { quoted: m })
+if (!userData) return conn.sendMessage(m.chat, { text: `✧ The user @${userNumber} was not found in my database.`, mentions: [who] }, { quoted: m })
 if (userData.characters) {
 for (let id in userData.characters) {
 if (userData.characters[id].user === who) {
@@ -38,26 +38,26 @@ if (global.db.data.users[id]?.marry === who) {
 delete global.db.data.users[id].marry
 }}
 delete global.db.data.users[who]
-conn.sendMessage(m.chat, { text: `❀ Éxito. Todos los datos del usuario @${userNumber} fueron eliminados.`, mentions: [who] }, { quoted: m })
+conn.sendMessage(m.chat, { text: `❀ Success. All user data of @${userNumber} were eliminated.`, mentions: [who] }, { quoted: m })
 break
 }
 case 'restrict': case 'restringir': case 'jadibot': case 'serbot': {
 const value = text ? text.trim().toLowerCase() : ''
 const type = /restrict|restringir/.test(command) ? 'restrict' : /jadibot|serbot/.test(command) ? 'jadibotmd' : null
-if (!type) return m.reply(`ꕥ Modo no reconocido.`)
+if (!type) return m.reply(`ꕥ Mode not recognized.`)
 const isEnable = bot[type] || false
 const enable = value === 'enable' || value === 'on'
 const disable = value === 'disable' || value === 'off'
 if (enable || disable) {
-if (isEnable === enable) return m.reply(`ꕥ El modo *${type}* ya estaba ${enable ? 'activado' : 'desactivado'}.`)
+if (isEnable === enable) return m.reply(`ꕥ The mode *${type}* was already ${enable ? 'activated' : 'deactivated'}.`)
 bot[type] = enable
-return conn.reply(m.chat, `❀ Has *${enable ? 'activado' : 'desactivado'}* el modo *${type}* para el Socket.`, m)
+return conn.reply(m.chat, `❀ Has *${enable ? 'activated' : 'deactivated'}* the mode *${type}* for the socket.`, m)
 }
-conn.reply(m.chat, `「✦」Puedes activar o desactivar el modo *${type}* utilizando:\n\n● Activar » ${usedPrefix}${command} enable\n● Desactivar » ${usedPrefix}${command} disable\n\nꕥ Estado actual » *${isEnable ? '✓ Activado' : '✗ Desactivado'}*`, m)
+conn.reply(m.chat, `「✦」You can turn the mode on or off *${type}* using:\n\n● Activate » ${usedPrefix}${command} enable\n● Deactivate » ${usedPrefix}${command} disable\n\nꕥ Current status » *${isEnable ? '✓ Activated' : '✗ Disabled'}*`, m)
 break
 }}} catch (e) {
 await m.react('✖️')
-conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, m)
+conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* para informarlo.\n\n${e.message}`, m)
 }}
 
 handler.help = ['backup', 'copia', 'resetuser', 'resetear', 'restrict', 'restringir']

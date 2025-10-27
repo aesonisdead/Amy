@@ -48,7 +48,6 @@ await m.react('🕒')
 let tiempo = 0
 let cant, unidad
 if (!premArgs.length) return m.reply('ꕥ Send a valid time\n> Example (1h, 2d, 3w, 4m).')
-
 let cant, unidad
 const timeArg = premArgs.join('').toLowerCase() // joins "30 d" → "30d"
 

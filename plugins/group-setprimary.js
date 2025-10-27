@@ -8,16 +8,16 @@ subBots.push(global.conn.user.jid)
 const chat = global.db.data.chats[m.chat]
 const mentionedJid = await m.mentionedJid
 const who = mentionedJid[0] ? mentionedJid[0] : m.quoted ? await m.quoted.sender : false
-if (!who) return conn.reply(m.chat, `❀ Por favor, menciona a un Socket para asignarlo como *Bot Principal* del grupo ✨`, m)
-if (!subBots.includes(who)) return conn.reply(m.chat, `ꕥ El usuario mencionado no es un Socket de: *${botname}*.`, m)
+if (!who) return conn.reply(m.chat, `❀ Please mention a Socket to be assigned as the *Main Bot* of the group ✨`, m)
+if (!subBots.includes(who)) return conn.reply(m.chat, `ꕥ The mentioned user is not a Socket of: *${botname}*.`, m)
 if (chat.primaryBot === who) {
-return conn.reply(m.chat, `ꕥ @${who.split`@`[0]} ya esta como Bot primario en este grupo.`, m, { mentions: [who] });
+return conn.reply(m.chat, `ꕥ @${who.split`@`[0]} Is now the primary bot in this group..`, m, { mentions: [who] });
 }
 try {
 chat.primaryBot = who
-conn.reply(m.chat, `❀ Se ha establecido a @${who.split`@`[0]} como Bot primario de este grupo.\n> Ahora todos los comandos de este grupo serán ejecutados por @${who.split`@`[0]}.`, m, { mentions: [who] })
+conn.reply(m.chat, `❀ It has been established that @${who.split`@`[0]} is the new primary bot of this group.\n> Now all commands in this group will be executed by @${who.split`@`[0]}.`, m, { mentions: [who] })
 } catch (e) {
-conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${e.message}`, m)
+conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${e.message}`, m)
 }}
 
 handler.help = ['setprimary']

@@ -35,9 +35,9 @@ const text = `「✦」Group ◢ ${groupMetadata.subject} ◤
 conn.sendFile(m.chat, pp, 'img.jpg', text, m, false, { mentions: [owner, rawPrimary, m.sender] })
 }
 
-handler.help = ['infogroup']
+handler.help = ['groupinfo']
 handler.tags = ['group']
-handler.command = ['infogroup', 'gp']
+handler.command = ['groupinfo', 'gpinfo', 'gp', 'group']
 handler.group = true
 
 export default handler

@@ -1,5 +1,5 @@
 let handler = async (m, { conn, usedPrefix, command }) => {
-let isClose = { 'open': 'not_announcement', 'abrir': 'not_announcement', 'close': 'announcement', 'cerrar': 'announcement', }[command]
+let isClose = { 'open': 'not_announcement', 'o': 'not_announcement', 'close': 'announcement', 'cs': 'announcement', }[command]
 await conn.groupSettingUpdate(m.chat, isClose)
 if (isClose === 'not_announcement') {
 m.reply(`❀ *Ya pueden escribir en este grupo.*`)
@@ -7,9 +7,9 @@ m.reply(`❀ *Ya pueden escribir en este grupo.*`)
 m.reply(`❀ *Sólo los admins pueden escribir en este grupo.*`)
 }}
 
-handler.help = ['open', 'close', 'abrir', 'cerrar']
-handler.tags = ['grupo']
-handler.command = ['open', 'close', 'abrir', 'cerrar']
+handler.help = ['open', 'close', 'o', 'cs']
+handler.tags = ['group']
+handler.command = ['open', 'close', 'o', 'cs']
 handler.admin = true
 handler.botAdmin = true
 

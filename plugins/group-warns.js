@@ -17,7 +17,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
 
     switch (command) {
       // Add warning
-      case 'advertencia': case 'warn': case 'addwarn': {
+      case 'wrn': case 'warn': case 'addwarn': {
         if (!who || typeof who !== 'string' || !who.includes('@')) {
           return m.reply(`❀ You must mention or quote a user to apply a warning.\n> Example: *${usedPrefix + command} @user (reason | optional)*`)
         }
@@ -50,7 +50,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
       }
 
       // Remove warning
-      case 'delwarn': case 'unwarn': {
+      case 'delwarn': case 'unwarn' case 'delwrn': {
         if (!who) return m.reply(`❀ Tag a user to remove warnings.`)
         if (mentionedJid.includes(conn.user.jid)) return
 
@@ -66,7 +66,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
       }
 
       // List warnings
-      case 'listwrn': case 'wrnlist': {
+      case 'listwrn': case 'wrnlist' case 'warnings': {
         const users = chatData.users || {}
         const adv = Object.entries(users).filter(([_, u]) => u.warn && u.warn > 0)
 
@@ -85,7 +85,7 @@ const handler = async (m, { conn, text, command, usedPrefix }) => {
   }
 }
 
-handler.command = ['addvertencia', 'warn', 'addwarn', 'delwarn', 'unwarn', 'listwrn', 'wrnlist']
+handler.command = ['wrn', 'warn', 'addwarn', 'delwarn', 'unwarn', 'delwrn', 'listwrn', 'wrnlist', 'warnings']
 handler.group = true
 handler.admin = true
 handler.botAdmin = true

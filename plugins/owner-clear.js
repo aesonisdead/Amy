@@ -8,10 +8,10 @@ try {
 switch (command) {
 case 'delai': case 'dsowner': {
 if (global.conn.user.jid !== conn.user.jid) {
-return conn.reply(m.chat, '❀ Utiliza este comando directamente en el número principal del Bot.', m)
+return conn.reply(m.chat, '❀ Use this command directly on the main Bot number.', m)
 }
 const sessionPath = `./${sessions}/`
-if (!existsSync(sessionPath)) return conn.reply(m.chat, 'ꕥ La carpeta de sesión está vacía.', m)
+if (!existsSync(sessionPath)) return conn.reply(m.chat, 'ꕥ The session folder is empty.', m)
 await m.react('🕒')
 const files = await fs.readdir(sessionPath)
 let filesDeleted = 0
@@ -21,10 +21,10 @@ await fs.unlink(path.join(sessionPath, file))
 filesDeleted++
 }}
 if (filesDeleted === 0) {
-await conn.reply(m.chat, 'ꕥ La carpeta de sesión no contenía archivos eliminables.', m)
+await conn.reply(m.chat, 'ꕥ The session folder did not contain any removable files.', m)
 } else {
 await m.react('✔️')
-await conn.reply(m.chat, `❀ Se eliminaron ${filesDeleted} archivos de sesión, excepto el archivo creds.json.`, m)
+await conn.reply(m.chat, `❀ Removed ${filesDeleted} session files, except the creds.json file.`, m)
 }
 break
 }
@@ -38,15 +38,15 @@ for (const file of files) {
 const fullPath = join(dirname, file)
 const stats = statSync(fullPath)
 if (stats.isDirectory()) continue
-unlinkSync(fullPath)
+unlinkSync(fullPath)to report it.\n\n${err.message}`
 totalDeleted++
 }}
 await m.react('✔️')
-conn.reply(m.chat, `❀ Listo, se eliminaron ${totalDeleted} archivos de las carpetas temporales.`, m)
+conn.reply(m.chat, `❀ Done. eliminated ${totalDeleted} files in temporary folders.`, m)
 break
 }}} catch (err) {
 await m.react('✖️')
-await conn.reply(m.chat, `⚠︎ Se ha producido un problema.\n> Usa *${usedPrefix}report* para informarlo.\n\n${err.message}`, m)
+await conn.reply(m.chat, `⚠︎ A problem has occurred.\n> Use *${usedPrefix}report* to report it.\n\n${err.message}`, m)
 }}
 
 handler.help = ['delai', 'dsowner', 'cleartmp', 'vaciartmp']

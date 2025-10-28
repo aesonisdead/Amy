@@ -56,8 +56,26 @@ return createRequire(dir)
 
 global.timestamp = {start: new Date}
 const __dirname = global.__dirname(import.meta.url)
-global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse())
-global.prefix = new RegExp('^[/]')
+global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse())// Set your bot's default prefix
+global.prefix = '/'
+
+// OPTIONAL: If your bot’s system still expects a regex (some frameworks do),
+// you can also define this:
+global.prefixRegex = new RegExp('^[/]')
+// Allow owner to use commands without prefix
+import { owner } from './settings.js' // if owner numbers are defined there
+
+global.isOwnerMessage = function (m) {
+  const sender = m.sender
+  const owners = global.owner?.map(([num]) => num + '@s.whatsapp.net') || []
+  return owners.includes(sender)
+}
+
+global.autoPrefixForOwner = function (m) {
+  if (global.isOwnerMessage(m) && m.text && !m.text.startsWith(global.prefix)) {
+    m.text = global.prefix + m.text.trim()
+  }
+}
 
 global.db = new Low(/https?:\/\//.test(opts['db'] || '') ? new cloudDBAdapter(opts['db']) : new JSONFile('database.json'))
 global.DATABASE = global.db;

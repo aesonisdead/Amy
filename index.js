@@ -63,7 +63,7 @@ global.prefix = '/'
 // you can also define this:
 global.prefixRegex = new RegExp('^[/]')
 // Allow owner to use commands without prefix
-import { owner } from './settings.js' // if owner numbers are defined there
+const ownerNumbers = global.owner.map(num => num + '@s.whatsapp.net')
 
 global.isOwnerMessage = function (m) {
   const sender = m.sender

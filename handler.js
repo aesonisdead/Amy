@@ -190,8 +190,8 @@ continue
 }
 const strRegex = (str) => str.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&")
 const pluginPrefix = plugin.customPrefix || conn.prefix || global.prefix
-// ✅ Allow owner to use commands without prefix
-const ownerNumbers = global.owner.map(v => v[0] + '@s.whatsapp.net')
+// ✅ Allow owner to use commands without prefix (safe version)
+const ownerNumbers = global.owner.map(([num]) => num + '@s.whatsapp.net')
 const isOwnerNoPrefix = ownerNumbers.includes(m.sender)
 const prefixFreeText = m.text?.trim()?.toLowerCase() || ''
 const match = (pluginPrefix instanceof RegExp ?

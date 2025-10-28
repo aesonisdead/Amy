@@ -25,6 +25,12 @@ await global.loadDatabase()
 try {
 m = smsg(this, m) || m
 if (!m) return
+  // ✅ Allow owner to use commands without prefix
+const ownerNumbers = global.owner.map(([num]) => num + '@s.whatsapp.net')
+if (ownerNumbers.includes(m.sender) && m.text && !m.text.startsWith(global.prefix)) {
+const fakePrefix = global.prefix || '/'
+  m.text = fakePrefix + m.text.trim()
+}
 m.exp = 0
 try {
 const user = global.db.data.users[m.sender]
